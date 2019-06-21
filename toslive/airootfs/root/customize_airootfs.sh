@@ -70,8 +70,8 @@ echo "loadkeys be-latin1" >> /root/.zshrc
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.zshrc
 echo "loadkeys be-latin1" >> /root/.bashrc
 echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
-printf "\nif [[ $(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
-printf "\nif [[ $(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.bashrc
+printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
+printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.bashrc
 
 rm -rf /root/Pictures
 git clone https://github.com/F0xedb/Pictures /root/Pictures
