@@ -21,10 +21,6 @@ sed -i 's/#\(HandleHibernateKey=\)hibernate/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleLidSwitch=\)suspend/\1ignore/' /etc/systemd/logind.conf
 loadkeys be-latin1
 
-echo "loadkeys be-latin1" >> /root/.zshrc
-echo "path=/root:$PATH" >> /root/.zshrc
-echo "loadkeys be-latin1" >> /root/.bashrc
-echo "path=/root:$PATH" >> /root/.bashrc
 
 
 systemctl enable pacman-init.service choose-mirror.service
@@ -42,20 +38,19 @@ chmod +x /root/tos
 curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall -o /root/dialogarchinstall
 chmod +x /root/dialogarchinstall
 
-if [[ ! -d sucklessterminal ]]; then
-    git clone https://github.com/F0xedb/sucklessterminal
+if [[ ! -d st ]]; then
+    git clone https://github.com/F0xedb/sucklessterminal /root/st
 fi
-cd sucklessterminal
+cd /root/st
 make && make install
 cd ../
-rm -rf sucklessterminal
+rm -rf st
 
 rm -rf /root/bin
 rm -rf /root/.config
 rm -rf .oh-my-zsh
 git clone https://github.com/F0xedb/helper-scripts.git /root/bin
 git clone https://github.com/F0xedb/dotfiles /root/.config
-mv /root/.config/.zshrc /root
 mv /root/.config/.vimrc /root
 mv /root/.config/.Xresources /root
 
@@ -67,6 +62,13 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 
 
 git clone https://github.com/F0xedb/zsh-load /root/.oh-my-zsh/load
+
+mv /root/.config/.zshrc /root
+
+echo "loadkeys be-latin1" >> /root/.zshrc
+echo "path=/root:$PATH" >> /root/.zshrc
+echo "loadkeys be-latin1" >> /root/.bashrc
+echo "path=/root:$PATH" >> /root/.bashrc
 
 rm -rf /root/Pictures
 git clone https://github.com/F0xedb/Pictures /root/Pictures
