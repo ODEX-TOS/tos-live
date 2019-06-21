@@ -66,13 +66,13 @@ git clone https://github.com/F0xedb/zsh-load /root/.oh-my-zsh/load
 mv /root/.config/.zshrc /root
 
 echo "loadkeys be-latin1" >> /root/.zshrc
-echo "path=/root:$PATH" >> /root/.zshrc
+echo "path=/root:\$PATH" >> /root/.zshrc
 echo "loadkeys be-latin1" >> /root/.bashrc
-echo "path=/root:$PATH" >> /root/.bashrc
+echo "path=/root:\$PATH" >> /root/.bashrc
 
 rm -rf /root/Pictures
 git clone https://github.com/F0xedb/Pictures /root/Pictures
-echo "xrdb ~/.Xresources\nexec i3" >> /root/.xinitrc
+printf "xrdb ~/.Xresources\nexec i3" > /root/.xinitrc
 
 rm -rf /root/.vim
 mkdir -p /root/.vim/colors
