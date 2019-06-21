@@ -63,12 +63,15 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 
 git clone https://github.com/F0xedb/zsh-load /root/.oh-my-zsh/load
 
-mv /root/.config/.zshrc /root
+curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.zshrc
+
 
 echo "loadkeys be-latin1" >> /root/.zshrc
-echo "path=/root:\$PATH" >> /root/.zshrc
+echo "PATH=/root:/root/bin:\$PATH" >> /root/.zshrc
 echo "loadkeys be-latin1" >> /root/.bashrc
-echo "path=/root:\$PATH" >> /root/.bashrc
+echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
+printf "\nif [[ $(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
+printf "\nif [[ $(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.bashrc
 
 rm -rf /root/Pictures
 git clone https://github.com/F0xedb/Pictures /root/Pictures
