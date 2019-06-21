@@ -1,0 +1,326 @@
+#!/bin/bash
+
+echo "Build and maintained by Tom Meyers"
+
+echo "You are about to install arch using this automated script"
+
+echo "This install script will try to load the custom arch linux build by Tom"
+
+echo "Its features are LUKS encrypted drives, custom zsh, i3wm and more"
+
+echo "Note: This script assumes that you have a wireless card. If you don't you need to manually get a network connection. If you do you will be promted to connect to a network"
+
+read -r -p "Do you wish to continue? y/n" entry
+
+device=$( ls /dev/sd* | grep -E 'sd[a-z]$' | sort | head -n1)
+device2=$( ls /dev/nvme?n* | grep -E 'nvme[a-z0-9]*$' | sort | head -n1)
+
+part1="1"
+part2="2"
+part3="3"
+
+function ask {
+    exec 3>&1;
+    result=$(dialog --inputbox "$1" 0 0 "$2" 2>&1 1>&3);
+    exec 3>&-;
+}
+
+function prmpt {
+    dialog --yesno "$1" 0 0
+}
+
+# getdev "Select the device to install" "/dev/sda" "/dev/nvme"
+function getdev {
+    exec 3>&1;
+    first=$(fdisk -l "$2" | grep -e "Disk .[a-zA-Z/]*: [0-9][0-9]*" | awk '{print $3, $4}')
+    second=$(fdisk -l "$3" | grep -e "Disk .[a-zA-Z/]*: [0-9][0-9]*" | awk '{print $3, $4}')
+    device=$(dialog --menu "$1" 0 0 0 "$2" "$first" "$3" "$second" 2>&1 1>&3);
+    
+    # the device is an nvme drive
+    if [[ "$device" == "$device2" ]]; then
+        part1="p1"
+        part2="p2"
+        part3="p3"
+    fi
+    
+    exec 3>&-;
+}
+
+function loadkbd {
+    ask "What is your local language?" "be-latin1"
+    
+    prmpt "Setting up language"
+    loadkeys $result
+
+}
+
+
+function partition {
+    prmpt "Setting up disk partition"
+    parted --script "$device" 'mklabel gpt'  
+    parted --script "$device" 'mkpart ESP fat32 1MiB 200MiB'  
+    parted --script "$device" 'set 1 boot on'  
+    parted --script "$device" 'name 1 efi'  
+    parted --script "$device" 'mkpart primary 200MiB 800MiB'  
+    parted --script "$device" 'name 2 boot'  
+    parted --script "$device" 'mkpart primary 800MiB 100%'  
+    parted --script "$device" 'set 3 lvm on'  
+    parted --script "$device" 'name 3 lvm'  
+}
+
+function crypto {
+    prmpt "loading in crypto kernel modules"
+    modprobe dm-crypt
+    modprobe dm-mod
+
+    prmpt "Setting up the LUKS encryption"
+    cryptsetup luksFormat -v -s 512 -h sha512 "$device"$part3
+    
+    prmpt "Opening encrypted drive"
+    cryptsetup open "$device"$part3 luks_lvm
+
+    prmpt "Creating volumes"
+
+    pvcreate /dev/mapper/luks_lvm
+    vgcreate arch /dev/mapper/luks_lvm
+    
+    #TODO: If a disk is in the terabytes convert it into Gigs. Currently it won't break anything but this default values will be wrong 
+    size=$(fdisk -l "$device" | grep -e "Disk .[a-zA-Z/]*: [0-9][0-9]*" | awk '{print
+    $3}')
+     
+    ask "How big should your home partition be? (in Gigabytes)" "$(echo $size | awk '{print ($0/40)*26}')"
+    lvcreate -n home -L "$result"G arch
+    
+    ask "How big should your root partition be? (in Gigabytes)" "$(echo $size | awk
+    '{print ($0/40)*12}')"
+
+    lvcreate -n root -L "$result"G arch
+
+    ask "How big should your root partition be? (in Gigabytes)" "$(echo $size | awk '{print ($0/80)*1}')"
+    
+    lvcreate -n swap -L "$result"G -C y arch
+}
+
+# This function needs to be called after setting up the logic volumes
+function format {
+
+    prmpt "Formatting partitions"
+    
+    mkfs.fat -F32 "$device"$part1
+    mkfs.ext4 "$device"$part2
+    mkfs.ext4 -L root /dev/mapper/arch-root
+    mkfs.ext4 -L home /dev/mapper/arch-home
+    mkswap /dev/mapper/arch-swap
+
+}
+
+function mounting {
+        prmpt "Initiating mounting attempt"
+        
+        swapon /dev/mapper/arch-swap
+        swapon -a
+        swapon -s
+        mount /dev/mapper/arch-root /mnt
+        mkdir -p /mnt/{home,boot}
+        mount "$device"$part2 /mnt/boot
+        mount /dev/mapper/arch-home /mnt/home
+        mkdir /mnt/boot/efi
+        mount "$device"$part1 /mnt/boot/efi
+
+        prmpt "Verify if the mounting is succesfull"
+        lsblk -f
+        read -r -p "Press enter to continue"
+}
+
+function wifi {
+    prmpt "Trying to get network connection in order to complete the next steps"
+    if [[ $(ping -c1 1.1.1.1 | grep "0% packet loss") == "" ]]; then
+        wifi-menu
+    fi
+}
+
+function basesystem {
+    pacstrap /mnt base base-devel efibootmgr vim dialog xterm grub --noconfirm
+    genfstab -U -p /mnt > /mnt/etc/fstab
+
+    #TODO: Don't hardcode this filename. Try to find it 
+    cp archinstall /mnt/archinstall
+    arch-chroot /mnt /bin/bash archinstall base
+}
+
+function chrootfunc {
+    #TODO instead of specifing the entire HOOKS array only append encrypt and lvm2 to it
+    prmpt "Changing mkinitcpio"
+    sed -i '/^HOOKS/c\HOOKS=(base udev autodetect modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf    
+
+    mkinitcpio -v -p linux
+
+    pacman -S grub --noconfirm
+    
+
+    
+
+    sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/c\GRUB_CMDLINE_LINUX_DEFAULT="quiet resume=/dev/mapper/swa cryptdevice='$device'$part3:luks_lvm"' /etc/default/grub
+    
+    grub-install --efi-directory /boot/efi --force "$device"
+    
+    grub-mkconfig -o /boot/grub/grub.cfg
+
+
+}
+
+function default {
+   timedatectl set-ntp true
+   ask "What is your continent?" "Europa"
+   continent=$result
+   ask "What is your capital?" "Brussels"
+   ln -sf /usr/share/zoneinfo/"$continent"/"$result" /etc/localtime 
+   hwclock --systohc
+   prmpt "Uncomment every local that you need in your system"
+   nano /etc/locale.gen
+   locale-gen
+   echo "LANG=<language.UTF_8> # give a language_region.UTF-8 here eq en_US.utf-8" > /etc/locale.conf
+
+   ask "What is your local keymap?" "be-latin1"
+   nano /etc/locale.conf
+   echo KEYMAP="$device" > /etc/vconsole.conf
+   nano /etc/vconsole.conf
+
+   ask "What is your computer name?" "core"
+   echo "$result" > /etc/hostname
+
+   echo -e "127.0.0.1   localhost\n::1      localhost\n127.0.1.1    $result.localdomain  $result" >> /etc/hosts
+
+   prmpt "Setting up root password"
+   passwd
+
+}
+
+
+function user {
+    pacman -Syu git sudo base-devel
+
+    prmpt "Uncomment the line containing %wheel NOPASSWD"
+    EDITOR=nano visudo
+
+    ask "What is your username?" "alpha"
+    useradd -m -g users -G audio,lp,optical,storage,video,wheel,games, power, -s /bin/bash "$result"
+    passwd "$result"
+    su "$result" -c /archinstall user
+}
+
+function download {
+    #installing aur helper
+    cd
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
+    cd
+    rm -rf yay
+
+    #installing zsh packages
+    yay -Syu zsh zsh-autosuggestions zsh-syntax-highlighting
+
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
+
+
+    #installing x-server
+    yay -Syu xorg-fonts-type1 xorg-server xorg-xbacklight xorg-xclipboard xorg-xinit xorg-xinput xorg-xprop xorg-xrandr xclip
+
+    #installing fonts
+    yay -Syu ttf-bitstream-vera ttf-computer-modern-fonts ttf-emojione ttf-fira-code ttf-fira-mono ttf-inconsolata ttf-liberation ttf-linux-libertine ttf-monoid ttf-symbola sdl_ttf siji-git noto-fonts nerd-fonts-complete font-bh-ttf bdf-unifont ttf-dejavu
+
+    # This needs to be installed for polybar-git to work
+    yay -Syu jsoncpp
+
+    #installing i3 with graphical programs
+    yay -Syu vim bluez ccat compton docker docker-compose dunst feh firefox-developer-edition gimp glances i3-gaps i3lock-next-git lsd neofetch pavucontrol polybar-git pulseaudio python-pip r8152-dkms rofi screen xf86-input-mouse xf86-video-intel visual-studio-code-insiders zathura playerctl nm-connection-editor networkmanager netctl openssh arandr
+
+    sudo pip install dbus-python    
+    sudo systemctl enable NetworkManager
+
+    # installing st terminal
+
+    git clone https://github.com/F0xedb/sucklessterminal
+    cd sucklessterminal
+    make && sudo make install
+
+    # update font configuration
+
+    # install vim theme and plugins
+
+}
+
+
+function gitclone {
+    prmpt "Installing Tom's custom scripts"
+    cd
+    git clone https://github.com/F0xedb/helper-scripts.git bin
+    cd
+    git clone https://github.com/F0xedb/dotfiles .config
+    # TODO symlink these files don't move them
+    mv .config/.zshrc ~
+    mv .config/.vimrc ~
+    mv .config/.Xresources ~
+    cd ~/.oh-my-zsh
+    git clone https://github.com/F0xedb/zsh-load load
+    cd
+    rmdir Pictures
+    git clone https://github.com/F0xedb/Pictures Pictures
+}
+
+function tom {
+    prmpt "Executing Tom's custom scripts"
+    
+    echo "xrdb ~/.Xresources\nexec i3" >> ~/.xinitrc
+    
+    mkdir -p ~/.vim/colors
+    touch ~/.vim.colors/badwolf.vim
+    curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
+    
+    echo "You now have a complete arch linux install working as advertised."
+    echo "To use your computer log in via the terminal"
+    echo "After that is complete you can type in startx to start your graphical environment"
+    echo "To navigate around look in the dotfiles repo of F0xedb"
+    echo "Good luck on your arch linux journey!"
+}
+
+if [[ "$entry" == "y" && "$1" != "base" ]]; then
+        echo "You have 5 seconds before we start altering the hard drive"
+        echo "If you wish to abort now use CTRL-C otherwise we will start to change the partition table and install a custom Arch Linux install"
+        
+        sleep 5
+        getdev "What device do you want to install arch on?" "$device" "$device2"
+        loadkbd
+        partition
+        crypto
+        format
+        mounting
+        wifi
+        basesystem
+        
+fi
+
+if [[ "$1" == "base" ]]; then
+        chrootfunc
+        
+        echo "Base arch Linux is installed"
+        
+        read -r -p "Do you wish to install the custom version for arch? (y/n) " result
+
+        if [[ "$result" == "y" ]]; then
+            default
+            user
+        fi
+fi
+
+if [[ "$1" == "user" ]]; then
+    download
+    gitclone
+    tom
+fi
+
