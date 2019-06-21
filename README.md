@@ -24,7 +24,7 @@
 
 ### Install
 ```
-$ sudo pacman install archiso
+$ sudo pacman -Syu archiso
 ```
 
 ## Explanation
