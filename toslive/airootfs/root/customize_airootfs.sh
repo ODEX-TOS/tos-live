@@ -83,5 +83,3 @@ touch /root/.vim /root/.vim/colors/badwolf.vim
 curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
 
 
-# makepkg should happen here
-# ccat firefox-developer-edition i3-lock-next-git lsd polybar-git r8152-dkms rofi visual-studio-code-insiders zathura jsoncpp  

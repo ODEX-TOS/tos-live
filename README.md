@@ -58,4 +58,6 @@ Now burn it of= should contain the path to said drive
 ```
 sudo dd if=out/*.iso of=/dev/sd<drive>
 ```
-
+## TODO:
+- Add AUR packages
+- Fix ssh-agent bug when launching zsh shells.
