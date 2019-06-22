@@ -43,6 +43,24 @@ $ sudo pacman -Syu archiso
 ## usage
 
 clone this repo and cd into it
+
+Before building the iso you have to setup a custom repo and point towards it inside the pacman.conf file
+```
+cd $rootdir/repo
+bash build.sh # this will build all packages and add it to the local repo located in $rootdir/repo/arch/*
+```
+
+Now you have to add the local repo in the pacman.conf
+In this file you will have a section
+
+```
+[repo]
+ SigLevel = Optional TrustAll
+ Server = file:///home/zetta/tos/repo/arch/
+```
+Change the file with Server = file:// to point towards $rootdir/repo/arch
+
+
 ```
 sudo start.sh
 ```
