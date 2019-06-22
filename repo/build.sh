@@ -34,14 +34,14 @@ cd vs
 makepkg
 cd ../
 cp vs/visual-studio-code-insiders* arch
-repo-add arch/repo.db.tar.gz vs/visual-studio-code-insiders-*
+repo-add arch/repo.db.tar.gz vs/visual-studio-code-insiders-*.pkg.tar.xz
 
 git clone https://aur.archlinux.org/r8152-dkms.git r8
 cd r8
 makepkg
 cd ../
 cp r8/r8152-dkms-* arch
-repo-add arch/repo.db.tar.gz r8/r8152-dkms*
+repo-add arch/repo.db.tar.gz r8/r8152-dkms-*
 
 git clone https://aur.archlinux.org/i3lock-color.git color
 cd color
