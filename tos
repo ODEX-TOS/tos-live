@@ -101,34 +101,28 @@ function installarchdialog {
 }
 
 
-if [[ "$1" == "" || "$1" == "-h" || "$1" == "--help" ]]; then
-    help
-fi
-
-if [[ "$1" == "-update" || "$1" == "-u" ]]; then
-    update
-fi
-
-if [[ "$1" == "-i" || "$1" == "--install" ]]; then
-    if [[ "$(which yay)" != "/usr/bin/yay" ]]; then
+case "$1" in
+    ""|"-h"|"--help")
+        help
+    ;;
+    "-u"|"--update")
+        update
+    ;;
+    "-i"|"--install")
+        if [[ "$(which yay)" != "/usr/bin/yay" ]]; then
         installyay
-    fi
-    yay "${@:2}"
-fi
+        fi
+        yay "${@:2}"
+    ;;
+    "-iso")
+        if [ "$(id -u)" == "0" ]; then
+            if [ "$2" == "-g" ]; then
+                installarchdialog
+            else
+                installarch
+            fi
+        else
+            printf "${RED} Only root user can install TOS${NC}\n"
+        fi    
 
-if [[ "$1" == "-iso" && "$2" != "-g" ]]; then
-    if [ "$(id -u)" = "0" ]; then
-        installarch
-    else
-        printf "${RED} Only root user can install TOS${NC}\n"
-    fi
-fi
-
-if [[ "$1" == "-iso" && "$2" == "-g" ]]; then
-    if [ "$(id -u)" = "0" ]; then
-        installarchdialog
-    else
-        printf "${RED} Only root user can install TOS${NC}\n"
-    fi
-fi
-
+esac
