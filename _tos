@@ -1,0 +1,53 @@
+#compdef _tos tos
+function _tos {
+    local line
+    _arguments -C \
+    "-h[Show help imformation]" \
+    "-u[Update the system to the latest version]" \
+    "1: :(-iso -i)" \
+    "*::arg:->args"
+
+    case $line[1] in
+        "-iso")
+            _tos_install_graphical
+            ;;
+        "-i")
+            _tos_install_package
+            ;;
+    esac
+}
+
+function _tos_install_graphical {
+    _arguments \
+    "-g[Install with a gui (Omit if you want a text based installer)]"
+}
+
+function _tos_install_package {
+    local line
+    _arguments -C \
+    "1: :(-S -R)" \
+    "*::arg:->args"
+
+    case $line[1] in
+        "-S")
+            _tos_S_install
+            ;;
+        "-R")
+            _tos_R_remove
+            ;;
+    esac
+}
+
+function _tos_S_install {
+    _arguments \
+    "-y[Sync databases with remote repo]" \
+    "-yy[force reload with remote repo]" \
+    "-u[Update a package (must use with y)]" \
+    "-s[search for a package]"
+}
+
+function _tos_R_remove {
+    _arguments \
+    "-n[Remove configuration files]" \
+    "-s[Remove unneeded dependencies]"
+}
