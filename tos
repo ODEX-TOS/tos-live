@@ -18,12 +18,15 @@ function help {
     printf " -g \t\t\t\t $name -iso -g will install arch onto this sytem with a graphical interface\n"
     printf " -iso \t\t\t\t install arch onto this system\n"
     printf " -i | --install \t\t install packages from the main repository and AUR\n"
+    printf " -c | --crypto <location>\t\t setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t This will update your system\n"
     printf "$name -Syu spectacle \t\t This will install the program called spectacle\n"
     printf "$name -iso \t\t\t This will install a fresh copy of arch linux on your system. ${RED}Must be ran as root${NC}\n"
     printf "$name -iso -g\t\t\t Same as above but in a graphical environment. ${RED}Must be ran as root${NC}\n"
+    printf "$name -c\t\t\t\t generate a crypto key based on your prefrences\n"
+    printf "$name -c root@1.1.1.1\t\t\t\t share your public key with user root at ip 1.1.1.1\n"
 }
 
 function installyay {
@@ -129,5 +132,11 @@ case "$1" in
         else
             printf "${RED} Only root user can install TOS${NC}\n"
         fi    
-
+    "-c"|"--crypto")
+        if [ "$2" == "" ]; then
+               ssh-keygen
+        else
+               ssh-copy-id $2
+        fi 
+    ;;
 esac
