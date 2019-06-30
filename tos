@@ -12,13 +12,13 @@ export SUDO_ASKPASS='$HOME/bin/rofi/askpass'
 name=$(basename "$0")
 
 function help {
-    printf "${ORANGE}$name${NC} ${RED}OPTIONS:${NC} (-h|-u|-i)|(-iso| -iso -g)\n"
+        printf "${ORANGE}$name${NC} ${RED}OPTIONS:${NC} (-h|-u|-i|-c|-dl)|(-iso| -iso -g)|(-m device metric)|(-c <user>@<ip>)\n"
     printf " -h | --help \t\t\t show this help message\n"
     printf " -u | --update \t\t\t update the entire base system, including AUR packages, config scripts and binaries.\n"
     printf " -g \t\t\t\t $name -iso -g will install arch onto this sytem with a graphical interface\n"
     printf " -iso \t\t\t\t install arch onto this system\n"
     printf " -i | --install \t\t install packages from the main repository and AUR\n"
-    printf " -c | --crypto <location>\t setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
+    printf " -c | --crypto <user>@<ip>\t setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
     printf " -m | --metric <device> <value>\t change the metric of a specified network device\n"
     printf " -dl | --device-list \t\t list all devices of a network with there ip and changemetric\n"
     
@@ -29,7 +29,7 @@ function help {
     printf "$name -iso -g\t\t\t Same as above but in a graphical environment. ${RED}Must be ran as root${NC}\n"
     printf "$name -c\t\t\t\t generate a crypto key based on your prefrences\n"
     printf "$name -c root@1.1.1.1\t\t share your public key with user root at ip 1.1.1.1\n"
-    printf "$name -m eth0 100\t\t change the metric of device eth0 to 100\n"
+    printf "$name -m eth0 100\t\t\t change the metric of device eth0 to 100\n"
     printf "$name -dl\t\t\t\t List all network devices\n"
 }
 
