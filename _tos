@@ -4,15 +4,18 @@ function _tos {
     _arguments -C \
     "-h[Show help imformation]" \
     "-u[Update the system to the latest version]" \
-    "1: :(-iso -i)" \
+    "1: :(-iso -S -R)" \
     "*::arg:->args"
 
     case $line[1] in
         "-iso")
             _tos_install_graphical
             ;;
-        "-i")
-            _tos_install_package
+        "-S"*)
+            _tos_S_install
+            ;;
+        "-R"*)
+            _tos_R_remove
             ;;
     esac
 }
@@ -29,10 +32,10 @@ function _tos_install_package {
     "*::arg:->args"
 
     case $line[1] in
-        "-S")
+        "-S"*)
             _tos_S_install
             ;;
-        "-R")
+        "-R"*)
             _tos_R_remove
             ;;
     esac

@@ -21,7 +21,7 @@ function help {
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t This will update your system\n"
-    printf "$name -i -Syu spectacle \t\t This will install the program called spectacle\n"
+    printf "$name -Syu spectacle \t\t This will install the program called spectacle\n"
     printf "$name -iso \t\t\t This will install a fresh copy of arch linux on your system. ${RED}Must be ran as root${NC}\n"
     printf "$name -iso -g\t\t\t Same as above but in a graphical environment. ${RED}Must be ran as root${NC}\n"
 }
@@ -108,11 +108,11 @@ case "$1" in
     "-u"|"--update")
         update
     ;;
-    "-i"|"--install")
+    "-S"*|"-R"*)
         if [[ "$(which yay)" != "/usr/bin/yay" ]]; then
         installyay
         fi
-        yay "${@:2}"
+        yay "${@:1}"
     ;;
     "-iso")
         if [ "$(id -u)" == "0" ]; then
