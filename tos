@@ -165,7 +165,7 @@ case "$1" in
     ;;
     "-m"|"--metric")
             if [[ "$2" == "" || "$3" == "" ]]; then
-                    printf "${RED}Can't change metrc of specified device because you didn't specifie the device or metric value${NC}"
+                    printf "${RED}Can't change metric of specified device because you didn't specifie the device or metric value${NC}"
             else
                     changemetric $2 $3
             fi

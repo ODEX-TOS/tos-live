@@ -144,7 +144,7 @@ function basesystem {
     genfstab -U -p /mnt > /mnt/etc/fstab
 
     #TODO: Don't hardcode this filename. Try to find it 
-    cp archinstall /mnt/archinstall
+    cp "$0" /mnt/archinstall
     arch-chroot /mnt /bin/bash archinstall base
 }
 
