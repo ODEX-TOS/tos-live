@@ -18,7 +18,9 @@ function help {
     printf " -g \t\t\t\t $name -iso -g will install arch onto this sytem with a graphical interface\n"
     printf " -iso \t\t\t\t install arch onto this system\n"
     printf " -i | --install \t\t install packages from the main repository and AUR\n"
-    printf " -c | --crypto <location>\t\t setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
+    printf " -c | --crypto <location>\t setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
+    printf " -m | --metric <device> <value>\t change the metric of a specified network device\n"
+    printf " -dl | --device-list \t\t list all devices of a network with there ip and changemetric\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t This will update your system\n"
@@ -26,7 +28,9 @@ function help {
     printf "$name -iso \t\t\t This will install a fresh copy of arch linux on your system. ${RED}Must be ran as root${NC}\n"
     printf "$name -iso -g\t\t\t Same as above but in a graphical environment. ${RED}Must be ran as root${NC}\n"
     printf "$name -c\t\t\t\t generate a crypto key based on your prefrences\n"
-    printf "$name -c root@1.1.1.1\t\t\t\t share your public key with user root at ip 1.1.1.1\n"
+    printf "$name -c root@1.1.1.1\t\t share your public key with user root at ip 1.1.1.1\n"
+    printf "$name -m eth0 100\t\t change the metric of device eth0 to 100\n"
+    printf "$name -dl\t\t\t\t List all network devices\n"
 }
 
 function installyay {
@@ -103,6 +107,25 @@ function installarchdialog {
     ./dialogarchinstall 
 }
 
+function changemetric {
+        if [ "$(id -u)" == "0" ]; then
+
+            current=$(ip route | grep -E "^default .* $1")
+            new=$(printf "$current" | sed "s/metric [0-9]*/metric /")"$2"
+            ip route del $current
+            ip route add $new
+        else
+                printf "${RED}Only the root user can change the metric${NC}\n"
+        fi
+}
+
+function listdevices {
+    devices=$(ip link show up | awk '$1 ~ /[0-9]*:.*/{printf $2}' | tr ':' ' ')
+    for device in $devices; do
+            printf "$device $(ip addr show dev $device | awk '$1 ~ /inet|inet6/{printf $1": "$2" " }') Route:  $(ip route show dev $device | head -n1)\n\n"
+    done
+}
+
 
 case "$1" in
     ""|"-h"|"--help")
@@ -132,11 +155,22 @@ case "$1" in
         else
             printf "${RED} Only root user can install TOS${NC}\n"
         fi    
+    ;;
     "-c"|"--crypto")
         if [ "$2" == "" ]; then
                ssh-keygen
         else
                ssh-copy-id $2
         fi 
+    ;;
+    "-m"|"--metric")
+            if [[ "$2" == "" || "$3" == "" ]]; then
+                    printf "${RED}Can't change metrc of specified device because you didn't specifie the device or metric value${NC}"
+            else
+                    changemetric $2 $3
+            fi
+    ;;
+    "-dl"|"--device-list")
+        listdevices
     ;;
 esac

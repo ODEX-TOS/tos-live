@@ -4,7 +4,8 @@ function _tos {
     _arguments -C \
     "-h[Show help imformation]" \
     "-u[Update the system to the latest version]" \
-    "1: :(-iso -S -R)" \
+    "-dl[list all active network devices]" \
+    "1: :(-iso -S -R -m)" \
     "*::arg:->args"
 
     case $line[1] in
@@ -17,7 +18,16 @@ function _tos {
         "-R"*)
             _tos_R_remove
             ;;
+        "-m")
+            _tos_metric
+            ;;
     esac
+}
+
+function _tos_metric {
+    list=$(ip link show up | awk '$1 ~ /[0-9]*:.*/{printf $2}' | tr ':' ' ') 
+    _arguments -C \
+    "1: :($list)"
 }
 
 function _tos_install_graphical {
