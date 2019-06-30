@@ -109,10 +109,15 @@ case "$1" in
         update
     ;;
     "-S"*|"-R"*)
-        if [[ "$(which yay)" != "/usr/bin/yay" ]]; then
-        installyay
+        if [ "$(id -u)" != "0" ]; then
+            if [[ "$(which yay)" != "/usr/bin/yay" ]]; then
+            installyay
+            fi
+            yay "${@:1}"
+        else
+            printf "${RED} Package management as root is very dangerous${NC}\n"
         fi
-        yay "${@:1}"
+
     ;;
     "-iso")
         if [ "$(id -u)" == "0" ]; then
