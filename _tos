@@ -42,15 +42,43 @@ function _tos_install_package {
 }
 
 function _tos_S_install {
-    _arguments \
+    local line
+    _arguments -C \
+    "-yu[Sync and update database]"\
+    "-yyu[Force download database and sync with remote repo's]"\
     "-y[Sync databases with remote repo]" \
     "-yy[force reload with remote repo]" \
-    "-u[Update a package (must use with y)]" \
-    "-s[search for a package]"
+    "-a[Assume targets are from the AUR]" \
+    "-b[Alternative database localation]" \
+    "-c[Remove old packages from the cache]" \
+    "-d[Skip dependency cheks]" \
+    "-g[View all members of a package group]" \
+    "-h[Display syntax for the fiven operation]" \
+    "-i[View package information]" \
+    "-l[List all packages in a repo]" \
+    "-p[Prind download URI's for each package]" \
+    "-q[Show less info about queries and searches]" \
+    "-r[Set alternative install root]" \
+    "-s[Search package names and descrptions]" \
+    "-u[Upgrade all out-of-date packages]" \
+    "-v[Be more verbose]" \
+    "-w[Download packages only]" \
+    "-s[search for a package]"\
+    "*::arg:->args"
 }
 
 function _tos_R_remove {
     _arguments \
-    "-n[Remove configuration files]" \
-    "-s[Remove unneeded dependencies]"
+    "-ns[Remove packages with all its dependencies and config files]" \
+    "-a[Assume targets are from the AUR]" \
+    "-b[Alternate database location]" \
+    "-c[Remove all dependent packages]" \
+    "-d[Skip dependency checks]" \
+    "-h[Display syntaxt for a given operation]" \
+    "-n[Remove protected configuration files]" \
+    "-p[Only print the targets instead of perfomring the operation]" \
+    "-r[Set alternative installation root]" \
+    "-s[Remove dependencies not required by other packages]" \
+    "-u[Remove unneeded packages]" \
+    "-v[Be more verbose]"
 }
