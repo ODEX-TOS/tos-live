@@ -1,6 +1,12 @@
 #!/bin/bash
 
 # TOS is the Tom OS update script. This script manages everything for maintaining and upgrading.
+# To understand how to install the software go to https://github.com/F0Xedb/helper-scripts
+# Archinstall and dialogarchinstall are scripts that install arch from scratch and also install custom software to more personalise the os
+# Once you have installed arch and have cloned the helper-scripts into a $PATH file you will have the tool TOS.
+# This tool is a wrapper around arch based tools.
+# It can install packages from the repo's and AUR. It also aids with ssh, networking, updating, installing software and more.
+#It basically wraps multiple commands into one simple to use command.
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -12,7 +18,7 @@ export SUDO_ASKPASS='$HOME/bin/rofi/askpass'
 name=$(basename "$0")
 
 function help {
-        printf "${ORANGE}$name${NC} ${RED}OPTIONS:${NC} (-h|-u|-i|-c|-dl)|(-iso| -iso -g)|(-m device metric)|(-c <user>@<ip>)\n"
+        printf "${ORANGE}$name${NC} ${RED}OPTIONS:${NC} (-h|-u|-i|-c|-dl|-lw|-r)|(-iso| -iso -g)|(-m device metric)|(-c <user>@<ip>)|(-cw <SSID>)\n"
     printf " -h | --help \t\t\t show this help message\n"
     printf " -u | --update \t\t\t update the entire base system, including AUR packages, config scripts and binaries.\n"
     printf " -g \t\t\t\t $name -iso -g will install arch onto this sytem with a graphical interface\n"
@@ -21,6 +27,9 @@ function help {
     printf " -c | --crypto <user>@<ip>\t setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
     printf " -m | --metric <device> <value>\t change the metric of a specified network device\n"
     printf " -dl | --device-list \t\t list all devices of a network with there ip and changemetric\n"
+    printf " -r | --restart-network \t\t restart the network stack\n"
+    printf " -cw | --connect-wifi <SSID> \t Connect to a wifi address\n"
+    printf " -lw | --list-wifi \t\t List all wifi devices\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t This will update your system\n"
@@ -31,6 +40,10 @@ function help {
     printf "$name -c root@1.1.1.1\t\t share your public key with user root at ip 1.1.1.1\n"
     printf "$name -m eth0 100\t\t\t change the metric of device eth0 to 100\n"
     printf "$name -dl\t\t\t\t List all network devices\n"
+    printf "$name -r\t\t\t\t Restart the network stack\n"
+    printf "$name -cw free-wifi\t\t\t\t Connect to wifi called free-wifi\n"
+    printf "$name -lw\t\t\t\t List all wifi SSID's\n"
+
 }
 
 function installyay {
@@ -172,5 +185,17 @@ case "$1" in
     ;;
     "-dl"|"--device-list")
         listdevices
+    ;;
+    "-r"|"--restart-network")
+            systemctl restart NetworkManager
+    ;;
+    "-cw"|"--connect-wifi")
+        if [[ "$2" != "" ]]; then
+            nmcli dev wifi connect -a "${@:2}"
+        fi
+
+    ;;
+    "-lw"|"--list-wifi")
+        nmcli d wifi list
     ;;
 esac

@@ -5,7 +5,9 @@ function _tos {
     "-h[Show help imformation]" \
     "-u[Update the system to the latest version]" \
     "-dl[list all active network devices]" \
-    "1: :(-iso -S -R -m)" \
+    "-r[Restart the network stack]" \
+    "-lw[list all active wifi devices in the area]" \
+    "1: :(-iso -S -R -m -cw)" \
     "*::arg:->args"
 
     case $line[1] in
@@ -21,7 +23,16 @@ function _tos {
         "-m")
             _tos_metric
             ;;
+        "-cw")
+            _tos_wifi_connect
+            ;;
     esac
+}
+
+function _tos_wifi_connect {
+   list=$(nmcli d wifi list | awk '$1 !~ /IN-USE|*/{print $0}' | grep -Eo '^.* Infra' | sed 's/Infra//' | awk '{print "\""$0"\""}' | sed -r -e 's/^\"\s+/\"/g' -e 's/\s*\"/\"/g')
+   _arguments -C\
+   "1: :($list)"
 }
 
 function _tos_metric {
