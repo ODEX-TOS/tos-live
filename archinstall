@@ -106,6 +106,7 @@ function basesystem {
     pacstrap /mnt base base-devel efibootmgr vim dialog xterm grub --noconfirm
     genfstab -U -p /mnt > /mnt/etc/fstab
 
+    #TODO: Don't hardcode this filename. Try to find it 
     cp "$0" /mnt/archinstall
     arch-chroot /mnt /bin/bash archinstall base
 }
@@ -241,8 +242,17 @@ function tom {
     echo "xrdb ~/.Xresources\nexec i3" >> ~/.xinitrc
     
     mkdir -p ~/.vim/colors
-    touch ~/.vim/colors/badwolf.vim
+    touch ~/.vim.colors/badwolf.vim
     curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
+
+    #installing vundle
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    
+    #Cloning plugin
+    git clone https://github.com/ycm-core/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe
+    
+    cd ~/.vim/bundle/YouCompleteMe
+    python3 install.py --all
     
     echo "You now have a complete arch linux install working as advertised."
     echo "To use your computer log in via the terminal"

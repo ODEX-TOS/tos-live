@@ -281,7 +281,16 @@ function tom {
     mkdir -p ~/.vim/colors
     touch ~/.vim.colors/badwolf.vim
     curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
-    
+
+    #installing vundle
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+    #Cloning plugin
+    git clone https://github.com/ycm-core/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe
+
+    cd ~/.vim/bundle/YouCompleteMe
+    python3 install.py --all
+
     echo "You now have a complete arch linux install working as advertised."
     echo "To use your computer log in via the terminal"
     echo "After that is complete you can type in startx to start your graphical environment"
