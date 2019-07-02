@@ -16,6 +16,7 @@ NC='\033[0m' # No Color
 
 export SUDO_ASKPASS='$HOME/bin/rofi/askpass'
 name=$(basename "$0")
+themefile="$HOME/.config/tos/theme"
 
 function help {
         printf "${ORANGE}$name${NC} ${RED}OPTIONS:${NC} (-h|-u|-i|-c|-dl|-lw|-r)|(-iso| -iso -g)|(-m device metric)|(-c <user>@<ip>)|(-cw <SSID>)\n"
@@ -31,6 +32,10 @@ function help {
     printf " -cw | --connect-wifi <SSID> \t Connect to a wifi address\n"
     printf " -lw | --list-wifi \t\t List all wifi devices\n"
     printf " -rs | --repair-system \t\t Perform a basic set of repair instruction. In order to fix a potentionally broken system\n"
+    printf " -t | --theme <img>\t change the desktop theme to match a image color scheme\n"
+    printf " -ta | --theme-add <img>\t Add a theme to the randomize theme database\n"
+    printf " -td | --theme-delete <img>\t Remove a theme to the randomize theme database\n"
+    printf " -tr | --theme-random <on|off>\t Enable or disable theme randomization\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t This will update your system\n"
@@ -45,6 +50,7 @@ function help {
     printf "$name -cw free-wifi\t\t Connect to wifi called free-wifi\n"
     printf "$name -lw\t\t\t\t List all wifi SSID's\n"
     printf "$name -rs\t\t\t\t Perform a system repair ${RED}This opperation will take a long time${NC}\n"
+    printf "$name -t ~/Pictures/plant.jpg\t change the background to plant.jpg and change the color scheme\n"
 
 }
 
@@ -67,6 +73,10 @@ function update {
     
     if [[ "$(which git)" != "/usr/bin/git" ]]; then
         yay -Syu git
+    fi
+
+    if [[ "$(which wal)" != "/usr/bin/wal" ]]; then
+        yay -Syu python-pywal
     fi
     
     if [[ ! -d ~/.oh-my-zsh ]]; then
@@ -141,6 +151,43 @@ function listdevices {
     done
 }
 
+function theme {
+    if [[ "$(which wal)" != "/usr/bin/wal" ]]; then
+        yay -Syu python-pywall
+    fi
+    wal -i $1
+}
+
+function theme-check {
+    if [[ ! -f $themefile ]]; then
+        mkdir -p $HOME/.config/tos
+        touch $themefile
+        echo "off" >> $themefile
+
+    fi
+    # TODO: change this into a cronjob or real daemon
+    # TODO: current check to see if a daemon exists always returns true
+    if [[ "$(ps -aux | grep '$name --theme-daemon' | head -n1)" == *grep* ]]; then
+       echo "No daemon found. Launching a new instance"
+       nohup tos --theme-daemon &> /dev/null & # launch theme daemon when it isn't running
+    fi
+}
+
+function theme-add {
+        echo $(readlink -f $1) >> $themefile
+}
+
+function theme-delete {
+        file=$(readlink -f $1)
+        sed -i 's;'$file';;g' $themefile
+        sed -i 's/^\n$//g' $themefile
+}
+
+function theme-random {
+        sed -i 's/^on$/'$1'/' $themefile
+        sed -i 's/^off$/'$1'/' $themefile
+}
+
 
 case "$1" in
     ""|"-h"|"--help")
@@ -206,4 +253,33 @@ case "$1" in
         yay -Syyu # force update the repo databases
         tos -u # update all tos unique tools and more
     ;;
+    "-t"|"--theme")
+        theme-check
+        theme $2
+    ;;    
+    "-ta"|"--theme-add")
+        theme-check
+        theme-add $2
+    ;;    
+    "-td"|"--theme-delete")
+        theme-check
+        theme-delete $2
+    ;;    
+    "-tr"|"--theme-random")
+        theme-check
+        theme-random $2
+    ;;    
+    "--theme-daemon")
+        while true; do
+                file=$(shuf -n 1 $themefile)
+                while [ ! -f $file ] || [ "$file" == "" ]; do
+                        file=$(shuf -n 1 $themefile)
+                done
+                echo $(cat $themefile | head -n1)
+                if [[ "$(cat $themefile | head -n1)" == "on" ]]; then
+                    wal -i $file
+                fi
+                sleep 1000
+        done
+    ;;    
 esac

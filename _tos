@@ -8,7 +8,7 @@ function _tos {
     "-r[Restart the network stack]" \
     "-lw[List all active wifi devices in the area]" \
     "-rs[Perform a system repair (this will take a long time)]" \
-    "1: :(-iso -S -R -m -cw)" \
+    "1: :(-iso -S -R -m -cw -t -ta -td -tr)" \
     "*::arg:->args"
 
     case $line[1] in
@@ -27,7 +27,48 @@ function _tos {
         "-cw")
             _tos_wifi_connect
             ;;
+        "-t")
+            _tos_change_theme $line[2]
+            ;;
+        "-ta")
+            _tos_add_theme $line[2]
+            ;;
+        "-td")
+            _tos_delete_theme $line[2]
+            ;;
+        "-tr")
+            _tos_random_theme
+            ;;
     esac
+}
+
+function _tos_add_theme {
+    list=$(ls)
+    if [[ -d "$1" ]]; then
+            list=$(ls $1)
+    fi 
+    _arguments -C\
+    "1: :($list)"
+}
+
+function _tos_delete_theme {
+        list=$(cat ~/.config/tos/theme | awk '$0 !~ /on|off/{print $0}')
+        _arguments -C\
+        "1: :($list)"
+}
+
+function _tos_random_theme {
+        _arguments -C\
+        "1: :(on off)"
+}
+
+function _tos_change_theme {
+    list=$(ls)
+    if [[ -d "$1" ]]; then
+            list=$(ls $1)
+    fi 
+    _arguments -C\
+    "1: :($list)"
 }
 
 function _tos_wifi_connect {
