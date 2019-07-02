@@ -4,9 +4,10 @@ function _tos {
     _arguments -C \
     "-h[Show help imformation]" \
     "-u[Update the system to the latest version]" \
-    "-dl[list all active network devices]" \
+    "-dl[List all active network devices]" \
     "-r[Restart the network stack]" \
-    "-lw[list all active wifi devices in the area]" \
+    "-lw[List all active wifi devices in the area]" \
+    "-rs[Perform a system repair (this will take a long time)]" \
     "1: :(-iso -S -R -m -cw)" \
     "*::arg:->args"
 

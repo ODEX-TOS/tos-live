@@ -30,6 +30,7 @@ function help {
     printf " -r | --restart-network \t\t restart the network stack\n"
     printf " -cw | --connect-wifi <SSID> \t Connect to a wifi address\n"
     printf " -lw | --list-wifi \t\t List all wifi devices\n"
+    printf " -rs | --repair-system \t\t Perform a basic set of repair instruction. In order to fix a potentionally broken system\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t This will update your system\n"
@@ -41,8 +42,9 @@ function help {
     printf "$name -m eth0 100\t\t\t change the metric of device eth0 to 100\n"
     printf "$name -dl\t\t\t\t List all network devices\n"
     printf "$name -r\t\t\t\t Restart the network stack\n"
-    printf "$name -cw free-wifi\t\t\t\t Connect to wifi called free-wifi\n"
+    printf "$name -cw free-wifi\t\t Connect to wifi called free-wifi\n"
     printf "$name -lw\t\t\t\t List all wifi SSID's\n"
+    printf "$name -rs\t\t\t\t Perform a system repair ${RED}This opperation will take a long time${NC}\n"
 
 }
 
@@ -197,5 +199,11 @@ case "$1" in
     ;;
     "-lw"|"--list-wifi")
         nmcli d wifi list
+    ;;
+    "-rs"|"--repair-system")
+        yay -Sc # delete the package managers cache for broken or unused apps
+        rankmirror # use the best/most up to date mirror
+        yay -Syyu # force update the repo databases
+        tos -u # update all tos unique tools and more
     ;;
 esac
