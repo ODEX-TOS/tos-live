@@ -24,7 +24,6 @@ function help {
     printf " -u | --update \t\t\t update the entire base system, including AUR packages, config scripts and binaries.\n"
     printf " -g \t\t\t\t $name -iso -g will install arch onto this sytem with a graphical interface\n"
     printf " -iso \t\t\t\t install arch onto this system\n"
-    printf " -i | --install \t\t install packages from the main repository and AUR\n"
     printf " -c | --crypto <user>@<ip>\t setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
     printf " -m | --metric <device> <value>\t change the metric of a specified network device\n"
     printf " -dl | --device-list \t\t list all devices of a network with there ip and changemetric\n"
@@ -36,6 +35,7 @@ function help {
     printf " -ta | --theme-add <img>\t Add a theme to the randomize theme database\n"
     printf " -td | --theme-delete <img>\t Remove a theme to the randomize theme database\n"
     printf " -tr | --theme-random <on|off>\t Enable or disable theme randomization\n"
+    printf " -tl | --theme-list \t\t List al themes currently sotred in the database\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t This will update your system\n"
@@ -163,7 +163,8 @@ function theme-check {
         mkdir -p $HOME/.config/tos
         touch $themefile
         echo "off" >> $themefile
-
+    else
+        sed -i -r '/^\s*$/d' $themefile
     fi
     # TODO: change this into a cronjob or real daemon
     # TODO: current check to see if a daemon exists always returns true
@@ -181,7 +182,7 @@ function theme-add {
 function theme-delete {
         file=$(readlink -f $1)
         sed -i 's;'$file';;g' $themefile
-        sed -i 's/^\n$//g' $themefile
+        sed -i -r '/^\s*$/d' $themefile
 }
 
 function theme-random {
@@ -283,4 +284,8 @@ case "$1" in
                 sleep 1000
         done
     ;;    
+    "-tl"|"--theme-list")
+        theme-check
+        cat $themefile | awk '$0 !~ /^off|^on|^\n/{print $0}' | sed -r '/^\s*$/d'
+  ;;
 esac
