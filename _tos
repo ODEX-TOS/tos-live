@@ -3,12 +3,12 @@ function _tos {
     local line
     _arguments -C \
     {-h,--help}"[Show help imformation]" \
-    {-u, --update}"[Update the system to the latest version]" \
-    {-c, --crypto}"[Add a ssh key, when a user@ip is specified add current key to that host]" \
-    {-dl, --device-list}"[List all active network devices]" \
-    {-r, --restart-network}"[Restart the network stack]" \
-    {-lw, --list-wifi}"[List all active wifi devices in the area]" \
-    {-rs, --repair-system}"[Perform a system repair (this will take a long time)]" \
+    {-u,--update}"[Update the system to the latest version]" \
+    {-c,--crypto}"[Add a ssh key, when a user@ip is specified add current key to that host]" \
+    {-dl,--device-list}"[List all active network devices]" \
+    {-r,--restart-network}"[Restart the network stack]" \
+    {-lw,--list-wifi}"[List all active wifi devices in the area]" \
+    {-rs,--repair-system}"[Perform a system repair (this will take a long time)]" \
     "1: :(-iso -S -R -m -cw -t -ta -td -tr)" \
     "*::arg:->args"
 
@@ -44,12 +44,8 @@ function _tos {
 }
 
 function _tos_add_theme {
-    list=$(ls)
-    if [[ -d "$1" ]]; then
-            list=$(ls $1)
-    fi 
-    _arguments -C\
-    "1: :($list)"
+        _arguments -C\
+        '*:Images:_files -g "*.jpg|*.png|*.jpeg"'\
 }
 
 function _tos_delete_theme {
@@ -64,12 +60,8 @@ function _tos_random_theme {
 }
 
 function _tos_change_theme {
-    list=$(ls)
-    if [[ -d "$1" ]]; then
-            list=$(ls $1)
-    fi 
     _arguments -C\
-    "1: :($list)"
+    '*:Images:_files -g "*.jpg|*.png|*.jpeg"'\
 }
 
 function _tos_wifi_connect {
@@ -91,7 +83,7 @@ function _tos_install_graphical {
 
 function _tos_install_package {
     local line
-    _arguments -C \
+    _arguments -C -s\
     "1: :(-S -R)" \
     "*::arg:->args"
 
@@ -106,8 +98,7 @@ function _tos_install_package {
 }
 
 function _tos_S_install {
-    local line
-    _arguments -C \
+    _arguments -s \
     "-yu[Sync and update database]"\
     "-yyu[Force download database and sync with remote repo's]"\
     "-y[Sync databases with remote repo]" \
@@ -128,11 +119,10 @@ function _tos_S_install {
     "-v[Be more verbose]" \
     "-w[Download packages only]" \
     "-s[search for a package]"\
-    "*::arg:->args"
 }
 
 function _tos_R_remove {
-    _arguments \
+    _arguments -s \
     "-ns[Remove packages with all its dependencies and config files]" \
     "-a[Assume targets are from the AUR]" \
     "-b[Alternate database location]" \
