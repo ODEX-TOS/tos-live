@@ -9,6 +9,7 @@ function _tos {
     {-r,--restart-network}"[Restart the network stack]" \
     {-lw,--list-wifi}"[List all active wifi devices in the area]" \
     {-rs,--repair-system}"[Perform a system repair (this will take a long time)]" \
+    {-tl,--theme-list}"[List all entries that are present in the theme file]" \
     "1: :(-iso -S -R -m -cw -t -ta -td -tr)" \
     "*::arg:->args"
 
