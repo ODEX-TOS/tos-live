@@ -19,6 +19,7 @@ _tos_subcommands() {
     {-lw,--list-wifi}":List all active wifi devices in the area" \
     {-rs,--repair-system}":Perform a system repair (this will take a long time)" \
     {-tl,--theme-list}":List all entries that are present in the theme file" \
+    {-tt,--theme-time}":Supply a time in seconds. This timer will call a new random background" \
   )
   _describe -t commands 'subcommands' commands "$@"
 }
