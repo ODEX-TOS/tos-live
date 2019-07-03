@@ -20,39 +20,61 @@ themefile="$HOME/.config/tos/theme"
 
 function help {
         printf "${ORANGE}$name${NC} ${RED}OPTIONS:${NC} (-h|-u|-i|-c|-dl|-lw|-r)|(-iso| -iso -g)|(-m device metric)|(-c <user>@<ip>)|(-cw <SSID>)\n"
-    printf " -h | --help \t\t\t show this help message\n"
-    printf " -u | --update \t\t\t update the entire base system, including AUR packages, config scripts and binaries.\n"
-    printf " -g \t\t\t\t $name -iso -g will install arch onto this sytem with a graphical interface\n"
-    printf " -iso \t\t\t\t install arch onto this system\n"
-    printf " -c | --crypto <user>@<ip>\t setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
-    printf " -m | --metric <device> <value>\t change the metric of a specified network device\n"
-    printf " -dl | --device-list \t\t list all devices of a network with there ip and changemetric\n"
+    printf " -h | --help \t\t\t\t show this help message\n"
+    printf " -u | --update \t\t\t\t update the entire base system, including AUR packages, config scripts and binaries.\n"
+    printf " -g \t\t\t\t\t $name -iso -g will install arch onto this sytem with a graphical interface\n"
+    printf " -iso \t\t\t\t\t install arch onto this system\n"
+    printf " -c | --crypto <user>@<ip>\t\t Setup a crypto key used for ssh access, if a location is specified it will copy the current key to that location\n"
+    printf " -m | --metric <device> <value>\t\t change the metric of a specified network device\n"
+    printf " -dl | --device-list \t\t\t list all devices of a network with there ip and changemetric\n"
     printf " -r | --restart-network \t\t restart the network stack\n"
-    printf " -cw | --connect-wifi <SSID> \t Connect to a wifi address\n"
-    printf " -lw | --list-wifi \t\t List all wifi devices\n"
-    printf " -rs | --repair-system \t\t Perform a basic set of repair instruction. In order to fix a potentionally broken system\n"
-    printf " -t | --theme <img>\t change the desktop theme to match a image color scheme\n"
-    printf " -ta | --theme-add <img>\t Add a theme to the randomize theme database\n"
-    printf " -td | --theme-delete <img>\t Remove a theme to the randomize theme database\n"
-    printf " -tr | --theme-random <on|off>\t Enable or disable theme randomization\n"
-    printf " -tl | --theme-list \t\t List all themes currently sorted in the database\n"
-    printf " -tt | --theme-time <seconds>\t Change the timer when to change a theme\n"
+    printf " -cw | --connect-wifi <SSID> \t\t Connect to a wifi address\n"
+    printf " -lw | --list-wifi \t\t\t List all wifi devices\n"
+    printf " -rs | --repair-system \t\t\t Perform a basic set of repair instruction. In order to fix a potentionally broken system\n"
+    printf " -t | --theme <img>\t\t\t change the desktop theme to match a image color scheme\n"
+    printf " -ta | --theme-add <img>\t\t Add a theme to the randomize theme database\n"
+    printf " -td | --theme-delete <img>\t\t Remove a theme to the randomize theme database\n"
+    printf " -tr | --theme-random <on|off>\t\t Enable or disable theme randomization\n"
+    printf " -tl | --theme-list \t\t\t List all themes currently sorted in the database\n"
+    printf " -tt | --theme-time <seconds>\t\t Change the timer when to change a theme\n"
+    printf " -bl | --bluetooth-list ?scan \t\t List all bluetooth devices and general information. If scan is provided it fill perform a scan instead\n"
+    printf " -b | --bluetooth <on|off> \t\t Turn bluetooth on or off\n"
+    printf " -bc | --bluetooth-connect <device> \t Connect to a bluetooth device\n"
+    printf " -bd | --bluetooth-disconnect <device> \t Disconnect from a bluetooth device\n"
+    printf " -bp | --bluetooth-pair <device> \t Pair a bluetooth device\n"
+    printf " -bf | --bluetooth-full\t\t\t Enter full bluetooth cli mode\n"
+    printf " -v | --volume\t\t\t\t Get information about the current speaker/volume setup\n"
+    printf " -vc | --volume-change\t\t\t Change the volume in percentage\n"
+    printf " -vs | --volume-set\t\t\t Set the volume to a certain percentage\n"
+    printf " -vt | --volume-toggle\t\t\t Toggle the current volume playback\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
-    printf "$name -u \t\t\t\t This will update your system\n"
-    printf "$name -Syu spectacle \t\t This will install the program called spectacle\n"
-    printf "$name -iso \t\t\t This will install a fresh copy of arch linux on your system. ${RED}Must be ran as root${NC}\n"
-    printf "$name -iso -g\t\t\t Same as above but in a graphical environment. ${RED}Must be ran as root${NC}\n"
-    printf "$name -c\t\t\t\t generate a crypto key based on your prefrences\n"
-    printf "$name -c root@1.1.1.1\t\t share your public key with user root at ip 1.1.1.1\n"
-    printf "$name -m eth0 100\t\t\t change the metric of device eth0 to 100\n"
-    printf "$name -dl\t\t\t\t List all network devices\n"
-    printf "$name -r\t\t\t\t Restart the network stack\n"
-    printf "$name -cw free-wifi\t\t Connect to wifi called free-wifi\n"
-    printf "$name -lw\t\t\t\t List all wifi SSID's\n"
-    printf "$name -rs\t\t\t\t Perform a system repair ${RED}This opperation will take a long time${NC}\n"
-    printf "$name -t ~/Pictures/plant.jpg\t change the background to plant.jpg and change the color scheme\n"
-    printf "$name -tt 3600\t Change the colorscheme every 3600 seconds (only when $name -tr on is called)\n"
+    printf "$name -u \t\t\t\t\t This will update your system\n"
+    printf "$name -Syu spectacle \t\t\t This will install the program called spectacle\n"
+    printf "$name -iso \t\t\t\t This will install a fresh copy of arch linux on your system. ${RED}Must be ran as root${NC}\n"
+    printf "$name -iso -g\t\t\t\t Same as above but in a graphical environment. ${RED}Must be ran as root${NC}\n"
+    printf "$name -c\t\t\t\t\t generate a crypto key based on your prefrences\n"
+    printf "$name -c root@1.1.1.1\t\t\t share your public key with user root at ip 1.1.1.1\n"
+    printf "$name -m eth0 100\t\t\t\t change the metric of device eth0 to 100\n"
+    printf "$name -dl\t\t\t\t\t List all network devices\n"
+    printf "$name -r\t\t\t\t\t Restart the network stack\n"
+    printf "$name -cw free-wifi\t\t\t Connect to wifi called free-wifi\n"
+    printf "$name -lw\t\t\t\t\t List all wifi SSID's\n"
+    printf "$name -rs\t\t\t\t\t Perform a system repair ${RED}This opperation will take a long time${NC}\n"
+    printf "$name -t ~/Pictures/plant.jpg\t\t change the background to plant.jpg and change the color scheme\n"
+    printf "$name -tt 3600\t\t\t\t Change the colorscheme every 3600 seconds (only when $name -tr on is called)\n"
+    printf "$name -b on\t\t\t\t Turn on bluetooth\n"
+    printf "$name -bc LE-Bose Tom\t\t\t Connect to the device called LE-Bose Tom\n"
+    printf "$name -bc 28:11:A5:38:D2:92\t\t Connect to the device by its mac address\n"
+    printf "$name -bd LE-Bose Tom\t\t\t Disconnect to the device called LE-Bose Tom\n"
+    printf "$name -bl \t\t\t\t List all bluetooth devices known\n"
+    printf "$name -bl scan\t\t\t\t List all bluetooth devices known after performing a scan\n"
+    printf "$name -bf\t\t\t\t\t Enter an interactive bluetooth cli\n"
+    printf "$name -v\t\t\t\t\t Print info about current volume state\n"
+    printf "$name -vc +3\t\t\t\t\t Change the volume up by 3%\n"
+    printf "$name -vc -3\t\t\t\t\t Change the volume down by 3%\n"
+    printf "$name -vs 50\t\t\t\t\t Set the volume to 50%\n"
+    printf "$name -vt\t\t\t\t\t Toggle the speaker on or off\n"
 
 }
 
@@ -294,5 +316,51 @@ case "$1" in
     "-tt"|"-theme-time")
         theme-check
         sed -i 's/^time=[0-9]*/time='$2'/g' $themefile
+    ;;
+    "-b"|"--bluetooth")
+            bluetoothctl power $2
+    ;;
+    "-bl"|"--bluetooth-list")
+            if [[ $2 == "scan" ]]; then
+                    bluetoothctl scan on &
+                    printf "${RED}Press enter if you want to stop scanning${NC}\n"
+                    read
+                    kill %%
+            fi
+            bluetooth
+            bluetoothctl devices
+    ;;
+    "-bc"|"--bluetooth-connect")
+            bluetoothctl connect $2
+    ;;
+    "-bd"|"--bluetooth-disconnect")
+            bluetoothctl disconnect $2
+    ;;
+    "-bp"|"--bluetooth-pair")
+            bluetoothctl pairable on
+            bluetoothctl pair $2
+            bluetoothclt pairable off
+            bluetoothctl trust $2
+    ;;
+    "-bf|--bluetooth-full")
+            bluetoothctl
+    ;;
+    "-v"|"--volume")
+        amixer get Master
+    ;;
+    "-vc"|"--volume-change")
+            num=$(echo -e "$2" | tr '-' ' ' | tr '+' ' ' | sed 's/\s*//g')
+            echo $num, $2
+            if [[ "$2" == *-* ]]; then
+                amixer -q sset Master "$num"%-
+            else
+                amixer -q sset Master "$num"%+
+            fi
+    ;;
+    "-vs"|"--volume-set")
+        amixer -q sset Master "$2"%
+    ;;
+    "-vt"|"--volume-toggle")
+        amixer -q set Master toggle
     ;;
 esac
