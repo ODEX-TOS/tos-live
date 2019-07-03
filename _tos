@@ -49,7 +49,7 @@ function _tos_add_theme {
 }
 
 function _tos_delete_theme {
-        list=$(cat ~/.config/tos/theme | awk '$0 !~ /on|off/{print $0}')
+        list=$(cat ~/.config/tos/theme | awk '$0 !~ /^on|^off/{print $0}')
         _arguments -C\
         "1: :($list)"
 }
