@@ -30,6 +30,12 @@ _tos_subcommands() {
     {-vc,--volume-change}": Change the volume in percentage" \
     {-vs,--volume-set}": Set the volume to a certain percentage" \
     {-vt,--volume-toggle}": Toggle the current volume playback" \
+    {-s,--screen}": Get information about your screen config" \
+    {-sd,--screen-duplicate}": Duplicate screen from in to out" \
+    {-st,--screen-toggle}": Turn a screen on or off" \
+    {-sr,--screen-reset}": Reset a screen to its original state" \
+    {-sres,--screen-resolution}": Change the resolution" \
+    {-srate,--screen-refresh-rate}": Change the refresh rate" \
   )
   _describe -t commands 'subcommands' commands "$@"
 }
@@ -81,7 +87,79 @@ function _tos {
         "-bp"|"--bluetooth-pair")
             _tos_blue_pair
             ;;
+        "-sd"|"--screen-duplicate")
+            _tos_screen_duplicate
+            ;;
+        "-st"|"--screen-toggle")
+            _tos_screen_toggle
+            ;;
+        "-sr"|"--screen-reset")
+            _tos_screen_select
+            ;;
+        "-sres"|"--screen-resolution")
+            _tos_screen_res
+            ;;
+        "-srate"|"--screen-refresh-rate")
+            _tos_screen_refresh_rate
+            ;;
     esac
+}
+
+function _tos_screen_toggle {
+    list=$(xrandr | awk '$1 !~ /Screen|[0-9]*x[0-9]*/ {print $1}')
+    _arguments -C\
+    "1: :($list)"\
+    "2: :(on off)"\
+
+}
+
+function _tos_screen_refresh_rate {
+    list=$(xrandr | awk '$1 !~ /Screen|[0-9]*x[0-9]*/ {print $1}')
+    local line
+    _arguments -C\
+    "1: :($list)"\
+    "*::arg:->args"
+    _tos_find_rate $line[1]
+}
+
+function _tos_screen_res {
+    list=$(xrandr | awk '$1 !~ /Screen|[0-9]*x[0-9]*/ {print $1}')
+    local line
+    _arguments -C\
+    "1: :($list)"\
+    "*::arg:->args"
+    _tos_find_res $line[1]
+}
+
+function _tos_find_rate {
+    list=$(xrandr | awk -v monitor="^"$1" connected" '/connected/ {p = 0}$0 ~ monitor {p = 1}p' | sed 's/^'$1'.*$//g' | awk '{print $2}' | sed 's/*+//g')
+    _arguments -C\
+    "1: :($list)"\
+    "*::arg:->args"
+}
+
+function _tos_find_res {
+
+    list=$(xrandr | awk -v monitor="^"$1" connected" '/connected/ {p = 0}$0 ~ monitor {p = 1}p' | sed 's/^'$1'.*$//g' | awk '{print $1}')
+    _arguments -C\
+    "1: :($list)"\
+    "*::arg:->args"
+}
+
+function _tos_screen_duplicate {
+    list=$(xrandr | awk '$1 !~ /Screen|[0-9]*x[0-9]*/ {print $1}')
+    local line
+    _arguments -C\
+    "1: :($list)"\
+    "*::arg:->args"
+
+    _tos_screen_select
+}
+
+function _tos_screen_select {
+    list=$(xrandr | awk '$1 !~ /Screen|[0-9]*x[0-9]*/ {print $1}')
+    _arguments -C\
+    "1: :($list)"
 }
 
 function _tos_blue_connect {
