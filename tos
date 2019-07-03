@@ -147,6 +147,10 @@ function update {
     cd ~/Pictures && git pull origin master
     cd ~/.oh-my-zsh/load && git pull origin master
     cd
+
+    if [[ ! -f "$fpath[1]"_tos ]]; then
+        curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos -o "$fpath[1]"/_tos
+    fi
     
 }
 
