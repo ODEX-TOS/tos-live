@@ -47,6 +47,12 @@ function help {
     printf " -vc | --volume-change\t\t\t Change the volume in percentage\n"
     printf " -vs | --volume-set\t\t\t Set the volume to a certain percentage\n"
     printf " -vt | --volume-toggle\t\t\t Toggle the current volume playback\n"
+    printf " -s | --screen\t\t\t\t Get information about your screen config\n"
+    printf " -sd | --screen-duplicate <in> <out>\t Duplicate screen from in to out\n"
+    printf " -st | --screen-toggle <on|off>\t\t Turn a screen on or off\n"
+    printf " -sr | --screen-reset <screen>\t\t Reset a screen to its original state\n"
+    printf " -sres | --screen-resolution <XxY>\t Change resolution eg 1920x1080\n"
+    printf " -srate | --screen-refresh-rate <num>\t Change the refresh rate\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t\t This will update your system\n"
@@ -71,10 +77,16 @@ function help {
     printf "$name -bl scan\t\t\t\t List all bluetooth devices known after performing a scan\n"
     printf "$name -bf\t\t\t\t\t Enter an interactive bluetooth cli\n"
     printf "$name -v\t\t\t\t\t Print info about current volume state\n"
-    printf "$name -vc +3\t\t\t\t\t Change the volume up by 3%\n"
-    printf "$name -vc -3\t\t\t\t\t Change the volume down by 3%\n"
-    printf "$name -vs 50\t\t\t\t\t Set the volume to 50%\n"
+    printf "$name -vc +3\t\t\t\t Change the volume up by 3 percent \n"
+    printf "$name -vc -3\t\t\t\t Change the volume down by 3 percent \n"
+    printf "$name -vs 50\t\t\t\t Set the volume to 50 percent \n"
     printf "$name -vt\t\t\t\t\t Toggle the speaker on or off\n"
+    printf "$name -s\t\t\t\t\t Get information about the current screen config\n"
+    printf "$name -sd eDP1 HDMI1\t\t\t Duplicate the first screen to the second screen\n"
+    printf "$name -st eDP1 off\t\t\t Turn eDP1 off\n"
+    printf "$name -sr eDP1\t\t\t\t Reset eDP1 to its original state\n"
+    printf "$name -sres eDP1 1920x1080\t\t Set the resoltion of screen eDP1 to 1920 pixel by 1080 pixels \n"
+    printf "$name -srate eDP1 60\t\t\t Set the refresh rate of eDP1 to 60 Hz\n"
 
 }
 
@@ -212,6 +224,18 @@ function theme-delete {
 function theme-random {
         sed -i 's/^on$/'$1'/' $themefile
         sed -i 's/^off$/'$1'/' $themefile
+}
+
+function screen-duplicate  {
+    primary=$1
+    secondary=$2
+    sizePrimary=$(xrandr | awk -v monitor="^$primary connected" '/connected/ {p = 0}$0 ~ monitor {p = 1}p' | head -n2 | tail -n1 | awk '{print $1}')
+
+    sizeSecondary=$(xrandr | awk -v monitor="^$secondary connected" '/connected/ {p = 0}$0 ~ monitor {p = 1} p' | head -n2 | tail -n1 | awk '{print $1}')
+    echo "primary monitor - $primary: $sizePrimary"
+    echo "secondary monitor - $secondary: $sizeSecondary"
+    xrandr --output "$primary" --rate 60 --mode "$sizePrimary" --fb "$sizePrimary" --panning "$sizePrimary" --output "$secondary" --mode "$sizeSecondary" --same-as "$primary"
+    
 }
 
 
@@ -362,5 +386,23 @@ case "$1" in
     ;;
     "-vt"|"--volume-toggle")
         amixer -q set Master toggle
+    ;;
+    "-s"|"--screen")
+            xrandr
+    ;;
+    "-sd"|"--screen-duplicate")
+            screen-duplicate $2 $3
+    ;;
+    "-st"|"--screen-toggle")
+        xrandr --output $2 --$3
+    ;;
+    "-sr"|"--screen-reset")
+        xrandr --output $2 --auto
+    ;;
+    "-sres"|"--screen-resolution")
+        xrandr --output $2 --mode $3
+    ;;
+    "-srate"|"--screen-refresh-rate")
+        xrandr --output $2 --rate $3
     ;;
 esac
