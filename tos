@@ -35,7 +35,8 @@ function help {
     printf " -ta | --theme-add <img>\t Add a theme to the randomize theme database\n"
     printf " -td | --theme-delete <img>\t Remove a theme to the randomize theme database\n"
     printf " -tr | --theme-random <on|off>\t Enable or disable theme randomization\n"
-    printf " -tl | --theme-list \t\t List al themes currently sotred in the database\n"
+    printf " -tl | --theme-list \t\t List all themes currently sorted in the database\n"
+    printf " -tt | --theme-time <seconds>\t Change the timer when to change a theme\n"
     
     printf "\n\n${ORANGE}USAGE:${NC}\n"
     printf "$name -u \t\t\t\t This will update your system\n"
@@ -51,6 +52,7 @@ function help {
     printf "$name -lw\t\t\t\t List all wifi SSID's\n"
     printf "$name -rs\t\t\t\t Perform a system repair ${RED}This opperation will take a long time${NC}\n"
     printf "$name -t ~/Pictures/plant.jpg\t change the background to plant.jpg and change the color scheme\n"
+    printf "$name -tt 3600\t Change the colorscheme every 3600 seconds (only when $name -tr on is called)\n"
 
 }
 
@@ -162,7 +164,7 @@ function theme-check {
     if [[ ! -f $themefile ]]; then
         mkdir -p $HOME/.config/tos
         touch $themefile
-        echo "off" >> $themefile
+        printf "off\ntime=1000\n" >> $themefile
     else
         sed -i -r '/^\s*$/d' $themefile
     fi
@@ -281,11 +283,16 @@ case "$1" in
                 if [[ "$(cat $themefile | head -n1)" == "on" ]]; then
                     wal -i $file
                 fi
-                sleep 1000
+                time=$(cat "$themefile" | head -n2 | tail -n1 | awk -F= '{print $2}')
+                sleep "$time"
         done
     ;;    
     "-tl"|"--theme-list")
         theme-check
         cat $themefile | awk '$0 !~ /^off|^on|^\n/{print $0}' | sed -r '/^\s*$/d'
-  ;;
+    ;;
+    "-tt"|"-theme-time")
+        theme-check
+        sed -i 's/^time=[0-9]*/time='$2'/g' $themefile
+    ;;
 esac
