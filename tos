@@ -6,7 +6,7 @@
 # Once you have installed arch and have cloned the helper-scripts into a $PATH file you will have the tool TOS.
 # This tool is a wrapper around arch based tools.
 # It can install packages from the repo's and AUR. It also aids with ssh, networking, updating, installing software and more.
-#It basically wraps multiple commands into one simple to use command.
+# It basically wraps multiple commands into one simple to use command.
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -339,7 +339,7 @@ case "$1" in
     ;;    
     "-tl"|"--theme-list")
         theme-check
-        cat $themefile | awk '$0 !~ /^off|^on|^\n/{print $0}' | sed -r '/^\s*$/d'
+        cat $themefile | awk '$0 !~ /^off|^on|^\n|time=[0-9]*/{print $0}' | sed -r '/^\s*$/d'
     ;;
     "-tt"|"-theme-time")
         theme-check
