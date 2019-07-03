@@ -2,12 +2,13 @@
 function _tos {
     local line
     _arguments -C \
-    "-h[Show help imformation]" \
-    "-u[Update the system to the latest version]" \
-    "-dl[List all active network devices]" \
-    "-r[Restart the network stack]" \
-    "-lw[List all active wifi devices in the area]" \
-    "-rs[Perform a system repair (this will take a long time)]" \
+    {-h,--help}"[Show help imformation]" \
+    {-u, --update}"[Update the system to the latest version]" \
+    {-c, --crypto}"[Add a ssh key, when a user@ip is specified add current key to that host]" \
+    {-dl, --device-list}"[List all active network devices]" \
+    {-r, --restart-network}"[Restart the network stack]" \
+    {-lw, --list-wifi}"[List all active wifi devices in the area]" \
+    {-rs, --repair-system}"[Perform a system repair (this will take a long time)]" \
     "1: :(-iso -S -R -m -cw -t -ta -td -tr)" \
     "*::arg:->args"
 
