@@ -346,7 +346,7 @@ case "$1" in
         sed -i 's/^time=[0-9]*/time='$2'/g' $themefile
     ;;
     "-b"|"--bluetooth")
-            bluetoothctl power $2
+            bluetoothctl power "$2"
     ;;
     "-bl"|"--bluetooth-list")
             if [[ $2 == "scan" ]]; then
@@ -359,16 +359,16 @@ case "$1" in
             bluetoothctl devices
     ;;
     "-bc"|"--bluetooth-connect")
-            bluetoothctl connect $2
+            bluetoothctl connect "$2"
     ;;
     "-bd"|"--bluetooth-disconnect")
-            bluetoothctl disconnect $2
+            bluetoothctl disconnect "$2"
     ;;
     "-bp"|"--bluetooth-pair")
             bluetoothctl pairable on
-            bluetoothctl pair $2
+            bluetoothctl pair "$2"
             bluetoothclt pairable off
-            bluetoothctl trust $2
+            bluetoothctl trust "$2"
     ;;
     "-bf|--bluetooth-full")
             bluetoothctl
@@ -392,10 +392,10 @@ case "$1" in
         amixer -q set Master toggle
     ;;
     "-s"|"--screen")
-            xrandr
+        xrandr
     ;;
     "-sd"|"--screen-duplicate")
-            screen-duplicate $2 $3
+        screen-duplicate $2 $3
     ;;
     "-st"|"--screen-toggle")
         xrandr --output $2 --$3
