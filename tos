@@ -36,7 +36,7 @@ function help {
     printf " -td | --theme-delete <img>\t\t Remove a theme to the randomize theme database\n"
     printf " -tr | --theme-random <on|off>\t\t Enable or disable theme randomization\n"
     printf " -tl | --theme-list \t\t\t List all themes currently sorted in the database\n"
-    printf " -tt | --theme-time <seconds>\t\t Change the timer when to change a theme\n"
+    printf " -tt | --theme-time <seconds>|<d-h-m-s>  Change the timer when to change a theme in seconds or the format <days>d-<hours>h-<minutes>m-<seconds>s\n"
     printf " -bl | --bluetooth-list ?scan \t\t List all bluetooth devices and general information. If scan is provided it fill perform a scan instead\n"
     printf " -b | --bluetooth <on|off> \t\t Turn bluetooth on or off\n"
     printf " -bc | --bluetooth-connect <device> \t Connect to a bluetooth device\n"
@@ -69,6 +69,9 @@ function help {
     printf "$name -rs\t\t\t\t\t Perform a system repair ${RED}This opperation will take a long time${NC}\n"
     printf "$name -t ~/Pictures/plant.jpg\t\t change the background to plant.jpg and change the color scheme\n"
     printf "$name -tt 3600\t\t\t\t Change the colorscheme every 3600 seconds (only when $name -tr on is called)\n"
+    printf "$name -tt 1d-5h\t\t\t\t Change the colorscheme every day and 5 hours (only when $name -tr on is called)\n"
+    printf "$name -tt 1d-2h-3m-4s\t\t\t\t Change the colorscheme every day and 2 hours 3 minutes and 4 s (every 93604 seconds) (only when $name -tr on is called)\n"
+    printf "$name -tt 0.5h\t\t\t\t Change the colorscheme every half hour (only when $name -tr on is called)\n"
     printf "$name -b on\t\t\t\t Turn on bluetooth\n"
     printf "$name -bc LE-Bose Tom\t\t\t Connect to the device called LE-Bose Tom\n"
     printf "$name -bc 28:11:A5:38:D2:92\t\t Connect to the device by its mac address\n"
@@ -242,6 +245,13 @@ function screen-duplicate  {
     
 }
 
+function gettime {
+    if [[ "$1" == "" ]]; then
+            echo -e -n "0"
+            return
+    fi
+    echo -e -n "$1"
+}
 
 case "$1" in
     ""|"-h"|"--help")
@@ -343,7 +353,12 @@ case "$1" in
     ;;
     "-tt"|"-theme-time")
         theme-check
-        sed -i 's/^time=[0-9]*/time='$2'/g' $themefile
+        day=$(echo "$2" | sed 's/-/\n/g' | awk '{if($0 ~ /d/){ printf ($0-d)*24*60*60}}')
+        hour=$(echo "$2" | sed 's/-/\n/g' | awk '{if($0 ~ /h/){ printf ($0-h)*60*60}}')
+        minute=$(echo "$2" | sed 's/-/\n/g' | awk '{if($0 ~ /m/){ printf ($0-m)*60}}')
+        second=$(echo "$2" | sed 's/-/\n/g' | awk '{if($0 ~ /s|^[0-9]*$/){ printf ($0-s)}}')
+        total=$(($(gettime $day) + $(gettime $hour) + $(gettime $eminute) + $(gettime $second)))
+        sed -i 's/^time=[0-9]*/time='$total'/g' $themefile
     ;;
     "-b"|"--bluetooth")
             bluetoothctl power "$2"
