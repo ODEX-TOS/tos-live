@@ -143,6 +143,13 @@ function update {
         cd sucklessterminal && make && sudo make install       
     fi
 
+    #Finding all firefox profiles and loading in the custom css (it must be enabled in firefox)
+    for profile in ~/.mozilla/firefox/*.dev-edition-default; do
+            cd $profile
+            cp -r ~/.config/.mozilla/firefox/profile/ $profile
+            echo $profile
+    done
+
     printf "${RED}If your repo's contain uncommited changes pleas commit them\n git add . && git commit -m \"Data about change\"${NC}\n"
     
     cd ~/bin && git pull origin master
