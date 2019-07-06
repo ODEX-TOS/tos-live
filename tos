@@ -218,8 +218,8 @@ function theme-check {
     fi
     # TODO: change this into a cronjob or real daemon
     # TODO: current check to see if a daemon exists always returns true
-    process=$(ps -au)
-    if [[ "$(echo $process | grep 'tos --theme-daemon' | head -n1)" != *'tos --theme-daemon'* ]]; then
+    process=$(ps -aux)
+    if [[ "$(echo $process | grep 'tos --theme-daemon')" != *'tos --theme-daemon'* ]]; then
        echo "No daemon found. Launching a new instance"
        nohup tos --theme-daemon &> /dev/null & # launch theme daemon when it isn't running
     fi
