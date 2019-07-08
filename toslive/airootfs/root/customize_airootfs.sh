@@ -80,6 +80,7 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 
 
 git clone https://github.com/F0xedb/zsh-load /root/.oh-my-zsh/load
+curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
 curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.zshrc
 
