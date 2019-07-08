@@ -77,5 +77,6 @@ Now burn it of= should contain the path to said drive
 sudo dd if=out/*.iso of=/dev/sd<drive>
 ```
 ## TODO:
-- Add AUR packages
 - Fix ssh-agent bug when launching zsh shells.
+- pacman.conf repo needs to be in the cloud not locally
+- tos tool should work nicely with the live iso
