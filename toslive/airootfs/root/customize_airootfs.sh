@@ -82,4 +82,4 @@ mkdir -p /root/.vim/colors
 touch /root/.vim /root/.vim/colors/badwolf.vim
 curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
 
-sed -i 's;$HOME /home/zeus;/root;' ~/.config/i3/config
+sed -i 's;$HOME /home/zeus;$HOME /root;' ~/.config/i3/config
