@@ -71,5 +71,5 @@ git clone https://aur.archlinux.org/ttf-symbola.git font3
 cd font3
 makepkg
 cd ../
-cp font3/ttf-symbola-* arch
-repo-add arch/repo.db.tar.gz font3/ttf-symbola-*
+cp font3/ttf-symbola-*.pkg.tar.xz arch
+repo-add arch/repo.db.tar.gz font3/ttf-symbola-*.pkg-tar-xz
