@@ -80,3 +80,4 @@ sudo dd if=out/*.iso of=/dev/sd<drive>
 - Fix ssh-agent bug when launching zsh shells.
 - pacman.conf repo needs to be in the cloud not locally
 - tos tool should work nicely with the live iso
+- polybar should use the right font for displaying icons
