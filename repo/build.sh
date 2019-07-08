@@ -51,25 +51,3 @@ makepkg
 cd ../
 cp color/i3lock-color-* arch
 repo-add arch/repo.db.tar.gz color/i3lock-color-*
-
-git clone https://aur.archlinux.org/nerd-fonts-complete.git font
-cd font
-makepkg
-cd ../
-cp font/nerd-fonts-complete-* arch
-repo-add arch/repo.db.tar.gz font/nerd-fonts-complete-*
-
-git clone https://aur.archlinux.org/siji-git.git font2
-cd font2
-makepkg
-cd ../
-cp font2/siji-git-* arch
-repo-add arch/repo.db.tar.gz font2/siji-git-*
-
-
-git clone https://aur.archlinux.org/ttf-symbola.git font3 
-cd font3
-makepkg
-cd ../
-cp font3/ttf-symbola-* arch
-repo-add arch/repo.db.tar.gz font3/ttf-symbola-*
