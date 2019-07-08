@@ -260,6 +260,15 @@ function gettime {
     echo -e -n "$1"
 }
 
+# When updating the screen we should reload all components so that the can adjust to the new display specs
+function screen-reload {
+    killall polybar # should restart with the keepalive script
+    nohup polybar main &> /dev/null &
+    nohup polybar workspaces &> /dev/null &
+    wal -R
+
+}
+
 case "$1" in
     ""|"-h"|"--help")
         help
@@ -418,17 +427,22 @@ case "$1" in
     ;;
     "-sd"|"--screen-duplicate")
         screen-duplicate $2 $3
+        screen-reload
     ;;
     "-st"|"--screen-toggle")
         xrandr --output $2 --$3
+        screen-reload
     ;;
     "-sr"|"--screen-reset")
         xrandr --output $2 --auto
+        screen-reload
     ;;
     "-sres"|"--screen-resolution")
         xrandr --output $2 --mode $3
+        screen-reload
     ;;
     "-srate"|"--screen-refresh-rate")
         xrandr --output $2 --rate $3
+        screen-reload
     ;;
 esac

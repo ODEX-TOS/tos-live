@@ -116,3 +116,5 @@ r8152-dkms
 ccat
 i3lock-next-git
 visual-studio-code-insiders
+libmpdclient
+python-pywal
