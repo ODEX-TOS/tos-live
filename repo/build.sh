@@ -1,6 +1,8 @@
 rm -rf arch
 mkdir arch
 
+yay -Syu python-sphinx rust cargo
+
 git clone https://aur.archlinux.org/polybar-git.git polybar
 cd polybar
 makepkg
