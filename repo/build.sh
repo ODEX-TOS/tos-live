@@ -34,8 +34,8 @@ function installlinux {
     # This step will take a long time
     makepkg -s
     #Voila the kernel is build
-    repo-add kernel*.pkg.tar.xz ../../../../arch/repo.db.tar.gz
-    cp kernel*.pkg.tar.xz ../../../../arch
+    repo-add linux-tos*.pkg.tar.xz ../../../../arch/repo.db.tar.gz
+    cp linux-tos*.pkg.tar.xz ../../../../arch
     cd ../../../../
 
 }
