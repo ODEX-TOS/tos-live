@@ -102,3 +102,14 @@ touch /root/.vim /root/.vim/colors/badwolf.vim
 curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
 
 sed -i 's;$HOME /home/zeus;$HOME /root;' ~/.config/i3/config
+
+rm -rf /etc/issue /etc/os-release
+echo "TOS Linux" > /etc/issue
+printf 'NAME="Tos Linux"
+PRETTY_NAME="Tos Linux"
+ID=tos
+BUILD_ID=rolling
+ANSI_COLOR="0;36"
+HOME_URL="https://tos.pbfp.xyz/"
+LOGO=toslinux' > /etc/os-release
+
