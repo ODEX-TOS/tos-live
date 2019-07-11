@@ -24,7 +24,8 @@ function installlinux {
     asp update linux
     asp checkout linux
     cd linux/repos/core-x86_64
-    sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
+    # uncomment the next line if you don't want this build to be the default
+    #sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
     sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
     sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = -arch2:EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
     sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
