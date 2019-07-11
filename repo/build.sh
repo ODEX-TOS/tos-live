@@ -1,75 +1,56 @@
 rm -rf arch
 mkdir arch
 
-yay -Syu python-sphinx rust cargo
+yay -Syu python-sphinx rust cargo asp
 
-git clone https://aur.archlinux.org/polybar-git.git polybar
-cd polybar
-makepkg
-cd ../
-cp polybar/polybar-git-* arch
-repo-add arch/repo.db.tar.gz polybar/polybar-git-*
+# $1 is the url $2 is the installdir $3 is the package name
+function installpackage {
+    git clone $1 $2
+    cd $2
+    makepkg
+    cp $3*.pkg.tar.xz ../arch
+    repo-add ../arch/repo.db.tar.gz $3*.pkg.tar.xz
+    cd ../
+}
 
-git clone https://aur.archlinux.org/ccat.git ccat
-cd ccat
-makepkg
-cd ../
-cp ccat/ccat-* arch
-repo-add arch/repo.db.tar.gz ccat/ccat-*
+function installlinux {
+    if [[ -d kernel ]]; then
+        rm -rf kernel
+    fi
+    mkdir kernel
+    cd kernel
+    asp update linux
+    asp checkout linux
+    cd linux/repos/core-x86_64
+    sed -i 's;pkgbase=linux;pkgbase=linux-tos;'
+    gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
+    # This step will take a long time
+    makepkg -s
+    #Voila the kernel is build
+    repo-add kernel*.pkg.tar.xz ../../../../arch/repo.db.tar.gz
+    cp kernel*.pkg.tar.xz ../../../../arch
+    cd ../../../../
 
-git clone https://aur.archlinux.org/i3lock-next-git.git i3lock
-cd i3lock
-makepkg
-cd ../
-cp i3lock/i3lock-next-git-* arch
-repo-add arch/repo.db.tar.gz i3lock/i3lock-next-git-*
+}
 
-git clone https://aur.archlinux.org/lsd-git.git lsd
-cd lsd
-makepkg
-cd ../
-cp lsd/lsd-* arch
-repo-add arch/repo.db.tar.gz lsd/lsd-*
+installpackage https://aur.archlinux.org/polybar-git.git polybar polybar-git-
 
-git clone https://aur.archlinux.org/visual-studio-code-insiders.git vs
-cd vs
-makepkg
-cd ../
-cp vs/visual-studio-code-insiders* arch
-repo-add arch/repo.db.tar.gz vs/visual-studio-code-insiders-*.pkg.tar.xz
+installpackage https://aur.archlinux.org/ccat.git ccat ccat-
 
-git clone https://aur.archlinux.org/r8152-dkms.git r8
-cd r8
-makepkg
-cd ../
-cp r8/r8152-dkms-* arch
-repo-add arch/repo.db.tar.gz r8/r8152-dkms-*
+installpackage https://aur.archlinux.org/i3lock-next-git.git i3lock i3lock-next-git
 
-git clone https://aur.archlinux.org/i3lock-color.git color
-cd color
-makepkg
-cd ../
-cp color/i3lock-color-* arch
-repo-add arch/repo.db.tar.gz color/i3lock-color-*
+installpackage https://aur.archlinux.org/lsd-git.git lsd lsd-
 
-git clone https://aur.archlinux.org/nerd-fonts-complete.git font
-cd font
-makepkg
-cd ../
-cp font/nerd-fonts-complete-* arch
-repo-add arch/repo.db.tar.gz font/nerd-fonts-complete-*
+installpackage https://aur.archlinux.org/visual-studio-code-insiders.git vs visual-studio-code-insiders
 
-git clone https://aur.archlinux.org/siji-git.git font2
-cd font2
-makepkg
-cd ../
-cp font2/siji-git-* arch
-repo-add arch/repo.db.tar.gz font2/siji-git-*
+installpackage https://aur.archlinux.org/r8152-dkms.git r8 r8152-dkms-
 
+installpackage https://aur.archlinux.org/i3lock-color.git color i3lock-color-
 
-git clone https://aur.archlinux.org/ttf-symbola.git font3 
-cd font3
-makepkg
-cd ../
-cp font3/ttf-symbola-*.pkg.tar.xz arch
-repo-add arch/repo.db.tar.gz font3/ttf-symbola-*.pkg-tar-xz
+installpackage https://aur.archlinux.org/nerd-fonts-complete.git font nerd-fonts-complete-
+
+installpackage https://aur.archlinux.org/siji-git.git font2 siji-git-
+
+installpackage https://aur.archlinux.org/ttf-symbola.git font3 tff-symbola-
+
+installlinux
