@@ -73,8 +73,8 @@ glances
 i3-gaps
 neofetch
 pulseaudio
-pulseaudio-alse
-pulseaudi-bluetooth
+pulseaudio-alsa
+pulseaudio-bluetooth
 python-pip
 xf86-input-mouse
 xf86-video-intel
