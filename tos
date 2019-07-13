@@ -19,7 +19,7 @@ name=$(basename "$0")
 themefile="$HOME/.config/tos/theme"
 
 function help {
-        printf "${ORANGE}$name${NC} ${RED}OPTIONS:${NC} (-h|-u|-i|-c|-dl|-lw|-r)|(-iso| -iso -g)|(-m device metric)|(-c <user>@<ip>)|(-cw <SSID>)\n"
+    printf "${ORANGE}$name${NC} ${RED}OPTIONS:${NC} (-h|-u|-i|-c|-dl|-lw|-r)|(-iso| -iso -g)|(-m device metric)|(-c <user>@<ip>)|(-cw <SSID>)\n"
     printf " -h | --help \t\t\t\t show this help message\n"
     printf " -u | --update \t\t\t\t update the entire base system, including AUR packages, config scripts and binaries.\n"
     printf " -g \t\t\t\t\t $name -iso -g will install arch onto this sytem with a graphical interface\n"
@@ -143,6 +143,12 @@ function update {
         cd sucklessterminal && make && sudo make install       
     fi
 
+    ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+    if [[ ! -f "$ZSH_CUSTOM/themes/spaceship.zsh-theme" ]]; then
+           git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+          ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+    fi
+
     #Finding all firefox profiles and loading in the custom css (it must be enabled in firefox)
     for profile in ~/.mozilla/firefox/*.dev-edition-default; do
             cd $profile
@@ -158,8 +164,10 @@ function update {
     cd ~/.oh-my-zsh/load && git pull origin master
     cd
 
-    if [[ ! -f "$fpath[1]"_tos ]]; then
-        curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos -o "$fpath[1]"/_tos
+    tospath="$HOME/.oh-my-zsh/custom/plugins/zsh-completions/src/"
+    if [[ ! -f "$tospath"_tos ]]; then
+            curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos -o "$tospath"_tos
+
     fi
     
 }
@@ -167,7 +175,7 @@ function update {
 function installarch {
     printf  "${RED}Installing arch${NC}\n"
     if [[ ! -f archinstall ]]; then
-        curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/archinstall
+        curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/archinstall -o archinstall
         chmod +x archinstall
     fi
     ./archinstall 
@@ -176,7 +184,7 @@ function installarch {
 function installarchdialog {
     printf "${RED}Installing arch via a dialog${NC}\n"
     if [[ ! -f dialogarchinstall ]]; then
-        curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall
+        curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall -o dialogarchinstall
         chmod +x dialogarchinstall
     fi
     ./dialogarchinstall 
@@ -203,7 +211,7 @@ function listdevices {
 
 function theme {
     if [[ "$(which wal)" != "/usr/bin/wal" ]]; then
-        yay -Syu python-pywall
+        yay -Syu python-pywal
     fi
     wal -i $1
 }
@@ -276,7 +284,7 @@ case "$1" in
     "-u"|"--update")
         update
     ;;
-    "-S"*|"-R"*)
+    "-S"*|"-R"*|"-Q"*)
         if [ "$(id -u)" != "0" ]; then
             if [[ "$(which yay)" != "/usr/bin/yay" ]]; then
             installyay
@@ -352,11 +360,11 @@ case "$1" in
     "--theme-daemon")
         while true; do
                 file=$(shuf -n 1 $themefile)
-                while [ ! -f $file ] || [ "$file" == "" ]; do
-                        file=$(shuf -n 1 $themefile)
-                done
-                echo $(cat $themefile | head -n1)
                 if [[ "$(cat $themefile | head -n1)" == "on" ]]; then
+                    while [ ! -f $file ] || [ "$file" == "" ]; do
+                        file=$(shuf -n 1 $themefile)
+                    done
+                    echo $(cat $themefile | head -n1)
                     wal -i $file
                 fi
                 time=$(cat "$themefile" | head -n2 | tail -n1 | awk -F= '{print $2}')
