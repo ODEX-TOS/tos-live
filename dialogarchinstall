@@ -1,10 +1,12 @@
 #!/bin/bash
 
+function begin {
+
 echo "Build and maintained by Tom Meyers"
 
-echo "You are about to install arch using this automated script"
+echo "You are about to install tos using this automated script"
 
-echo "This install script will try to load the custom arch linux build by Tom"
+echo "This install script will try to load the tos linux build by Tom"
 
 echo "Its features are LUKS encrypted drives, custom zsh, i3wm and more"
 
@@ -12,12 +14,16 @@ echo "Note: This script assumes that you have a wireless card. If you don't you 
 
 read -r -p "Do you wish to continue? y/n" entry
 
+}
+
 device=$( ls /dev/sd* | grep -E 'sd[a-z]$' | sort | head -n1)
 device2=$( ls /dev/nvme?n* | grep -E 'nvme[a-z0-9]*$' | sort | head -n1)
 
 part1="1"
 part2="2"
 part3="3"
+
+msdos=""
 
 function ask {
     exec 3>&1;
@@ -57,15 +63,28 @@ function loadkbd {
 
 function partition {
     prmpt "Setting up disk partition"
-    parted --script "$device" 'mklabel gpt'  
-    parted --script "$device" 'mkpart ESP fat32 1MiB 200MiB'  
-    parted --script "$device" 'set 1 boot on'  
-    parted --script "$device" 'name 1 efi'  
-    parted --script "$device" 'mkpart primary 200MiB 800MiB'  
-    parted --script "$device" 'name 2 boot'  
-    parted --script "$device" 'mkpart primary 800MiB 100%'  
-    parted --script "$device" 'set 3 lvm on'  
-    parted --script "$device" 'name 3 lvm'  
+    ask "Is your system EFI?" "Yes"
+    if [[ "$result" == "Yes" ]]; then
+        parted --script "$device" 'mklabel gpt'  
+        parted --script "$device" 'mkpart ESP fat32 1MiB 200MiB'  
+        parted --script "$device" 'set 1 boot on'  
+        parted --script "$device" 'name 1 efi'  
+        parted --script "$device" 'mkpart primary 200MiB 800MiB'  
+        parted --script "$device" 'name 2 boot'  
+        parted --script "$device" 'mkpart primary 800MiB 100%'  
+        parted --script "$device" 'set 3 lvm on'  
+        parted --script "$device" 'name 3 lvm'  
+    else
+        parted --script "$device" 'mklabel msdos'  
+        parted --script "$device" 'mkpart primary 1MiB 200MiB'  
+        parted --script "$device" 'set 1 boot on'  
+        parted --script "$device" 'name 1 boot'  
+        parted --script "$device" 'mkpart primary 800MiB 100%'  
+        parted --script "$device" 'set 2 lvm on'  
+        parted --script "$device" 'name 2 lvm'
+        msdos="1"  
+        part3=$part2
+    fi
 }
 
 function crypto {
@@ -82,50 +101,59 @@ function crypto {
     prmpt "Creating volumes"
 
     pvcreate /dev/mapper/luks_lvm
-    vgcreate arch /dev/mapper/luks_lvm
+    vgcreate tos /dev/mapper/luks_lvm
     
     #TODO: If a disk is in the terabytes convert it into Gigs. Currently it won't break anything but this default values will be wrong 
     size=$(fdisk -l "$device" | grep -e "Disk .[a-zA-Z/]*: [0-9][0-9]*" | awk '{print
     $3}')
      
     ask "How big should your home partition be? (in Gigabytes)" "$(echo $size | awk '{print ($0/40)*26}')"
-    lvcreate -n home -L "$result"G arch
+    lvcreate -n home -L "$result"G tos
     
     ask "How big should your root partition be? (in Gigabytes)" "$(echo $size | awk
     '{print ($0/40)*12}')"
 
-    lvcreate -n root -L "$result"G arch
+    lvcreate -n root -L "$result"G tos
 
-    ask "How big should your root partition be? (in Gigabytes)" "$(echo $size | awk '{print ($0/80)*1}')"
+    ask "How big should your swap partition be? (in Gigabytes)" "$(echo $size | awk '{print ($0/80)*1}')"
     
-    lvcreate -n swap -L "$result"G -C y arch
+    lvcreate -n swap -L "$result"G -C y tos
 }
 
 # This function needs to be called after setting up the logic volumes
 function format {
 
     prmpt "Formatting partitions"
-    
-    mkfs.fat -F32 "$device"$part1
-    mkfs.ext4 "$device"$part2
-    mkfs.ext4 -L root /dev/mapper/arch-root
-    mkfs.ext4 -L home /dev/mapper/arch-home
-    mkswap /dev/mapper/arch-swap
+   
+    if [[ "$msdos" == "" ]]; then 
+        mkfs.fat -F32 "$device"$part1
+        mkfs.ext4 "$device"$part2
+    else
+        mkfs.ext4 "$device"$part1
+    fi
+    mkfs.ext4 -L root /dev/mapper/tos-root
+    mkfs.ext4 -L home /dev/mapper/tos-home
+    mkswap /dev/mapper/tos-swap
 
 }
 
 function mounting {
         prmpt "Initiating mounting attempt"
         
-        swapon /dev/mapper/arch-swap
+        swapon /dev/mapper/tos-swap
         swapon -a
         swapon -s
-        mount /dev/mapper/arch-root /mnt
+        mount /dev/mapper/tos-root /mnt
         mkdir -p /mnt/{home,boot}
-        mount "$device"$part2 /mnt/boot
-        mount /dev/mapper/arch-home /mnt/home
-        mkdir /mnt/boot/efi
-        mount "$device"$part1 /mnt/boot/efi
+        if [[ "$msdos" == "" ]]; then
+            mount "$device"$part2 /mnt/boot
+            mount /dev/mapper/tos-home /mnt/home
+            mkdir /mnt/boot/efi
+            mount "$device"$part1 /mnt/boot/efi
+        else
+            mount "$device"$part1 /mnt/boot
+            mount /dev/mapper/tos-home /mnt/home
+        fi
 
         prmpt "Verify if the mounting is succesfull"
         lsblk -f
@@ -145,13 +173,21 @@ function basesystem {
 
     #TODO: Don't hardcode this filename. Try to find it 
     cp "$0" /mnt/archinstall
-    arch-chroot /mnt /bin/bash archinstall base
+    arch-chroot /mnt /bin/bash archinstall base $part3
+}
+
+function tossify-pacman { 
+    printf "[tos]\nSigLevel = Optional TrustAll\nServer = https://repo.pbfp.xyz\n" >> /etc/pacman.conf
 }
 
 function chrootfunc {
+    tossify-pacman
     #TODO instead of specifing the entire HOOKS array only append encrypt and lvm2 to it
     prmpt "Changing mkinitcpio"
     sed -i '/^HOOKS/c\HOOKS=(base udev autodetect modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf    
+
+    pacman -Syu udev
+    pacman -S linux
 
     mkinitcpio -v -p linux
 
@@ -160,10 +196,25 @@ function chrootfunc {
 
     
 
-    sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/c\GRUB_CMDLINE_LINUX_DEFAULT="quiet resume=/dev/mapper/swa cryptdevice='$device'$part3:luks_lvm"' /etc/default/grub
-    
-    grub-install --efi-directory /boot/efi --force "$device"
-    
+    sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/c\GRUB_CMDLINE_LINUX_DEFAULT="quiet resume=/dev/mapper/tos-swap cryptdevice='$device$1':luks_lvm"' /etc/default/grub
+    sed -i '/^#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/' /etc/default/grub
+    sed -i '/^GRUB_DISTRIBUTOR="Arch"/GRUB_DISTRIBUTOR="TOS"/' /etc/default/grub
+    rm -rf /etc/issue /etc/os-release
+    echo "TOS Linux" > /etc/issue
+    printf 'NAME="Tos Linux"
+PRETTY_NAME="Tos Linux"
+ID=tos
+BUILD_ID=rolling
+ANSI_COLOR="0;36"
+HOME_URL="https://tos.pbfp.xyz/"
+LOGO=toslinux' > /etc/os-release
+
+
+    if [[ "$msdos" == "" ]]; then
+        grub-install --efi-directory /boot/efi --force "$device"
+    else
+        grub-install --root-directory=/boot "$device"
+    fi 
     grub-mkconfig -o /boot/grub/grub.cfg
 
 
@@ -183,7 +234,7 @@ function default {
 
    ask "What is your local keymap?" "be-latin1"
    nano /etc/locale.conf
-   echo KEYMAP="$device" > /etc/vconsole.conf
+   echo KEYMAP="$result" > /etc/vconsole.conf
    nano /etc/vconsole.conf
 
    ask "What is your computer name?" "core"
@@ -204,9 +255,9 @@ function user {
     EDITOR=nano visudo
 
     ask "What is your username?" "alpha"
-    useradd -m -g users -G audio,lp,optical,storage,video,wheel,games, power, -s /bin/bash "$result"
+    useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash "$result"
     passwd "$result"
-    su "$result" -c /archinstall user
+    su "$result" -c "/archinstall user"
 }
 
 function download {
@@ -221,11 +272,6 @@ function download {
     #installing zsh packages
     yay -Syu zsh zsh-autosuggestions zsh-syntax-highlighting
 
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    
-    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
 
 
     #installing x-server
@@ -238,7 +284,7 @@ function download {
     yay -Syu jsoncpp
 
     #installing i3 with graphical programs
-    yay -Syu vim bluez ccat compton docker docker-compose dunst feh firefox-developer-edition gimp glances i3-gaps i3lock-next-git lsd neofetch pavucontrol polybar-git pulseaudio python-pip r8152-dkms rofi screen xf86-input-mouse xf86-video-intel visual-studio-code-insiders zathura playerctl nm-connection-editor networkmanager netctl openssh arandr mono
+    yay -Syu vim bluez ccat compton docker docker-compose dunst feh firefox-developer-edition gimp glances i3lock-next-git lsd neofetch pavucontrol polybar-git pulseaudio python-pip r8152-dkms rofi screen xf86-input-mouse xf86-video-intel visual-studio-code-insiders zathura playerctl nm-connection-editor networkmanager netctl openssh arandr mono amixer bluez-utils
 
     sudo pip install dbus-python    
     sudo systemctl enable NetworkManager
@@ -249,9 +295,32 @@ function download {
     cd sucklessterminal
     make && sudo make install
 
-    # update font configuration
+    git clone https://github.com/F0xedb/i3.git
+    cd i3
+    autoreconf --force --install
+    rm -rf build/
+    mkdir -p build && cd build/
 
-    # install vim theme and plugins
+    # Disabling sanitizers is important for release versions!
+    # The prefix and sysconfdir are, obviously, dependent on the distribution.
+    ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
+    make
+    sudo make install
+
+    ask "Do you want to install wayland(newer) or XORG?" "wayland"
+    gpu_cmd="$(lspci -mm | awk -F '\\"|\\" \\"|\\(' '/"Display|"3D|"VGA/ {a[$0] = $3 " " $4} END {for(i in a){if(!seen[a[i]]++) print a[i]}}')"
+
+    if [[ "$result" == "wayland" ]]; then
+        # Tell NVIDIA users that sway on wayland doesn't play nice with there graphics card. They better stay and use x-server
+        # Or they must use the open-source drivers instead of the propriotary drivers
+        if [[ "$gpu_cmd" == *NVIDIA* ]]; then
+            prmpt "You are using an NVIDIA card. NVIDIA doesn't support wayland and sway."
+            prmpt "We are going to install wayland for you anyway (if nvidia ever changes their mind)"
+            prmpt "But for now you will still need to use xorg (by typing startx in the terminal)"
+        fi
+        yay -Syu wayland sway waybar xorg-server-xwayland
+    fi
+
 
 }
 
@@ -261,7 +330,11 @@ function gitclone {
     cd
     git clone https://github.com/F0xedb/helper-scripts.git bin
     cd
+    rm -rf .config
     git clone https://github.com/F0xedb/dotfiles .config
+    sed -i 's;$HOME /home/zeus;$HOME '$HOME';g' ~/.config/i3/config
+    sed -i 's;$HOME /home/zeus;$HOME '$HOME';g' ~/.config/sway/config
+
     # TODO symlink these files don't move them
     mv .config/.zshrc ~
     mv .config/.vimrc ~
@@ -276,10 +349,15 @@ function gitclone {
 function tom {
     prmpt "Executing Tom's custom scripts"
     
-    echo "xrdb ~/.Xresources\nexec i3" >> ~/.xinitrc
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
+    
+    printf "xrdb ~/.Xresources\nexec i3" >> ~/.xinitrc
     
     mkdir -p ~/.vim/colors
-    touch ~/.vim.colors/badwolf.vim
     curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
 
     #installing vundle
@@ -290,20 +368,43 @@ function tom {
 
     cd ~/.vim/bundle/YouCompleteMe
     python3 install.py --all
+}
 
-    echo "You now have a complete arch linux install working as advertised."
+# only supports intel, nvidia or amd
+function gpu {
+    gpu_cmd="$(lspci -mm | awk -F '\\"|\\" \\"|\\(' '/"Display|"3D|"VGA/ {a[$0] = $3 " " $4} END {for(i in a){if(!seen[a[i]]++) print a[i]}}')"
+
+    # TODO: Only install nvidia driver if the device is supported
+    if [[ "$gpu_cmd" == *NVIDIA* ]]; then
+        yay -Syu nvidia
+    fi
+
+    # TODO: Only install driver is card is supported otherwise install AMD catalyst
+    # TODO: check if gpu_cmd returns AMD or amd?
+    if [[ "$gpu_cmd" == *AMD* ]]; then
+        yay -Syu mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver 
+    fi
+
+    if [[ "$gpu_cmd" == *Intel* ]]; then
+        yay -Syu mesa lib32-mesa xf86-video-intel vulkan-intel
+    fi
+} 
+
+function end {
+    echo "You now have a complete tos linux install working as advertised."
     echo "To use your computer log in via the terminal"
     echo "After that is complete you can type in startx to start your graphical environment"
     echo "To navigate around look in the dotfiles repo of F0xedb"
-    echo "Good luck on your arch linux journey!"
+    echo "Good luck on your tos linux journey!"
 }
 
-if [[ "$entry" == "y" && "$1" != "base" ]]; then
+if [[ "$entry" == "y" && "$1" != "base" && "$1" != "user" ]]; then
+        begin
         echo "You have 5 seconds before we start altering the hard drive"
         echo "If you wish to abort now use CTRL-C otherwise we will start to change the partition table and install a custom Arch Linux install"
         
         sleep 5
-        getdev "What device do you want to install arch on?" "$device" "$device2"
+        getdev "What device do you want to install tos on?" "$device" "$device2"
         loadkbd
         partition
         crypto
@@ -315,11 +416,11 @@ if [[ "$entry" == "y" && "$1" != "base" ]]; then
 fi
 
 if [[ "$1" == "base" ]]; then
-        chrootfunc
+        chrootfunc $2
         
-        echo "Base arch Linux is installed"
+        echo "Base tos Linux is installed"
         
-        read -r -p "Do you wish to install the custom version for arch? (y/n) " result
+        read -r -p "Do you wish to install the custom version for arch (tos)? (y/n) " result
 
         if [[ "$result" == "y" ]]; then
             default
@@ -331,5 +432,7 @@ if [[ "$1" == "user" ]]; then
     download
     gitclone
     tom
+    gpu
+    end
 fi
 
