@@ -5,6 +5,7 @@ _tos_subcommands() {
     '-iso:Install TOS onto your system'
     '-S:Install a package'
     '-R:Remove a package'
+    '-Q:Query package database'
     {-m,--metric}':Change the network metric of a device'
     {-cw,--change-wifi}':Login to a different network based on its SSID'
     {-t,--theme}':Change the system theme and background to an image'
@@ -59,6 +60,9 @@ function _tos {
             ;;
         "-R"*)
             _tos_R_remove
+            ;;
+        "-Q"*)
+            _tos_Q_query
             ;;
         "-m"|"--metric")
             _tos_metric
@@ -273,4 +277,28 @@ function _tos_R_remove {
     "-s[Remove dependencies not required by other packages]" \
     "-u[Remove unneeded packages]" \
     "-v[Be more verbose]"
+}
+
+function _tos_Q_query {
+    _arguments -s \
+    "-a[Assume targets are from the AUR]" \
+    "-b[Alternate database location]" \
+    "-c[List package changelog]" \
+    "-d[List packages installed as dependencies]" \
+    "-e[List packages explicitly installed]" \
+    "-g[View all members of a package group]" \
+    "-h[Display syntax for the given operation]" \
+    "-i[View package info]" \
+    "-k[Check package files]" \
+    "-l[List package contents]" \
+    "-m[List installed packages not found in sync db(s)]" \
+    "-n[List installed packages found in sync db(s)]" \
+    "-o[Query the package that owns a file]" \
+    "-p[Package file to query]" \
+    "-q[Show less information for query and search]" \
+    "-r[Set alternate installation root]" \
+    "-s[Search package names and descriptions]" \
+    "-t[list packages not required by other packages]" \
+    "-u[List packages that can be upgraded]" \
+    "-v[Be more verbose]" \
 }
