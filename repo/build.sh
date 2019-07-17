@@ -1,6 +1,9 @@
 #!/bin/bash
 
-rm -rf arch
+if [[ -d arch ]];then
+    rm -rf arch
+fi
+
 mkdir arch
 
 yay -Syu python-sphinx rust cargo asp pacman-contrib
@@ -29,7 +32,7 @@ function installlinux {
     sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
     sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = -arch2:EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
     sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
-    updpkgsum
+    updpkgsums
     gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
     # This step will take a long time
     makepkg -s
