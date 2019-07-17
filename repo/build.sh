@@ -25,6 +25,21 @@ function installpackage {
     cd ../
 }
 
+function changePKGBUILD {
+    # uncomment the next line if you don't want this build to be the default
+    #sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
+    sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
+    sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = -arch2:EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
+    sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
+    
+    # Set the package version
+    pkgver=$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | sed 's/arch/tos/')
+    sed -i 's;pkgver=${_srcver=5.2-arch2};pkgver='$pkgver';' PKGBUILD
+    read -p "how many cores do you wish to use for compilation?" cores
+    sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
+
+}
+
 function installlinux {
     if [[ -d kernel ]]; then
         rm -rf kernel
@@ -34,18 +49,12 @@ function installlinux {
     asp update linux
     asp checkout linux
     cd linux/repos/core-x86_64
-    # uncomment the next line if you don't want this build to be the default
-    #sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
-    sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
-    sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = -arch2:EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
-    sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
-    read -p "howmany cores do you wish to use for compilation?" cores
-    sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
+    
+    changePKGBUILD    
+
     updpkgsums
     gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
-    # This step will take a long time
     makepkg -s
-    #Voila the kernel is build
     rm -rf ../../../../arch/linux-tos*.pkg.tar.xz
     repo-add linux-tos*.pkg.tar.xz ../../../../arch/tos.db.tar.gz
     cp linux-tos*.pkg.tar.xz ../../../../arch
