@@ -65,7 +65,7 @@ msg2 "Setting config..."
 
 build() {
   cd $_srcname
-  make bzImage modules htmldocs
+  make -j4 bzImage modules htmldocs
 }
 
 _package() {
