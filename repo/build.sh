@@ -1,20 +1,27 @@
 #!/bin/bash
 
+# This file will prepare and install all software needed for the custom tos repo.
+# You have to ability to install custom software, fonts and even the latest kernel version
+# TODO: don't remove and rebuild all the software. just remove and rebuild the requested software
+
 if [[ -d arch ]];then
     rm -rf arch
 fi
 
 mkdir arch
 
-yay -Syu python-sphinx rust cargo asp pacman-contrib
+yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms
 
 # $1 is the url $2 is the installdir $3 is the package name
 function installpackage {
+    if [[ -d "$2" ]]; then
+            rm -rf "$2"
+    fi
     git clone $1 $2
     cd $2
     makepkg
     cp $3*.pkg.tar.xz ../arch
-    repo-add ../arch/repo.db.tar.gz $3*.pkg.tar.xz
+    repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.xz
     cd ../
 }
 
@@ -37,7 +44,7 @@ function installlinux {
     # This step will take a long time
     makepkg -s
     #Voila the kernel is build
-    repo-add linux-tos*.pkg.tar.xz ../../../../arch/repo.db.tar.gz
+    repo-add linux-tos*.pkg.tar.xz ../../../../arch/tos.db.tar.gz
     cp linux-tos*.pkg.tar.xz ../../../../arch
     cd ../../../../
 
