@@ -10,7 +10,7 @@ fi
 
 mkdir arch
 
-yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms
+yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip
 
 # $1 is the url $2 is the installdir $3 is the package name
 function installpackage {
@@ -73,10 +73,18 @@ if [[ "$fonts" == "y" ]]; then
 
     installpackage https://aur.archlinux.org/siji-git.git font2 siji-git-
 
-    installpackage https://aur.archlinux.org/ttf-symbola.git font3 tff-symbola-
+    installpackage https://aur.archlinux.org/ttf-symbola.git font3 ttf-symbola-
 fi
 
 read -p "Do you want to install the latest kernel? (y/N)" kernel
 if [[ "$kernel" == "y" ]]; then
     installlinux
+fi
+
+# Only ask to update toslive if an image has been build
+if [[ -f "../tos-live/out/toslive.iso" ]]; then
+    read -p "Dou you want to include toslive? (y/N)" toslive
+    if [[ "$toslive" == "y" ]]; then
+        cp ../tos-live/out/toslive.iso arch/toslive.iso
+    fi
 fi
