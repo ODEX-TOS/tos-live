@@ -4,11 +4,10 @@
 # You have to ability to install custom software, fonts and even the latest kernel version
 # TODO: don't remove and rebuild all the software. just remove and rebuild the requested software
 
-if [[ -d arch ]];then
-    rm -rf arch
+if [[ ! -d arch ]];then
+    mkdir arch
 fi
 
-mkdir arch
 
 yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip
 
@@ -20,6 +19,7 @@ function installpackage {
     git clone $1 $2
     cd $2
     makepkg
+    rm ../arch/$3*.pkg.tar.xz
     cp $3*.pkg.tar.xz ../arch
     repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.xz
     cd ../
@@ -44,6 +44,7 @@ function installlinux {
     # This step will take a long time
     makepkg -s
     #Voila the kernel is build
+    rm -rf ../../../../arch/linux-tos*.pkg.tar.xz
     repo-add linux-tos*.pkg.tar.xz ../../../../arch/tos.db.tar.gz
     cp linux-tos*.pkg.tar.xz ../../../../arch
     cd ../../../../
