@@ -100,3 +100,10 @@ if [[ -f "../tos-live/out/toslive.iso" ]]; then
         cp ../tos-live/out/toslive.iso arch/toslive.iso
     fi
 fi
+
+if [[ -f "../tos-live/out/tosserver.iso" ]]; then
+    read -p "Dou you want to include tosserver? (y/N)" toslive
+    if [[ "$toslive" == "y" ]]; then
+        cp ../tos-live/out/tosserver.iso arch/tosserver.iso
+    fi
+fi
