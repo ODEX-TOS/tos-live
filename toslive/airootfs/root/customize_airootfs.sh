@@ -2,6 +2,8 @@
 
 set -e -u
 
+gui="1"
+
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
 sed -i 's/#\(nl_BE\.UTF-8\)/\1/' /etc/locale.gen
 locale-gen
@@ -32,37 +34,38 @@ if [[ $(ping -c1 1.1.1.1 | grep "0% packet loss") == "" ]]; then
 fi
 
 cd
+if [[ "$gui" == "1" ]]; then
+    curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/tos -o /root/tos
+    chmod +x /root/tos
+    curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall -o /root/dialogarchinstall
+    chmod +x /root/dialogarchinstall
 
-curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/tos -o /root/tos
-chmod +x /root/tos
-curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall -o /root/dialogarchinstall
-chmod +x /root/dialogarchinstall
+    if [[ ! -d /root/st ]]; then
+        git clone https://github.com/F0xedb/sucklessterminal /root/st
+    fi
 
-if [[ ! -d /root/st ]]; then
-    git clone https://github.com/F0xedb/sucklessterminal /root/st
-fi
-
-if [[ ! -d /root/i3 ]]; then
+    if [[ ! -d /root/i3 ]]; then
         git clone https://www.github.com/F0xedb/i3 i3
+    fi
+
+    cd /root/st
+    make && make install
+    cd ../
+    rm -rf st
+
+
+    cd /root/i3
+
+    autoreconf --force --install
+    rm -rf build/
+    mkdir -p build && cd build/
+
+    ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
+    make
+    sudo make install
+    cd
+    rm -rf /root/i3
 fi
-
-cd /root/st
-make && make install
-cd ../
-rm -rf st
-
-
-cd /root/i3
-
-autoreconf --force --install
-rm -rf build/
-mkdir -p build && cd build/
-
-../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
-make
-sudo make install
-cd
-rm -rf /root/i3
 
 rm -rf /root/bin
 rm -rf /root/.config
@@ -89,19 +92,23 @@ echo "loadkeys be-latin1" >> /root/.zshrc
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.zshrc
 echo "loadkeys be-latin1" >> /root/.bashrc
 echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
-printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
-printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.bashrc
 
-rm -rf /root/Pictures
-git clone https://github.com/F0xedb/Pictures /root/Pictures
-printf "xrdb ~/.Xresources\nexec i3" > /root/.xinitrc
+if [[ "$gui" == "1" ]]; then
+    printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
+    printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.bashrc
 
+    rm -rf /root/Pictures
+    git clone https://github.com/F0xedb/Pictures /root/Pictures
+    printf "xrdb ~/.Xresources\nexec i3" > /root/.xinitrc
+fi
 rm -rf /root/.vim
 mkdir -p /root/.vim/colors
 touch /root/.vim /root/.vim/colors/badwolf.vim
 curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
 
-sed -i 's;$HOME /home/zeus;$HOME /root;' ~/.config/i3/config
+if [[ "$gui" == "1" ]]; then
+    sed -i 's;$HOME /home/zeus;$HOME /root;' ~/.config/i3/config
+fi
 
 rm -rf /etc/issue /etc/os-release
 echo "TOS Linux" > /etc/issue
