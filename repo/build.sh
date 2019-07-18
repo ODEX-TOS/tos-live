@@ -27,7 +27,7 @@ function installpackage {
 
 function changePKGBUILD {
     # uncomment the next line if you don't want this build to be the default
-    #sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
+    sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
     sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
     sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = -arch2:EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
     sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
@@ -56,7 +56,7 @@ function installlinux {
     gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
     makepkg -s
     rm -rf ../../../../arch/linux-tos*.pkg.tar.xz
-    repo-add linux-tos*.pkg.tar.xz ../../../../arch/tos.db.tar.gz
+    repo-add ../../../../arch/tos.db.tar.gz linux-tos*.pkg.tar.xz
     cp linux-tos*.pkg.tar.xz ../../../../arch
     cd ../../../../
 
