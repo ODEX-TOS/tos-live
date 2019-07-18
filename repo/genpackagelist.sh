@@ -7,6 +7,7 @@ url="https://repo.pbfp.xyz"
 infourl="https://tos.pbfp.xyz"
 workdir="arch"
 packages=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 2)
+packageversion=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 3)
 
 file="$workdir/list.html"
 
@@ -47,17 +48,24 @@ cat <<-EOF > "$file"
     <table>
         <tr>
             <th>Name</th>
+            <th>Version</th>
             <th>Description</th>
+            <th>Download size</th>
         </tr>
 
 EOF
 
 
 for package in $packages; do
- desc=$(pacman -Ss $package | head -n2 | tail -n1)
+ info=$(pacman -Si $package)
+ desc=$(echo "$info" | head -n4 | tail -n1 | cut -d: -f2)
+ vers=$(echo "$info" | head -n3 | tail -n1 | cut -d: -f2)
+ download=$(echo "$info" | tail -n5 | head -n1 | cut -d: -f2)
  printf "\t\t<tr>\n" >> $file
  printf "\t\t\t<td>$package</td>\n" >> $file
+ printf "\t\t\t<td>$vers</td>\n" >> $file
  printf "\t\t\t<td>$desc</td>\n" >> $file
+ printf "\t\t\t<td>$download</td>\n" >> $file
  printf "\t\t</tr>\n" >> $file
 done
 
