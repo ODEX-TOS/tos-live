@@ -34,7 +34,7 @@ function changePKGBUILD {
     
     # Set the package version
     pkgver=$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | sed 's/arch/tos/')
-    sed -i 's;pkgver=${_srcver=5.2-arch2};pkgver='$pkgver';' PKGBUILD
+    sed -i 's;pkgver=${_srcver//-/.};pkgver='$pkgver';' PKGBUILD
     read -p "how many cores do you wish to use for compilation?" cores
     sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
 
@@ -94,16 +94,16 @@ if [[ "$kernel" == "y" ]]; then
 fi
 
 # Only ask to update toslive if an image has been build
-if [[ -f "../tos-live/out/toslive.iso" ]]; then
+if [[ -f "../toslive/out/toslive.iso" ]]; then
     read -p "Dou you want to include toslive? (y/N)" toslive
     if [[ "$toslive" == "y" ]]; then
-        cp ../tos-live/out/toslive.iso arch/toslive.iso
+        cp ../toslive/out/toslive.iso arch/toslive.iso
     fi
 fi
 
-if [[ -f "../tos-live/out/tosserver.iso" ]]; then
+if [[ -f "../toslive/out/tosserver.iso" ]]; then
     read -p "Dou you want to include tosserver? (y/N)" toslive
     if [[ "$toslive" == "y" ]]; then
-        cp ../tos-live/out/tosserver.iso arch/tosserver.iso
+        cp ../toslive/out/tosserver.iso arch/tosserver.iso
     fi
 fi
