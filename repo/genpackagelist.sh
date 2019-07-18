@@ -54,7 +54,7 @@ EOF
 
 
 for package in $packages; do
- desc=$(pacman -Ss $package | tail -n1)
+ desc=$(pacman -Ss $package | head -n2 | tail -n1)
  printf "\t\t<tr>\n" >> $file
  printf "\t\t\t<td>$package</td>\n" >> $file
  printf "\t\t\t<td>$desc</td>\n" >> $file
