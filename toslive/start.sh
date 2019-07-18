@@ -22,13 +22,13 @@ function build {
 
 
     if [[ "$1" == "-g" ]]; then
-        cp out/*.iso images/client/
-        mv out/*.iso out/toslive.iso
+        cp out/toslinux*.iso images/client/
+        mv out/toslinux*.iso out/toslive.iso
     fi
 
     if [[ "$1" == "-s" ]]; then
-        cp out/*.iso images/server/
-        mv out/*.iso out/tosserver.iso
+        cp out/toslinux*.iso images/server/
+        mv out/toslinux*.iso out/tosserver.iso
     fi
 
 }

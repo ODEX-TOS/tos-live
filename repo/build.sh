@@ -33,7 +33,7 @@ function changePKGBUILD {
     sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
     
     # Set the package version
-    pkgver=$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | sed 's/arch/tos/')
+    pkgver=$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | sed 's/arch/tos/' | tr '-' '.')
     sed -i 's;pkgver=${_srcver//-/.};pkgver='$pkgver';' PKGBUILD
     read -p "how many cores do you wish to use for compilation?" cores
     sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
@@ -107,3 +107,7 @@ if [[ -f "../toslive/out/tosserver.iso" ]]; then
         cp ../toslive/out/tosserver.iso arch/tosserver.iso
     fi
 fi
+
+cp index.html arch/
+
+./genpackagelist.sh
