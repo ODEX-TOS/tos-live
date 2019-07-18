@@ -1,17 +1,27 @@
 #!/bin/bash
 
-rm -rf arch
-mkdir arch
+# This file will prepare and install all software needed for the custom tos repo.
+# You have to ability to install custom software, fonts and even the latest kernel version
+# TODO: don't remove and rebuild all the software. just remove and rebuild the requested software
 
-yay -Syu python-sphinx rust cargo asp pacman-contrib
+if [[ ! -d arch ]];then
+    mkdir arch
+fi
+
+
+yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip
 
 # $1 is the url $2 is the installdir $3 is the package name
 function installpackage {
+    if [[ -d "$2" ]]; then
+            rm -rf "$2"
+    fi
     git clone $1 $2
     cd $2
     makepkg
+    rm ../arch/$3*.pkg.tar.xz
     cp $3*.pkg.tar.xz ../arch
-    repo-add ../arch/repo.db.tar.gz $3*.pkg.tar.xz
+    repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.xz
     cd ../
 }
 
@@ -25,16 +35,17 @@ function installlinux {
     asp checkout linux
     cd linux/repos/core-x86_64
     # uncomment the next line if you don't want this build to be the default
-    #sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
+    sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
     sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
     sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = -arch2:EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
     sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
-    updpkgsum
+    updpkgsums
     gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
     # This step will take a long time
     makepkg -s
     #Voila the kernel is build
-    repo-add linux-tos*.pkg.tar.xz ../../../../arch/repo.db.tar.gz
+    rm -rf ../../../../arch/linux-tos*.pkg.tar.xz
+    repo-add linux-tos*.pkg.tar.xz ../../../../arch/tos.db.tar.gz
     cp linux-tos*.pkg.tar.xz ../../../../arch
     cd ../../../../
 
@@ -63,10 +74,23 @@ if [[ "$fonts" == "y" ]]; then
 
     installpackage https://aur.archlinux.org/siji-git.git font2 siji-git-
 
-    installpackage https://aur.archlinux.org/ttf-symbola.git font3 tff-symbola-
+    installpackage https://aur.archlinux.org/ttf-symbola.git font3 ttf-symbola-
 fi
 
 read -p "Do you want to install the latest kernel? (y/N)" kernel
 if [[ "$kernel" == "y" ]]; then
     installlinux
 fi
+
+# Only ask to update toslive if an image has been build
+if [[ -f "../tos-live/out/toslive.iso" ]]; then
+    read -p "Dou you want to include toslive? (y/N)" toslive
+    if [[ "$toslive" == "y" ]]; then
+        cp ../tos-live/out/toslive.iso arch/toslive.iso
+    fi
+fi
+if [[ -f "../tos-live/out/tosserver.iso" ]]; then
+    read -p "Dou you want to include tosserver? (y/N)" toslive
+    if [[ "$toslive" == "y" ]]; then
+        cp ../tos-live/out/tosserver.iso arch/tosserver.iso
+    fi

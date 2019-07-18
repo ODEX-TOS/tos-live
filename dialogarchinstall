@@ -418,9 +418,9 @@ fi
 if [[ "$1" == "base" ]]; then
         chrootfunc $2
         
-        echo "Base tos Linux is installed"
+        echo "Base tos Linux is installed. This is the supported server version."
         
-        read -r -p "Do you wish to install the custom version for arch (tos)? (y/n) " result
+        read -r -p "Do you wish to install the custom version for arch (tos-desktop)? (y/n) " result
 
         if [[ "$result" == "y" ]]; then
             default
