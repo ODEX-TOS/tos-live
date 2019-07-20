@@ -2,8 +2,8 @@
 
 set -e -u
 
-gui="0"
-
+gui="1"
+version="v0.0.6"
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
 sed -i 's/#\(nl_BE\.UTF-8\)/\1/' /etc/locale.gen
 locale-gen
@@ -92,6 +92,8 @@ echo "loadkeys be-latin1" >> /root/.zshrc
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.zshrc
 echo "loadkeys be-latin1" >> /root/.bashrc
 echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
+sed -i -r 's:^neofetch:echo "TOS - '$version'"\nneofetch:' /root/.zshrc
+echo "echo \"TOS - $version\"" >> /root/.bashrc
 
 if [[ "$gui" == "1" ]]; then
     printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
