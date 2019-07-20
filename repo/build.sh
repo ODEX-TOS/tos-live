@@ -26,14 +26,15 @@ function installpackage {
 }
 
 function changePKGBUILD {
+    # Set the package version
+    pkgver=$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | sed 's/arch/tos/' | tr '-' '.')
+    extraversion="-"$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | cut -d- -f2)
     # uncomment the next line if you don't want this build to be the default
     sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
     sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
-    sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = -arch2:EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
+    sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = '$extraversion':EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
     sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
     
-    # Set the package version
-    pkgver=$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | sed 's/arch/tos/' | tr '-' '.')
     sed -i 's;pkgver=${_srcver//-/.};pkgver='$pkgver';' PKGBUILD
     read -p "how many cores do you wish to use for compilation?" cores
     sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
@@ -60,6 +61,40 @@ function installlinux {
     cp linux-tos*.pkg.tar.xz ../../../../arch
     cd ../../../../
 
+}
+
+function changefirefox {
+    sed -i 's;;;' PKGBUILD
+    sed -i 's;pkgname=firefox-developer-edition;pkgname=firefox-developer-edition-tos;' PKGBUILD
+    sed -i "s;replaces=('firefox-developer');replaces=('firefox-developer' 'firefox-developer-edition');" PKGBUILD
+    sed -i 's;"$pkgname".desktop;firefox-developer-edition.desktop;' PKGBUILD
+    sed -i 's;export MOZ_TELEMETRY_REPORTING=1;;' PKGBUILD
+    sed -i 's;=archlinux;=toslinux;' PKGBUILD
+    sed -i 's;archlinux=;toslinux=;' PKGBUILD
+    sed -i 's;Arch Linux;Tos Linux;' PKGBUILD
+    # TODO: curl the custom css here
+    sed -i 's:pref("extensions.shownSelectionUI", true);:pref("extensions.shownSelectionUI", true);\npref("toolkit.legacyUserProfileCustomizations.stylesheets", true);:' PKGBUILD
+
+}
+
+function installfirefoxdev {
+    if [[ -d firefox ]]; then
+            rm -rf firefox
+    fi
+    mkdir firefox && cd firefox
+    asp update firefox-developer-edition
+    asp checkout firefox-developer-edition
+    cd firefox-developer-edition/repos/cummunity-x86_64
+
+    changefirefox
+
+    updpkgsums
+    gpg --recv-keys F1A6668FBB7D572E
+    rm -rf ../../../../arch/firefox*.pkg.tar.xz
+    repo-add ../../../../arch/tos.db.tar.gz firefox*.pkg.tar.xz
+    cp  firefox*.pkg.tar.xz ../../../../arch
+    cd ../../../../
+    
 }
 
 read -p "Do you want to install default packages? (y/N)" default
