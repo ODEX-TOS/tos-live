@@ -3,7 +3,7 @@
 set -e -u
 
 gui="1"
-version="v0.0.6"
+version="v0.2.0"
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
 sed -i 's/#\(nl_BE\.UTF-8\)/\1/' /etc/locale.gen
 locale-gen
@@ -74,6 +74,11 @@ git clone https://github.com/F0xedb/helper-scripts.git /root/bin
 git clone https://github.com/F0xedb/dotfiles /root/.config
 mv /root/.config/.vimrc /root
 mv /root/.config/.Xresources /root
+if [[ "$gui" == "1" ]]; then
+    mkdir -p /root/.mozilla/firefox/tos.default
+    cp /root/.config/tos/profiles.ini /root/.mozilla/firefox/profiles.ini
+    cp -r /root/.config/tos/tos-firefox/* /root/.mozilla/firefox/tos.default
+fi
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
@@ -94,6 +99,9 @@ echo "loadkeys be-latin1" >> /root/.bashrc
 echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
 sed -i -r 's:^neofetch:echo "TOS - '$version'"\nneofetch:' /root/.zshrc
 echo "echo \"TOS - $version\"" >> /root/.bashrc
+
+git clone https://github.com/denysdovhan/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt"
+ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
 if [[ "$gui" == "1" ]]; then
     printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
