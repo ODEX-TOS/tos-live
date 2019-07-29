@@ -107,6 +107,8 @@ function update {
     if [[ "$(which yay)" != "/usr/bin/yay" ]]; then
         installyay
     fi
+
+
     
     yay -Syu
     
@@ -167,9 +169,16 @@ function update {
     tospath="$HOME/.oh-my-zsh/custom/plugins/zsh-completions/src/"
     if [[ ! -f "$tospath"_tos ]]; then
             curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos -o "$tospath"_tos
-
     fi
     
+    if [[ "$(which chafa)" != "/usr/bin/chafa" ]]; then
+        yay -Syu chafa
+    fi
+
+    
+    if [[ "$(which neofetch)" != "/usr/bin/neofetch" ]]; then
+        yay -Syu neofetch
+    fi
 }
 
 function installarch {
