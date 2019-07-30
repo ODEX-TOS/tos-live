@@ -96,3 +96,5 @@ r8152-dkms
 ccat
 python-dbus
 pamixer
+chafa
+xdotool
