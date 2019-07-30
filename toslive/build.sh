@@ -111,7 +111,7 @@ make_customize_airootfs() {
 make_boot() {
     mkdir -p ${work_dir}/iso/${install_dir}/boot/x86_64
     cp ${work_dir}/x86_64/airootfs/boot/archiso.img ${work_dir}/iso/${install_dir}/boot/x86_64/archiso.img
-    cp ${work_dir}/x86_64/airootfs/boot/vmlinuz-linux ${work_dir}/iso/${install_dir}/boot/x86_64/vmlinuz
+    cp ${work_dir}/x86_64/airootfs/boot/vmlinuz-linux-tos ${work_dir}/iso/${install_dir}/boot/x86_64/vmlinuz
 }
 
 # Add other aditional/extra files to ${install_dir}/boot/
@@ -126,7 +126,7 @@ make_boot_extra() {
 
 # Prepare /${install_dir}/boot/syslinux
 make_syslinux() {
-    _uname_r=$(file -b ${work_dir}/x86_64/airootfs/boot/vmlinuz-linux| awk 'f{print;f=0} /version/{f=1}' RS=' ')
+    _uname_r=$(file -b ${work_dir}/x86_64/airootfs/boot/vmlinuz-linux-tos | awk 'f{print;f=0} /version/{f=1}' RS=' ')
     mkdir -p ${work_dir}/iso/${install_dir}/boot/syslinux
     for _cfg in ${script_path}/syslinux/*.cfg; do
         sed "s|%ARCHISO_LABEL%|${iso_label}|g;
