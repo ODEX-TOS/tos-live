@@ -175,6 +175,9 @@ function update {
         yay -Syu chafa
     fi
 
+    if [[ "$(which xdotool)" != "/usr/bin/xdotool" ]]; then
+        yay -Syu xdotool
+    fi
     
     if [[ "$(which neofetch)" != "/usr/bin/neofetch" ]]; then
         yay -Syu neofetch
