@@ -1,16 +1,17 @@
 ```
- ________  ________  ________  ___  ________  _________  ________
-|\   ____\|\   ____\|\   __  \|\  \|\   __  \|\___   ___\\   ____\
-\ \  \___|\ \  \___|\ \  \|\  \ \  \ \  \|\  \|___ \  \_\ \  \___|_
- \ \_____  \ \  \    \ \   _  _\ \  \ \   ____\   \ \  \ \ \_____  \
-  \|____|\  \ \  \____\ \  \\  \\ \  \ \  \___|    \ \  \ \|____|\  \
-    ____\_\  \ \_______\ \__\\ _\\ \__\ \__\        \ \__\  ____\_\  \
-   |\_________\|_______|\|__|\|__|\|__|\|__|         \|__| |\_________\
-   \|_________|                                            \|_________|
+ ,--.--------.   _,.---._      ,-,--.  
+/==/,  -   , -\,-.' , -  `.  ,-.'-  _\ 
+\==\.-.  - ,-./==/_,  ,  - \/==/_ ,_.' 
+ `--`\==\- \ |==|   .=.     \==\  \    
+      \==\_ \|==|_ : ;=:  - |\==\ -\   
+      |==|- ||==| , '='     |_\==\ ,\  
+      |==|, | \==\ -    ,_ //==/\/ _ | 
+      /==/ -/  '.='. -   .' \==\ - , / 
+      `--`--`    `--`--''    `--`---' 
 
 ```
 
-# helper scripts
+# TOS Live
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
@@ -18,7 +19,7 @@
 
 > This repo contains the build for TOS (Tom OS live iso)
 
-## Prerequesite
+## Prerequisite
 
 - archiso
 
@@ -32,11 +33,11 @@ $ sudo pacman -Syu archiso
 - airootfs
     - airootfs contains the bare build of our root file system
     - airootfs/root is the root directory (of the user root)
-    - comstomize_airootfs.sh will be executed during the build on a chrooted environment
+    - cumstomize_airootfs.sh will be executed during the build on a chrooted environment
 - packages.x86_64
     - This file contains all the preinstalled packages necessary for this live iso to work
 - work
-    - This directory contains the filesystem after all the packages are installed and all scripts are executed
+    - This directory contains the file system after all the packages are installed and all scripts are executed
 - out
     - This directory contains our build output (the iso file)
 
