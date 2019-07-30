@@ -3,7 +3,7 @@
 set -e -u
 
 gui="1"
-version="v0.2.0"
+version="v0.2.1"
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
 sed -i 's/#\(nl_BE\.UTF-8\)/\1/' /etc/locale.gen
 locale-gen
