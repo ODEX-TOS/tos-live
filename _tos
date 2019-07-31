@@ -6,37 +6,15 @@ _tos_subcommands() {
     '-S:Install a package'
     '-R:Remove a package'
     '-Q:Query package database'
-    {-m,--metric}':Change the network metric of a device'
-    {-cw,--change-wifi}':Login to a different network based on its SSID'
-    {-t,--theme}':Change the system theme and background to an image'
-    {-ta,--theme-add}':Add a theme to the random theme generator'
-    {-td,--theme-delete}':Delete a theme from the generator'
-    {-tr,--theme-random}':Enable or disable random theme generator'
     {-h,--help}":Show help imformation" \
     {-u,--update}":Update the system to the latest version" \
     {-c,--crypto}":Add a ssh key, when a user@ip is specified add current key to that host" \
-    {-dl,--device-list}":List all active network devices" \
-    {-r,--restart-network}":Restart the network stack" \
-    {-lw,--list-wifi}":List all active wifi devices in the area" \
     {-rs,--repair-system}":Perform a system repair (this will take a long time)" \
-    {-tl,--theme-list}":List all entries that are present in the theme file" \
-    {-tt,--theme-time}":Supply a time in seconds. This timer will call a new random background" \
-    {-b,--bluetooth}":Enable or disable bluetooth" \
-    {-bc,--bluetooth-connect}": Connect to a bluetooth device" \
-    {-bd,--bluetooth-disconnect}": Disconnect from a bluetooth device" \
-    {-bp,--bluetooth-pair}": Pair with a bluetooth device" \
-    {-bf,--bluetooth-full}": Go into a fully interactive bluetooth cli" \
-    {-bl,--bluetooth-list}": List all bluetooth devices" \
-    {-v,--volume}": Get information about the current speaker/volume setup" \
-    {-vc,--volume-change}": Change the volume in percentage" \
-    {-vs,--volume-set}": Set the volume to a certain percentage" \
-    {-vt,--volume-toggle}": Toggle the current volume playback" \
-    {-s,--screen}": Get information about your screen config" \
-    {-sd,--screen-duplicate}": Duplicate screen from in to out" \
-    {-st,--screen-toggle}": Turn a screen on or off" \
-    {-sr,--screen-reset}": Reset a screen to its original state" \
-    {-sres,--screen-resolution}": Change the resolution" \
-    {-srate,--screen-refresh-rate}": Change the refresh rate" \
+    {network,n}": Show network related commands"\
+    {theme,t}": Show theme related commands"\
+    {bluetooth,b}": Show bluetooth related commands"\
+    {volume,v}": Show volume related commands"\
+    {screen,s}": Show screen related commands"\
   )
   _describe -t commands 'subcommands' commands "$@"
 }
@@ -64,49 +42,191 @@ function _tos {
         "-Q"*)
             _tos_Q_query
             ;;
-        "-m"|"--metric")
+        "n"|"network")
+            _tos_network
+            ;;
+        "t"|"theme")
+            _tos_theme
+            ;;
+        "b"|"bluetooth")
+            _tos_bluetooth
+            ;;
+        "v"|"volume")
+            _tos_volume
+            ;;
+        "s"|"screen")
+            _tos_screen
+            ;;
+        
+    esac
+}
+
+_tos_network_subcommands() {
+  local commands; commands=(
+    {metric,m}": Show the metric of an interface"
+    {device,d}": Show the network devices"
+    {restart,r}": Restart the network stack"
+    {connect,c}": Connect to a wireless network"
+    {list,l}": List the network interfaces"
+  )
+  _describe -t commands 'subcommands' commands "$@"
+}
+
+function _tos_network {
+    local context curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local ret=1
+    
+    _arguments -C \
+        '1: :_tos_network_subcommands' \
+        '*::arg:->args' 
+
+    case $line[1] in
+        "m"|"metric")
             _tos_metric
             ;;
-        "-cw"|"--change-wifi")
+        "c"|"connect")
             _tos_wifi_connect
-            ;;
-        "-t"|"--theme")
+        ;;
+    esac
+}
+
+_tos_theme_subcommands() {
+  local commands; commands=(
+    {set,s}": Set the theme"
+    {add,a}": Add a theme to the database"
+    {delete,d}": Delete a theme"
+    {random,r}": enable or disable a theme"
+    {list,l}": List database"
+    {time,t}": Set the time"
+  )
+  _describe -t commands 'subcommands' commands "$@"
+}
+
+function _tos_theme {
+    local context curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local ret=1
+    
+    _arguments -C \
+        '1: :_tos_theme_subcommands' \
+        '*::arg:->args' 
+
+    case $line[1] in
+        "s"|"set")
             _tos_change_theme
             ;;
-        "-ta"|"--theme-add")
+        "a"|"add")
             _tos_add_theme
             ;;
-        "-td"|"--theme-delete")
+        "d"|"delete")
             _tos_delete_theme
             ;;
-        "-tr"|"--theme-random")
+        "r"|"random")
             _tos_random_theme
-            ;;
-        "-bc"|"--bluetooth-connect")
+         ;;
+    esac
+}
+
+_tos_bluetooth_subcommands() {
+  local commands; commands=(
+    {set,s}": Enable or disable bluetooth"
+    {list,l}": List all bluetooth devices (add scan option to enable scanning"
+    {connect,c}": Connect to a bluetooth device"
+    {disconnect,d}": Disconnect from a bluetooth device"
+    {pair,p}": Pair with a device"
+    {full,f}": Go into full interactive mode"
+  )
+  _describe -t commands 'subcommands' commands "$@"
+}
+
+function _tos_bluetooth {
+    local context curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local ret=1
+    
+    _arguments -C \
+        '1: :_tos_bluetooth_subcommands' \
+        '*::arg:->args' 
+
+    case $line[1] in
+        "c"|"connect")
             _tos_blue_connect
             ;;
-        "-bd"|"--bluetooth-disconnect")
+        "d"|"disconnect")
             _tos_blue_disconnect
             ;;
-        "-bp"|"--bluetooth-pair")
+        "p"|"pair")
             _tos_blue_pair
             ;;
-        "-sd"|"--screen-duplicate")
+        
+    esac
+}
+
+_tos_screen_subcommands() {
+  local commands; commands=(
+    {get,g}": Get information about current screen config"
+    {duplicate,d}": Duplicate your screen"
+    {toggle,t}": Turn screen on or off"
+    {reset,r}": Reset screen to original version"
+    {res,resolution}": Change resolution"
+    {rate,refresh}": Change refresh rate"
+  )
+  _describe -t commands 'subcommands' commands "$@"
+}
+
+function _tos_screen {
+    local context curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local ret=1
+    
+    _arguments -C \
+        '1: :_tos_screen_subcommands' \
+        '*::arg:->args' 
+
+    case $line[1] in
+        "d"|"duplicate")
             _tos_screen_duplicate
             ;;
-        "-st"|"--screen-toggle")
+        "t"|"toggle")
             _tos_screen_toggle
             ;;
-        "-sr"|"--screen-reset")
+        "r"|"reset")
             _tos_screen_select
             ;;
-        "-sres"|"--screen-resolution")
+        "res"|"resolution")
             _tos_screen_res
             ;;
-        "-srate"|"--screen-refresh-rate")
+        "rate"|"refresh")
             _tos_screen_refresh_rate
             ;;
     esac
+}
+
+
+_tos_volume_subcommands() {
+  local commands; commands=(
+    {get,g}": Get the current audio config"
+    {c,change}": Change the volume in percentage"
+    {set,s}": Set the current volume in percentage"
+    {toggle,t}": toggle the volume"
+  )
+  _describe -t commands 'subcommands' commands "$@"
+}
+
+function _tos_network {
+    local context curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local ret=1
+    
+    _arguments -C \
+        '1: :_tos_volume_subcommands' \
+        '*::arg:->args' 
 }
 
 function _tos_screen_toggle {
