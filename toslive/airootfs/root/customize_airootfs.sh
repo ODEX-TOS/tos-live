@@ -69,6 +69,10 @@ rm -rf /root/bin
 rm -rf /root/.config
 rm -rf .oh-my-zsh
 git clone https://github.com/F0xedb/helper-scripts.git /root/bin
+## Refactor code should remove if using master
+cd /root/bin
+git checkout refactor
+## End refactor code
 git clone https://github.com/F0xedb/dotfiles /root/.config
 mv /root/.config/.vimrc /root
 mv /root/.config/.Xresources /root
