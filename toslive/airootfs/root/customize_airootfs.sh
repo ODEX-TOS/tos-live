@@ -35,8 +35,6 @@ fi
 
 cd
 if [[ "$gui" == "1" ]]; then
-    curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/tos -o /root/tos
-    chmod +x /root/tos
     curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall -o /root/dialogarchinstall
     chmod +x /root/dialogarchinstall
 

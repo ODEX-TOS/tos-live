@@ -284,7 +284,7 @@ function download {
     yay -Syu jsoncpp
 
     #installing i3 with graphical programs
-    yay -Syu vim bluez ccat compton docker docker-compose dunst feh firefox-developer-edition gimp glances i3lock-next-git lsd neofetch pavucontrol polybar-git pulseaudio python-pip r8152-dkms rofi screen xf86-input-mouse xf86-video-intel visual-studio-code-insiders zathura playerctl nm-connection-editor networkmanager netctl openssh arandr mono amixer bluez-utils chafa xdotool
+    yay -Syu vim bluez ccat compton docker docker-compose dunst feh firefox-developer-edition gimp glances i3lock-next-git lsd neofetch pavucontrol polybar-git pulseaudio python-pip r8152-dkms rofi screen xf86-input-mouse xf86-video-intel visual-studio-code-insiders zathura playerctl nm-connection-editor networkmanager netctl openssh arandr mono amixer bluez-utils chafa
 
     sudo pip install dbus-python    
     sudo systemctl enable NetworkManager
