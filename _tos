@@ -218,7 +218,7 @@ _tos_volume_subcommands() {
   _describe -t commands 'subcommands' commands "$@"
 }
 
-function _tos_network {
+function _tos_volume {
     local context curcontext="$curcontext" state line
     typeset -A opt_args
 
