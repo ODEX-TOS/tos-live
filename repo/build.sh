@@ -130,18 +130,31 @@ fi
 
 # Only ask to update toslive if an image has been build
 if [[ -f "../toslive/out/toslive.iso" ]]; then
-    read -p "Dou you want to include toslive? (y/N)" toslive
+    read -p "Do you want to include toslive? (y/N)" toslive
     if [[ "$toslive" == "y" ]]; then
         cp ../toslive/out/toslive.iso arch/toslive.iso
     fi
 fi
 
 if [[ -f "../toslive/out/tosserver.iso" ]]; then
-    read -p "Dou you want to include tosserver? (y/N)" toslive
+    read -p "Do you want to include tosserver? (y/N)" toslive
     if [[ "$toslive" == "y" ]]; then
         cp ../toslive/out/tosserver.iso arch/tosserver.iso
     fi
 fi
+
+if [[ -f "../toslive/out/toslive-azerty.iso" ]]; then
+    read -p "Do you want to include toslive azerty edition? (y/N)" toslive
+    if [[ "$toslive" == "y" ]]; then
+        cp ../toslive/out/toslive-azerty.iso arch/toslive-azerty.iso
+    fi
+fi
+
+if [[ -f "../toslive/out/tosserver-azerty.iso" ]]; then
+    read -p "Do you want to include tosserver azerty edition? (y/N)" toslive
+    if [[ "$toslive" == "y" ]]; then
+        cp ../toslive/out/tosserver-azerty.iso arch/tosserver-azerty.iso
+    fi
 
 cp index.html arch/
 

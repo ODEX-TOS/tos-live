@@ -3,6 +3,7 @@
 set -e -u
 
 gui="1"
+azerty="0"
 version="v0.2.4"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
@@ -22,7 +23,9 @@ sed -i 's/#\(Storage=\)auto/\1volatile/' /etc/systemd/journald.conf
 sed -i 's/#\(HandleSuspendKey=\)suspend/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleHibernateKey=\)hibernate/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleLidSwitch=\)suspend/\1ignore/' /etc/systemd/logind.conf
-loadkeys be-latin1
+if [[ "$azerty" == "1" ]]; then
+    loadkeys be-latin1
+fi
 
 
 
@@ -77,6 +80,11 @@ git checkout refactor
 git clone https://github.com/F0xedb/dotfiles /root/.config
 mv /root/.config/.vimrc /root
 mv /root/.config/.Xresources /root
+if [[ "$azerty" == "0" ]]; then
+    sed -i "s;exec setxkbmap be;;" /root/.config/i3/config
+    sed -i "s;exec setxkbmap be;;" /root/.config/sway/config
+fi
+
 if [[ "$gui" == "1" ]]; then
     mkdir -p /root/.mozilla/firefox/tos.default
     cp /root/.config/tos/profiles.ini /root/.mozilla/firefox/profiles.ini

@@ -3,7 +3,9 @@
 # This is a simple script to build an iso image. It prepares the build directory and then starts the build
 
 version=$(cat version.txt)
-
+iso_version=$(date +%Y.%m.%d)
+iso_azerty=$(echo toslinux-"$iso_version"-x86_64_azerty.iso | tr '.' '-')
+            
 function build {
     # Install needed dependencies
     if [[ "$(which mkarchiso)" != "/usr/bin/mkarchiso" ]]; then
@@ -24,13 +26,23 @@ function build {
 
 
     if [[ "$1" == "-g" ]]; then
-        cp out/toslinux*.iso images/client/
-        mv out/toslinux*.iso out/toslive.iso
+        if [[ "$2" == "-a" ]]; then
+            cp out/toslinux*.iso images/client/$iso_azerty
+            mv out/toslinux*.iso out/toslive_azerty.iso
+        else
+            cp out/toslinux*.iso images/client/
+            mv out/toslinux*.iso out/toslive.iso
+        fi
     fi
 
     if [[ "$1" == "-s" ]]; then
-        cp out/toslinux*.iso images/server/
-        mv out/toslinux*.iso out/tosserver.iso
+        if [[ "$2" == "-a" ]]; then
+            cp out/toslinux*.iso images/server/$iso_azerty
+            mv out/toslinux*.iso out/tosserver_azerty.iso
+        else
+            cp out/toslinux*.iso images/server/
+            mv out/toslinux*.iso out/tosserver.iso
+        fi  
     fi
 
 }
