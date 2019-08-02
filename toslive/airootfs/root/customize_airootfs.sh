@@ -2,8 +2,8 @@
 
 set -e -u
 
-gui="1"
-azerty="0"
+gui="0"
+azerty="1"
 version="v0.2.4"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
@@ -73,10 +73,6 @@ rm -rf /root/bin
 rm -rf /root/.config
 rm -rf .oh-my-zsh
 git clone https://github.com/F0xedb/helper-scripts.git /root/bin
-## Refactor code should remove if using master
-cd /root/bin
-git checkout refactor
-## End refactor code
 git clone https://github.com/F0xedb/dotfiles /root/.config
 mv /root/.config/.vimrc /root
 mv /root/.config/.Xresources /root
@@ -99,7 +95,7 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 
 
 git clone https://github.com/F0xedb/zsh-load /root/.oh-my-zsh/load
-curl https://raw.githubusercontent.com/F0xedb/tos-live/refactor/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
+curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
 curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.zshrc
 
