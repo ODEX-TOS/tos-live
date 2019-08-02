@@ -3,7 +3,7 @@
 set -e -u
 
 gui="0"
-azerty="0"
+azerty="1"
 version="v0.2.4"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
@@ -102,10 +102,11 @@ curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos > /root/.oh-m
 
 curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.zshrc
 
-
-echo "loadkeys be-latin1" >> /root/.zshrc
+if [[ "$azerty" == "1" ]]; then
+    echo "loadkeys be-latin1" >> /root/.zshrc
+    echo "loadkeys be-latin1" >> /root/.bashrc
+fi
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.zshrc
-echo "loadkeys be-latin1" >> /root/.bashrc
 echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
 sed -i -r 's:^neofetch:echo "TOS - '$version'"\nneofetch:' /root/.zshrc
 echo "echo \"TOS - $version\"" >> /root/.bashrc
