@@ -3,7 +3,7 @@
 set -e -u
 
 gui="0"
-azerty="1"
+azerty="0"
 version="v0.2.4"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
@@ -95,6 +95,9 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 
 
 git clone https://github.com/F0xedb/zsh-load /root/.oh-my-zsh/load
+if [[ "$azerty" == "0" ]]; then
+    sed -i "s;setxkbmap be;;" /root/.oh-my-zsh/load/etc.sh
+fi
 curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
 curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.zshrc
