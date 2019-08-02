@@ -133,3 +133,6 @@ ANSI_COLOR="0;36"
 HOME_URL="https://tos.pbfp.xyz/"
 LOGO=toslinux' > /etc/os-release
 
+if [[ -f "/root/tos" ]]; then
+        rm /root/tos
+fi
