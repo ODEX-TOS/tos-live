@@ -34,6 +34,13 @@ function build {
     fi
 
 }
+
+if [[ "$2" == "-a" ]]; then
+    sed -i 's;azerty="0";azerty="1";' airootfs/root/customize_airootfs.sh
+else
+    sed -i 's;azerty="1";azerty="0";' airootfs/root/customize_airootfs.sh
+fi
+
 if [[ "$1" == "-g" ]]; then
     sed -i 's;gui="0";gui="1";' airootfs/root/customize_airootfs.sh
     sed -i -r 's;version=".*";version="'$version'";' airootfs/root/customize_airootfs.sh
@@ -53,5 +60,6 @@ if [[ "$1" == "-h" ]]; then
         echo "-h | help message"
         echo "-s | compile iso in server mode"
         echo "-g | compile iso in gui mode "
+        echo "-a | compile iso with azerty as keyboard layout (works with both -s and -g) This option must be the last option specified "
         exit 0
 fi
