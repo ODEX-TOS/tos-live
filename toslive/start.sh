@@ -28,7 +28,7 @@ function build {
     if [[ "$1" == "-g" ]]; then
         if [[ "$2" == "-a" ]]; then
             cp out/toslinux*.iso images/client/$iso_azerty
-            mv out/toslinux*.iso out/toslive_azerty.iso
+            mv out/toslinux*.iso out/toslive-azerty.iso
         else
             cp out/toslinux*.iso images/client/
             mv out/toslinux*.iso out/toslive.iso
@@ -38,7 +38,7 @@ function build {
     if [[ "$1" == "-s" ]]; then
         if [[ "$2" == "-a" ]]; then
             cp out/toslinux*.iso images/server/$iso_azerty
-            mv out/toslinux*.iso out/tosserver_azerty.iso
+            mv out/toslinux*.iso out/tosserver-azerty.iso
         else
             cp out/toslinux*.iso images/server/
             mv out/toslinux*.iso out/tosserver.iso
