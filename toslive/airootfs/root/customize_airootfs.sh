@@ -2,8 +2,8 @@
 
 set -e -u
 
-gui="0"
-azerty="1"
+gui="1"
+azerty="0"
 version="v0.2.4"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
