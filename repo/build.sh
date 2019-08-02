@@ -155,7 +155,7 @@ if [[ -f "../toslive/out/tosserver-azerty.iso" ]]; then
     if [[ "$toslive" == "y" ]]; then
         cp ../toslive/out/tosserver-azerty.iso arch/tosserver-azerty.iso
     fi
-
+fi
 cp index.html arch/
 
 ./genpackagelist.sh
