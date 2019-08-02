@@ -57,14 +57,14 @@ if [[ "$1" == "-g" ]]; then
     sed -i 's;gui="0";gui="1";' airootfs/root/customize_airootfs.sh
     sed -i -r 's;version=".*";version="'$version'";' airootfs/root/customize_airootfs.sh
     cp packages.x86_64_client packages.x86_64
-    build $1
+    build $1 $2
 fi
 
 if [[ "$1" == "-s" ]]; then
     sed -i 's;gui="1";gui="0";' airootfs/root/customize_airootfs.sh
     sed -i -r 's;version=".*";version="'$version'";' airootfs/root/customize_airootfs.sh
     cp packages.x86_64_server packages.x86_64
-    build $1 
+    build $1 $2
 fi
 
 
