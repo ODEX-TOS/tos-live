@@ -3,8 +3,8 @@
 set -e -u
 
 gui="1"
-azerty="0"
-version="v0.2.4"
+azerty="1"
+version="v0.3.0"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
 sed -i 's/#\(nl_BE\.UTF-8\)/\1/' /etc/locale.gen
@@ -88,8 +88,11 @@ if [[ "$gui" == "1" ]]; then
 fi
 
 curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install.sh
-RUNZSH=no sh install.sh
+export RUNZSH=no
+export CHSH=no
+sh install.sh
 rm install.sh
+chsh -s /bin/zsh
 
 git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
