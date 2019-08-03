@@ -220,6 +220,3 @@ Project Link: [https://github.com/F0xedb/tos-live](https://github.com/F0xedb/tos
 [license-url]: https://github.com/F0xedb/tos-live/blob/master/LICENSE.txt
 [product-screenshot]: https://tos.pbfp.xyz/images/logo.svg
 
-
-
-```
