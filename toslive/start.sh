@@ -24,6 +24,12 @@ function build {
         mkdir -p images/client
     fi
 
+    if [[ "$1" == "-g" ]]; then
+        cp customize_airootfs.sh_client airootfs/root/customize_airootfs.sh
+    elif [[ "$1" == "-s" ]]; then
+        cp customize_airootfs.sh_server airootfs/root/customize_airootfs.sh
+    fi
+
 
     if [[ "$1" == "-g" ]]; then
         if [[ "$2" == "-a" ]]; then

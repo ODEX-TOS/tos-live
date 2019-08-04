@@ -6,6 +6,8 @@ toslive/images/
 
 toslive/packages.x86_64
 
+toslive/airootfs/root/customize_airootfs.sh
+
 repo/ccat/
 
 repo/i3lock/
