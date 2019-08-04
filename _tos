@@ -169,6 +169,7 @@ function _tos_bluetooth {
 _tos_screen_subcommands() {
   local commands; commands=(
     {get,g}": Get information about current screen config"
+    {add,a}": Add a new resolution config to the screen modes"
     {duplicate,d}": Duplicate your screen"
     {toggle,t}": Turn screen on or off"
     {reset,r}": Reset screen to original version"
@@ -191,6 +192,9 @@ function _tos_screen {
     case $line[1] in
         "d"|"duplicate")
             _tos_screen_duplicate
+            ;;
+        "a"|"add")
+            _tos_screen_add
             ;;
         "t"|"toggle")
             _tos_screen_toggle
@@ -254,6 +258,14 @@ function _tos_screen_res {
     "*::arg:->args"
     _tos_find_res $line[1]
 }
+
+function _tos_screen_add {
+    list=$(xrandr | awk '$1 !~ /Screen|[0-9]*x[0-9]*/ {print $1}')
+    local line
+    _arguments -C\
+    "1: :($list)"\
+    "*::arg:->args"
+    _tos_find_res $line[1]
 
 function _tos_find_rate {
     list=$(xrandr | awk -v monitor="^"$1" connected" '/connected/ {p = 0}$0 ~ monitor {p = 1}p' | sed 's/^'$1'.*$//g' | awk '{print $2}' | sed 's/*+//g')
