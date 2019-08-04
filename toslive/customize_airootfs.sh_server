@@ -2,9 +2,8 @@
 
 set -e -u
 
-gui="1"
 azerty="0"
-version="v0.2.4"
+version="v0.0.0"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
 sed -i 's/#\(nl_BE\.UTF-8\)/\1/' /etc/locale.gen
@@ -38,36 +37,6 @@ if [[ $(ping -c1 1.1.1.1 | grep "0% packet loss") == "" ]]; then
 fi
 
 cd
-if [[ "$gui" == "1" ]]; then
-    curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall -o /root/dialogarchinstall
-    chmod +x /root/dialogarchinstall
-
-    if [[ ! -d /root/st ]]; then
-        git clone https://github.com/F0xedb/sucklessterminal /root/st
-    fi
-
-    if [[ ! -d /root/i3 ]]; then
-        git clone https://www.github.com/F0xedb/i3 i3
-    fi
-
-    cd /root/st
-    make && make install
-    cd ../
-    rm -rf st
-
-
-    cd /root/i3
-
-    autoreconf --force --install
-    rm -rf build/
-    mkdir -p build && cd build/
-
-    ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
-    make
-    sudo make install
-    cd
-    rm -rf /root/i3
-fi
 
 rm -rf /root/bin
 rm -rf /root/.config
@@ -76,16 +45,12 @@ git clone https://github.com/F0xedb/helper-scripts.git /root/bin
 git clone https://github.com/F0xedb/dotfiles /root/.config
 mv /root/.config/.vimrc /root
 mv /root/.config/.Xresources /root
+
 if [[ "$azerty" == "0" ]]; then
     sed -i "s;exec setxkbmap be;;" /root/.config/i3/config
     sed -i "s;exec setxkbmap be;;" /root/.config/sway/config
 fi
 
-if [[ "$gui" == "1" ]]; then
-    mkdir -p /root/.mozilla/firefox/tos.default
-    cp /root/.config/tos/profiles.ini /root/.mozilla/firefox/profiles.ini
-    cp -r /root/.config/tos/tos-firefox/* /root/.mozilla/firefox/tos.default
-fi
 
 curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install.sh
 RUNZSH=no sh install.sh
@@ -104,11 +69,6 @@ curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos > /root/.oh-m
 
 curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.zshrc
 
-if [[ "$azerty" == "1" ]]; then
-    echo "loadkeys be-latin1" >> /root/.zshrc
-    echo "loadkeys be-latin1" >> /root/.bashrc
-fi
-echo "PATH=/root:/root/bin:\$PATH" >> /root/.zshrc
 echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
 sed -i -r 's:^neofetch:echo "TOS - '$version'"\nneofetch:' /root/.zshrc
 echo "echo \"TOS - $version\"" >> /root/.bashrc
@@ -116,22 +76,10 @@ echo "echo \"TOS - $version\"" >> /root/.bashrc
 git clone https://github.com/denysdovhan/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt"
 ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
-if [[ "$gui" == "1" ]]; then
-    printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
-    printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.bashrc
-
-    rm -rf /root/Pictures
-    git clone https://github.com/F0xedb/Pictures /root/Pictures
-    printf "xrdb ~/.Xresources\nexec i3" > /root/.xinitrc
-fi
 rm -rf /root/.vim
 mkdir -p /root/.vim/colors
 touch /root/.vim /root/.vim/colors/badwolf.vim
 curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
-
-if [[ "$gui" == "1" ]]; then
-    sed -i 's;$HOME /home/zeus;$HOME /root;' ~/.config/i3/config
-fi
 
 rm -rf /etc/issue /etc/os-release
 echo "TOS Linux" > /etc/issue
