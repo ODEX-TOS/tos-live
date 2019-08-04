@@ -72,6 +72,7 @@ curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos > /root/.oh-m
 curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.zshrc
 
 echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
+echo "PATH=/root:/root/bin:\$PATH" >> /root/.zshrc
 sed -i -r 's:^neofetch:echo "TOS - '$version'"\nneofetch:' /root/.zshrc
 echo "echo \"TOS - $version\"" >> /root/.bashrc
 
@@ -95,4 +96,9 @@ LOGO=toslinux' > /etc/os-release
 
 if [[ -f "/root/tos" ]]; then
         rm /root/tos
+fi
+
+if [[ "$azerty" == "1" ]]; then
+    echo "loadkeys be-latin1" >> /root/.zshrc
+    echo "loadkeys be-latin1" >> /root/.bashrc
 fi
