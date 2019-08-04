@@ -53,7 +53,9 @@ fi
 
 
 curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install.sh
-RUNZSH=no sh install.sh
+export RUNZSH=no
+export CHSH=no
+sh install.sh
 rm install.sh
 
 git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
