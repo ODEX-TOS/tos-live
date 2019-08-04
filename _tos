@@ -266,6 +266,7 @@ function _tos_screen_add {
     "1: :($list)"\
     "*::arg:->args"
     _tos_find_res $line[1]
+}
 
 function _tos_find_rate {
     list=$(xrandr | awk -v monitor="^"$1" connected" '/connected/ {p = 0}$0 ~ monitor {p = 1}p' | sed 's/^'$1'.*$//g' | awk '{print $2}' | sed 's/*+//g')
