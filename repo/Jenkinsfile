@@ -13,7 +13,7 @@ node('archlinux') {
           )
     }
     stage('build kernel') { 
-        sh "cd repo && sh build.sh -k"
+        sh "cd repo && sh build.sh -k 2"
     }
     stage('upload repository') { 
         sh "cd repo && upload.sh -y"
