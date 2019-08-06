@@ -9,7 +9,7 @@ if [[ ! -d arch ]];then
 fi
 
 
-yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip
+yes | yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip
 
 # $1 is the url $2 is the installdir $3 is the package name
 function installpackage {
@@ -36,7 +36,11 @@ function changePKGBUILD {
     sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
     
     sed -i 's;pkgver=${_srcver//-/.};pkgver='$pkgver';' PKGBUILD
-    read -p "how many cores do you wish to use for compilation?" cores
+    if [[ "$1" == "" ]]; then
+        read -p "how many cores do you wish to use for compilation?" cores
+    else
+        cores=4
+    fi
     sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
 
 }
@@ -96,9 +100,10 @@ function installfirefoxdev {
     cd ../../../../
     
 }
-
-read -p "Do you want to install default packages? (y/N)" default
-if [[ "$default" == "y" ]]; then
+if [[ "$1" == "" ]]; then
+    read -p "Do you want to install default packages? (y/N)" default
+fi
+if [[ "$default" == "y" || "$1" == "-a" ]]; then
     installpackage https://aur.archlinux.org/polybar-git.git polybar polybar-git-
 
     installpackage https://aur.archlinux.org/ccat.git ccat ccat-
@@ -113,46 +118,56 @@ if [[ "$default" == "y" ]]; then
 
     installpackage https://aur.archlinux.org/i3lock-color.git color i3lock-color-
 fi
-
-read -p "Do you want to install fonts? (y/N)" fonts
-if [[ "$fonts" == "y" ]]; then
+if [[ "$1" == "" ]]; then
+    read -p "Do you want to install fonts? (y/N)" fonts
+fi
+if [[ "$fonts" == "y" || "$1" == "-f" ]]; then
     installpackage https://aur.archlinux.org/nerd-fonts-complete.git font nerd-fonts-complete-
 
     installpackage https://aur.archlinux.org/siji-git.git font2 siji-git-
 
     installpackage https://aur.archlinux.org/ttf-symbola.git font3 ttf-symbola-
 fi
-
-read -p "Do you want to install the latest kernel? (y/N)" kernel
-if [[ "$kernel" == "y" ]]; then
+if [[ "$1" == "" ]]; then
+    read -p "Do you want to install the latest kernel? (y/N)" kernel
+fi
+if [[ "$kernel" == "y" || "$1" == "-k" ]]; then
     installlinux
 fi
 
 # Only ask to update toslive if an image has been build
 if [[ -f "../toslive/out/toslive.iso" ]]; then
-    read -p "Do you want to include toslive? (y/N)" toslive
-    if [[ "$toslive" == "y" ]]; then
+    if [[ "$1" == "" ]]; then
+        read -p "Do you want to include toslive? (y/N)" toslive
+    fi
+    if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
         cp ../toslive/out/toslive.iso arch/toslive.iso
     fi
 fi
 
 if [[ -f "../toslive/out/tosserver.iso" ]]; then
-    read -p "Do you want to include tosserver? (y/N)" toslive
-    if [[ "$toslive" == "y" ]]; then
+    if [[ "$1" == "" ]]; then
+        read -p "Do you want to include tosserver? (y/N)" toslive
+    fi
+    if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
         cp ../toslive/out/tosserver.iso arch/tosserver.iso
     fi
 fi
 
 if [[ -f "../toslive/out/toslive-azerty.iso" ]]; then
-    read -p "Do you want to include toslive azerty edition? (y/N)" toslive
-    if [[ "$toslive" == "y" ]]; then
+    if [[ "$1" == "" ]]; then
+        read -p "Do you want to include toslive azerty edition? (y/N)" toslive
+    fi
+    if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
         cp ../toslive/out/toslive-azerty.iso arch/toslive-azerty.iso
     fi
 fi
 
 if [[ -f "../toslive/out/tosserver-azerty.iso" ]]; then
-    read -p "Do you want to include tosserver azerty edition? (y/N)" toslive
-    if [[ "$toslive" == "y" ]]; then
+    if [[ "$1" == "" ]]; then
+        read -p "Do you want to include tosserver azerty edition? (y/N)" toslive
+    fi
+    if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
         cp ../toslive/out/tosserver-azerty.iso arch/tosserver-azerty.iso
     fi
 fi
