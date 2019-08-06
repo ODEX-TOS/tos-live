@@ -68,7 +68,7 @@ To get a local copy up and running follow these simple steps.
 All the tools provided in the repository will download and install all necessary packages except for the following.
 
 ```bash
-pacman -Syu archiso # only dependencie not installed by our tools
+pacman -Syu archiso # only dependency not installed by our tools
 ```
 
 Before building the live iso make sure you are on the latest kernel 
