@@ -39,7 +39,7 @@ function changePKGBUILD {
     if [[ "$1" == "" ]]; then
         read -p "how many cores do you wish to use for compilation?" cores
     else
-        cores=4
+        cores="$2"
     fi
     sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
 
