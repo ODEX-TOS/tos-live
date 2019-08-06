@@ -1,7 +1,10 @@
+// The arch repo build can only happen on arch based devices.
+// You should provide a slave that is running arch
 node('archlinux') {
    stage('pull') { 
         git "https://github.com/F0xedb/tos-live.git"
     }
+    // Build our applications and fonts and add them to the local repo
     stage('building tarballs'){
         parallel(
           apps: {
@@ -12,17 +15,21 @@ node('archlinux') {
           }
           )
     }
+    // Build the latest tos kernel and add it to the repo
     stage('build kernel') { 
         sh "cd repo && sh build.sh -k 2"
     }
+    // Push local repo to the server
     stage('upload repository') { 
         sh "cd repo && upload.sh -y"
     }
+    // Generate package list based on the repo
     stage('generate html') {
         sh "sleep 5"
         sh "yes | tos -Syu"
         sh "cd repo && sh genpackagelist.sh"
     }
+    // Upload package list to remote repo
     stage('upload html') { 
         sh "cd repo && upload.sh -y" 
     }
