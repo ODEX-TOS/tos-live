@@ -1,22 +1,31 @@
+// This jenkinsfile should only be ran on arch based devices
+// Make sure your slave or runner is running arch
+// The uploading to the remote repository counts that there is a local repository present.
 node('archlinux') {
    stage('pull') { 
         git "https://github.com/F0xedb/tos-live.git"
     }
+    // Build tos server edition
     stage('server'){
         sh "cd toslive && sh start.sh -s"
     }
+    // Build tos client edition
     stage('client'){
         sh "cd toslive && sh start.sh -g"
     }
+    // Build tos server edition with azerty layout
     stage('server azerty'){
         sh "cd toslive && sh start.sh -s -a"
     }
+    // Build tos client edition with azerty layout
     stage('client azerty'){
         sh "cd toslive && sh start.sh -g -a"
     }
+    // Copy local tos builds to local repository
     stage('copy'){
         sh "cd repo && sh build.sh -u"
     }
+    // Upload iso's to remote repository
     stage('upload') {
         sh "cd repo && upload.sh -y" 
     }
