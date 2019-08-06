@@ -1,0 +1,23 @@
+node('archlinux') {
+   stage('pull') { 
+        git "https://github.com/F0xedb/tos-live.git"
+    }
+    stage('server'){
+        sh "cd toslive && sh start.sh -s"
+    }
+    stage('client'){
+        sh "cd toslive && sh start.sh -g"
+    }
+    stage('server azerty'){
+        sh "cd toslive && sh start.sh -s -a"
+    }
+    stage('client azerty'){
+        sh "cd toslive && sh start.sh -g -a"
+    }
+    stage('copy'){
+        sh "cd repo && sh build.sh -u"
+    }
+    stage('upload') {
+        sh "cd repo && upload.sh -y" 
+    }
+}
