@@ -110,7 +110,7 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
     installpackage https://aur.archlinux.org/i3lock-next-git.git i3lock i3lock-next-git
 
-    installpackage https://aur.archlinux.org/lsd-git.git lsd lsd-
+    #installpackage https://aur.archlinux.org/lsd-git.git lsd lsd-
 
     installpackage https://aur.archlinux.org/visual-studio-code-insiders.git vs visual-studio-code-insiders
 
