@@ -1,0 +1,29 @@
+node('archlinux') {
+   stage('pull') { 
+        git "https://github.com/F0xedb/tos-live.git"
+    }
+    stage('building tarballs'){
+        parallel(
+          apps: {
+            sh "cd repo && sh build.sh -a"
+          },
+          fonts: {
+            sh "cd repo && sh build.sh -f"
+          }
+          )
+    }
+    stage('build kernel') { 
+        sh "cd repo && sh build.sh -k"
+    }
+    stage('upload repository') { 
+        sh "cd repo && upload.sh -y"
+    }
+    stage('generate html') {
+        sh "sleep 5"
+        sh "yes | tos -Syu"
+        sh "cd repo && sh genpackagelist.sh"
+    }
+    stage('upload html') { 
+        sh "cd repo && upload.sh -y" 
+    }
+}
