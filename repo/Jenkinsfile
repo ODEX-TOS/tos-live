@@ -22,7 +22,7 @@ node('archlinux') {
     //}
     // Push local repo to the server
     stage('upload repository') { 
-        sh "cd repo && upload.sh -y"
+        sh "cd repo && sh upload.sh -y"
     }
     // Generate package list based on the repo
     stage('generate html') {
@@ -32,6 +32,6 @@ node('archlinux') {
     }
     // Upload package list to remote repo
     stage('upload html') { 
-        sh "cd repo && upload.sh -y" 
+        sh "cd repo && sh upload.sh -y" 
     }
 }
