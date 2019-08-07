@@ -110,13 +110,15 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
     installpackage https://aur.archlinux.org/i3lock-next-git.git i3lock i3lock-next-git
 
-    #installpackage https://aur.archlinux.org/lsd-git.git lsd lsd-
+    installpackage https://aur.archlinux.org/mcmojave-circle-icon-theme-git.git icon mcmojave-circle-
 
     installpackage https://aur.archlinux.org/visual-studio-code-insiders.git vs visual-studio-code-insiders
 
     installpackage https://aur.archlinux.org/r8152-dkms.git r8 r8152-dkms-
 
     installpackage https://aur.archlinux.org/i3lock-color.git color i3lock-color-
+
+    installpackage https://aur.archlinux.org/xcursor-human.git cursor human-cursors-
 fi
 if [[ "$1" == "" ]]; then
     read -p "Do you want to install fonts? (y/N)" fonts

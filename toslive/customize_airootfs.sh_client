@@ -72,6 +72,8 @@ git clone https://github.com/F0xedb/helper-scripts.git /root/bin
 git clone https://github.com/F0xedb/dotfiles /root/.config
 mv /root/.config/.vimrc /root
 mv /root/.config/.Xresources /root
+mkdir -p /root/.icon/default/
+mv /root/.config/index.theme /root/.icon/default/index.theme
 if [[ "$azerty" == "0" ]]; then
     sed -i "s;exec setxkbmap be;;" /root/.config/i3/config
     sed -i "s;exec setxkbmap be;;" /root/.config/sway/config
