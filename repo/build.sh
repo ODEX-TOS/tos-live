@@ -118,7 +118,7 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
     installpackage https://aur.archlinux.org/i3lock-color.git color i3lock-color-
 
-    installpackage https://aur.archlinux.org/xcursor-human.git cursor human-cursors-
+    installpackage https://aur.archlinux.org/xcursor-human.git cursor  xcursor-human-
 fi
 if [[ "$1" == "" ]]; then
     read -p "Do you want to install fonts? (y/N)" fonts
