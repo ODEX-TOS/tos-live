@@ -27,7 +27,7 @@ node('archlinux') {
     // Generate package list based on the repo
     stage('generate html') {
         sh "sleep 5"
-        sh "yes | tos -Syu"
+        sh "yes | sh tos -Syu"
         sh "cd repo && sh genpackagelist.sh"
     }
     // Upload package list to remote repo
