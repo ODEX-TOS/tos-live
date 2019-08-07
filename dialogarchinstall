@@ -104,16 +104,26 @@ function crypto {
     vgcreate tos /dev/mapper/luks_lvm
     
     #TODO: If a disk is in the terabytes convert it into Gigs. Currently it won't break anything but this default values will be wrong 
-    size=$(fdisk -l "$device" | grep -e "Disk .[a-zA-Z/]*: [0-9][0-9]*" | awk '{print
+    size=$(fdisk -l "$device" | grep -e "Disk $device: [0-9][0-9]*" | awk '{print
     $3}')
+
+    data=$(fdisk -l "$device" | grep -e "Disk $device: [0-9][0-9]*" | tr ',' ' '| awk '{print $4}')
+
+    if [[ "$data" == "TiB" ]]; then
+        size=$(echo $size | awk '{print $0*1000}')
+    fi
      
     ask "How big should your home partition be? (in Gigabytes)" "$(echo $size | awk '{print ($0/40)*26}')"
     lvcreate -n home -L "$result"G tos
+
+    sleep 0.5
     
     ask "How big should your root partition be? (in Gigabytes)" "$(echo $size | awk
     '{print ($0/40)*12}')"
 
     lvcreate -n root -L "$result"G tos
+
+    sleep 0.5
 
     ask "How big should your swap partition be? (in Gigabytes)" "$(echo $size | awk '{print ($0/80)*1}')"
     
@@ -197,8 +207,8 @@ function chrootfunc {
     
 
     sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/c\GRUB_CMDLINE_LINUX_DEFAULT="quiet resume=/dev/mapper/tos-swap cryptdevice='$device$1':luks_lvm"' /etc/default/grub
-    sed -i '/^#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/' /etc/default/grub
-    sed -i '/^GRUB_DISTRIBUTOR="Arch"/GRUB_DISTRIBUTOR="TOS"/' /etc/default/grub
+    sed -i 's/^#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/' /etc/default/grub
+    sed -i 's/^GRUB_DISTRIBUTOR="Arch"/GRUB_DISTRIBUTOR="TOS"/' /etc/default/grub
     rm -rf /etc/issue /etc/os-release
     echo "TOS Linux" > /etc/issue
     printf 'NAME="Tos Linux"
@@ -249,13 +259,13 @@ function default {
 
 
 function user {
-    pacman -Syu git sudo base-devel
+    pacman -Syu git sudo base-devel zsh
 
     prmpt "Uncomment the line containing %wheel NOPASSWD"
     EDITOR=nano visudo
 
     ask "What is your username?" "alpha"
-    useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash "$result"
+    useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/zsh "$result"
     passwd "$result"
     su "$result" -c "/archinstall user"
 }
@@ -284,7 +294,7 @@ function download {
     yay -Syu jsoncpp
 
     #installing i3 with graphical programs
-    yay -Syu vim bluez ccat compton docker docker-compose dunst feh firefox-developer-edition gimp glances i3lock-next-git lsd neofetch pavucontrol polybar-git pulseaudio python-pip r8152-dkms rofi screen xf86-input-mouse xf86-video-intel visual-studio-code-insiders zathura playerctl nm-connection-editor networkmanager netctl openssh arandr mono alsa-utils bluez-utils chafa xdotool
+    yay -Syu vim bluez ccat compton docker docker-compose dunst feh firefox-developer-edition gimp glances i3lock-next-git lsd neofetch pavucontrol polybar-git pulseaudio python-pip r8152-dkms rofi screen xf86-input-mouse xf86-video-intel visual-studio-code-insiders zathura playerctl nm-connection-editor networkmanager netctl openssh arandr mono alsa-utils bluez-utils chafa xdotool xcursor-human mcmojave-circle-icon-theme-git breeze-gtk
 
     sudo pip install dbus-python    
     sudo systemctl enable NetworkManager
@@ -295,17 +305,14 @@ function download {
     cd sucklessterminal
     make && sudo make install
 
-    #enable wayland support
-    ask "Do you want to use XORG or wayland(more modern)" "wayland"
-    if [[ "$result" == "wayland"]]; then
-        # xorg-server-xwayland supports backward compatibility
-        yay -Syu wayland sway waybar xorg-server-xwayland
-    fi
     git clone https://github.com/F0xedb/i3.git
     cd i3
     autoreconf --force --install
     rm -rf build/
     mkdir -p build && cd build/
+
+    # install dependencies
+    yay -Syu xcb-util-keysyms xcb-util-wm libev yajl startup-notification pango perl xcb-util-cursor libxkbcommon-x11 xcb-util-xrm
 
     # Disabling sanitizers is important for release versions!
     # The prefix and sysconfdir are, obviously, dependent on the distribution.
@@ -313,6 +320,7 @@ function download {
     make
     sudo make install
 
+    #enable wayland support
     ask "Do you want to install wayland(newer) or XORG?" "wayland"
     gpu_cmd="$(lspci -mm | awk -F '\\"|\\" \\"|\\(' '/"Display|"3D|"VGA/ {a[$0] = $3 " " $4} END {for(i in a){if(!seen[a[i]]++) print a[i]}}')"
 
@@ -344,12 +352,15 @@ function gitclone {
     #setup firefox
     mkdir -p ~/.mozilla/firefox/tos.default
     cp ~/.config/tos/profiles.ini ~/.mozilla/firefox/profiles.ini
-    cp -r ~/.config/tos/tos-firefox/* ~/.mozilla/firefox/tos-default
+    cp -r ~/.config/tos/tos-firefox/* ~/.mozilla/firefox/tos.default
 
     # TODO symlink these files don't move them
-    mv .config/.zshrc ~
-    mv .config/.vimrc ~
-    mv .config/.Xresources ~
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    ln .config/.zshrc ~/.zshrc
+    ln .config/.vimrc ~/.vimrc
+    ln .config/.Xresources ~/.Xresources
+    mkdir -p ~/.icons/default
+    ln .config/index.theme ~/.icons/default/index.theme
     cd ~/.oh-my-zsh
     git clone https://github.com/F0xedb/zsh-load load
     cd
@@ -360,7 +371,6 @@ function gitclone {
 function tom {
     prmpt "Executing Tom's custom scripts"
     
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
@@ -412,8 +422,9 @@ function end {
     echo "Good luck on your tos linux journey!"
 }
 
+begin
+
 if [[ "$entry" == "y" && "$1" != "base" && "$1" != "user" ]]; then
-        begin
         echo "You have 5 seconds before we start altering the hard drive"
         echo "If you wish to abort now use CTRL-C otherwise we will start to change the partition table and install a custom Arch Linux install"
         
