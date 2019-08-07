@@ -7,19 +7,19 @@ node('archlinux') {
     }
     // Build tos server edition
     stage('server'){
-        sh "cd toslive && sudo sh start.sh -s" // run start.sh as a root user since the live iso chroot is a root user
+        sh "cd toslive && sudo ./start.sh -s" // run start.sh as a root user since the live iso chroot is a root user
     }
     // Build tos client edition
     stage('client'){
-        sh "cd toslive && sudo sh start.sh -g" // run start.sh as a root user since the live iso chroot is a root user
+        sh "cd toslive && sudo ./start.sh -g" // run start.sh as a root user since the live iso chroot is a root user
     }
     // Build tos server edition with azerty layout
     stage('server azerty'){
-        sh "cd toslive && sudo sh start.sh -s -a" // run start.sh as a root user since the live iso chroot is a root user
+        sh "cd toslive && sudo ./start.sh -s -a" // run start.sh as a root user since the live iso chroot is a root user
     }
     // Build tos client edition with azerty layout
     stage('client azerty'){
-        sh "cd toslive && sudo sh start.sh -g -a" // run start.sh as a root user since the live iso chroot is a root user
+        sh "cd toslive && sudo ./start.sh -g -a" // run start.sh as a root user since the live iso chroot is a root user
     }
     // Copy local tos builds to local repository
     stage('copy'){
