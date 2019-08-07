@@ -7,7 +7,15 @@ node('archlinux') {
     }
     // Build tos server edition
     stage('server'){
-        sh "cd toslive && sudo ./start.sh -s && pwd" // run start.sh as a root user since the live iso chroot is a root user
+        try {
+            sh "cd toslive && sudo ./start.sh -s && pwd" // run start.sh as a root user since the live iso chroot is a root user
+         } catch(error) {
+            echo "First build failed, let's retry."
+            echo "This probably happend because our repository has been updated"
+            retry(2) {
+               sh "cd toslive && sudo ./start.sh -s && pwd"
+            }
+         }
     }
     // Build tos client edition
     stage('client'){
