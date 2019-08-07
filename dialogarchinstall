@@ -358,6 +358,9 @@ function gitclone {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     ln .config/.zshrc ~/.zshrc
     ln .config/.vimrc ~/.vimrc
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
     ln .config/.Xresources ~/.Xresources
     mkdir -p ~/.icons/default
     ln .config/index.theme ~/.icons/default/index.theme

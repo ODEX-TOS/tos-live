@@ -71,6 +71,8 @@ rm -rf .oh-my-zsh
 git clone https://github.com/F0xedb/helper-scripts.git /root/bin
 git clone https://github.com/F0xedb/dotfiles /root/.config
 mv /root/.config/.vimrc /root
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 mv /root/.config/.Xresources /root
 mkdir -p /root/.icon/default/
 mv /root/.config/index.theme /root/.icon/default/index.theme
