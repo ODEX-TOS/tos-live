@@ -9,12 +9,12 @@ iso_azerty=$(echo toslinux-"$iso_version"-x86_64_azerty.iso | tr '.' '-')
 function build {
     # Install needed dependencies
     if [[ "$(which mkarchiso)" != "/usr/bin/mkarchiso" ]]; then
-        yay -Syu archiso
+        yay -Syu archiso || exit 1
     fi
     # do a complete remove of the working directory since we are building 2 different version in it
     rm  -rf work
 
-    ./build.sh -v
+    ./build.sh -v || exit 1
 
     if [[ ! -d "images/server" ]]; then
         mkdir -p images/server
@@ -48,15 +48,15 @@ function build {
 
 }
 if [[ "$1" == "-g" ]]; then
-        cp customize_airootfs.sh_client airootfs/root/customize_airootfs.sh
+        cp customize_airootfs.sh_client airootfs/root/customize_airootfs.sh || exit 1
 elif [[ "$1" == "-s" ]]; then
-        cp customize_airootfs.sh_server airootfs/root/customize_airootfs.sh
+        cp customize_airootfs.sh_server airootfs/root/customize_airootfs.sh || exit 1
 fi
 
 if [[ "$2" == "-a" ]]; then
-    sed -i 's;azerty="0";azerty="1";' airootfs/root/customize_airootfs.sh
+    sed -i 's;azerty="0";azerty="1";' airootfs/root/customize_airootfs.sh || exit 1
 else
-    sed -i 's;azerty="1";azerty="0";' airootfs/root/customize_airootfs.sh
+    sed -i 's;azerty="1";azerty="0";' airootfs/root/customize_airootfs.sh || exit 1
 fi
 
 if [[ "$1" == "-g" ]]; then
