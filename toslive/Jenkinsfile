@@ -7,7 +7,7 @@ node('archlinux') {
     }
     // Build tos server edition
     stage('server'){
-        sh "cd toslive && sudo ./start.sh -s" // run start.sh as a root user since the live iso chroot is a root user
+        sh "cd toslive && sudo ./start.sh -s && pwd" // run start.sh as a root user since the live iso chroot is a root user
     }
     // Build tos client edition
     stage('client'){
