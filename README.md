@@ -31,6 +31,9 @@
 </p>
 
 
+[![Build Status repo](https://jenkins.pbfp.xyz/buildStatus/icon?job=tos-repo&style=flat-square)](https://jenkins.pbfp.xyz/job/tos-repo/) Repo build
+<br>
+[![Build Status iso](https://jenkins.pbfp.xyz/buildStatus/icon?job=tos-iso&style=flat-square)](https://jenkins.pbfp.xyz/job/tos-iso/) Tos images
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
