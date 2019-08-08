@@ -6,6 +6,8 @@ toslive/images/
 
 toslive/packages.x86_64
 
+toslive/version.txt
+
 toslive/airootfs/root/customize_airootfs.sh
 
 repo/ccat/
