@@ -12,6 +12,7 @@ void setBuildStatus(String message, String state) {
 // The arch repo build can only happen on arch based devices.
 // You should provide a slave that is running arch
 node('archlinux') {
+  try{
    stage('pull') { 
         git "https://github.com/F0xedb/tos-live.git"
     }
@@ -45,12 +46,7 @@ node('archlinux') {
     stage('upload html') { 
         sh "cd repo && sh upload.sh -y" 
     }
-    post {
-       success {
-           setBuildStatus("Build succeeded", "SUCCESS");
-       }
-       failure {
-           setBuildStatus("Build failed", "FAILURE");
-       }
+   } catch(error) {
+       setBuildStatus("Build failed", "FAILURE");
   }
 }
