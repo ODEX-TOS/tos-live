@@ -46,6 +46,9 @@ node('archlinux') {
     stage('upload html') { 
         sh "cd repo && sh upload.sh -y" 
     }
+    stage('Set build success') { 
+         setBuildStatus("Build succeeded", "SUCCESS");
+    }
    } catch(error) {
        setBuildStatus("Build failed", "FAILURE");
   }
