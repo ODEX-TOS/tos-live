@@ -1,6 +1,18 @@
+void setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/F0xedb/tos-live"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
+
 // The arch repo build can only happen on arch based devices.
 // You should provide a slave that is running arch
 node('archlinux') {
+  try{
    stage('pull') { 
         git "https://github.com/F0xedb/tos-live.git"
     }
@@ -34,4 +46,10 @@ node('archlinux') {
     stage('upload html') { 
         sh "cd repo && sh upload.sh -y" 
     }
+    stage('Set build success') { 
+         setBuildStatus("Build succeeded", "SUCCESS");
+    }
+   } catch(error) {
+       setBuildStatus("Build failed", "FAILURE");
+  }
 }
