@@ -74,7 +74,7 @@ pacman -Syu archiso # only dependency not installed by our tools
 
 Before building the live iso make sure you are on the latest kernel 
 
-```sh
+```bash
 uname -r
 ```
 
