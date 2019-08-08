@@ -157,8 +157,7 @@ This will completely build a arch based repository from scratch. If building you
 #### repo/genpackagelist.sh
 This generates a html file that shows all data about tos packages.
 
-_For more examples, please refer to the [Documentation](https://tos.pbfp.xyz/blog)_
-
+_For more examples, please refer to the [Documentation](https://github.com/F0xedb/tos-live/wiki)_
 
 
 <!-- ROADMAP -->
@@ -201,6 +200,7 @@ Project Link: [https://github.com/F0xedb/tos-live](https://github.com/F0xedb/tos
 ## Acknowledgements
 
 * [F0xedb](https://www.pbfp.xyz)
+* [TOS Homepage](https://tos.pbfp.xyz)
 
 
 
