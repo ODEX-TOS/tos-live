@@ -2,18 +2,15 @@
 
 function begin {
 
-echo "Build and maintained by Tom Meyers"
+prmpt "Build and maintained by Tom Meyers"
 
-echo "You are about to install tos using this automated script"
+prmpt "You are about to install tos using this automated script"
 
-echo "This install script will try to load the tos linux build by Tom"
-
-echo "Its features are LUKS encrypted drives, custom zsh, i3wm and more"
-
-echo "Note: This script assumes that you have a wireless card. If you don't you need to manually get a network connection. If you do you will be promted to connect to a network"
+prmpt "Note: This script assumes that you have a wireless card. If you don't you need to manually get a network connection. If you do you will be promted to connect to a network"
 
 if [[ "$1" == "" ]]; then
-    read -r -p "Do you wish to continue? y/n" entry
+    ask "Do you wish to continue? Y/n" "y"
+    entry="$result"
 fi
 }
 
