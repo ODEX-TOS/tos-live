@@ -16,7 +16,7 @@ node('archlinux') {
   try {
      stage('pull') { 
           git "https://github.com/F0xedb/tos-live.git"
-          sh "cd toslive" && "./version_builder.sh"
+          sh "cd toslive && ./version_builder.sh"
       }
       // Build tos server edition
       stage('server'){
