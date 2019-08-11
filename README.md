@@ -1,5 +1,5 @@
-[![Build Status repo](https://jenkins.pbfp.xyz/buildStatus/icon?job=tos-repo&style=flat-square&subject=repo+build)](https://jenkins.pbfp.xyz/job/tos-repo/)
-[![Build Status](https://jenkins.pbfp.xyz/buildStatus/icon?job=tos-iso&style=flat-square&subject=iso+build)](https://jenkins.pbfp.xyz/job/tos-iso/)
+[![Build Status repo][repo-build]][repo-url]
+[![Build Status][iso-build]][iso-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -209,6 +209,10 @@ Project Link: [https://github.com/F0xedb/tos-live](https://github.com/F0xedb/tos
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[repo-build]: https://jenkins.pbfp.xyz/buildStatus/icon?job=tos-repo&style=flat-square&subject=repo+build
+[repo-url]: https://jenkins.pbfp.xyz/job/tos-repo/
+[iso-build]: https://jenkins.pbfp.xyz/buildStatus/icon?job=tos-iso&style=flat-square&subject=iso+build
+[iso-url]: https://jenkins.pbfp.xyz/job/tos-iso/
 [contributors-shield]: https://img.shields.io/github/contributors/F0xedb/tos-live.svg?style=flat-square
 [contributors-url]: https://github.com/F0xedb/tos-live/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/F0xedb/tos-live.svg?style=flat-square
