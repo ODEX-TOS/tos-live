@@ -20,14 +20,14 @@
   <p align="center">
     This repo contains the build for TOS (Tom OS live iso)
     <br />
-    <a href="https://github.com/F0Xedb/repo"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/F0Xedb/tos-live"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/F0xedb/repo">View Demo</a>
+    <a href="https://github.com/F0xedb/tos-live">View Demo</a>
     ·
-    <a href="https://github.com/F0xedb/repo/issues">Report Bug</a>
+    <a href="https://github.com/F0xedb/tos-live/issues">Report Bug</a>
     ·
-    <a href="https://github.com/F0xedb/repo/issues">Request Feature</a>
+    <a href="https://github.com/F0xedb/tos-live/issues">Request Feature</a>
   </p>
 </p>
 
