@@ -67,39 +67,6 @@ function installlinux {
 
 }
 
-function changefirefox {
-    sed -i 's;;;' PKGBUILD
-    sed -i 's;pkgname=firefox-developer-edition;pkgname=firefox-developer-edition-tos;' PKGBUILD
-    sed -i "s;replaces=('firefox-developer');replaces=('firefox-developer' 'firefox-developer-edition');" PKGBUILD
-    sed -i 's;"$pkgname".desktop;firefox-developer-edition.desktop;' PKGBUILD
-    sed -i 's;export MOZ_TELEMETRY_REPORTING=1;;' PKGBUILD
-    sed -i 's;=archlinux;=toslinux;' PKGBUILD
-    sed -i 's;archlinux=;toslinux=;' PKGBUILD
-    sed -i 's;Arch Linux;Tos Linux;' PKGBUILD
-    # TODO: curl the custom css here
-    sed -i 's:pref("extensions.shownSelectionUI", true);:pref("extensions.shownSelectionUI", true);\npref("toolkit.legacyUserProfileCustomizations.stylesheets", true);:' PKGBUILD
-
-}
-
-function installfirefoxdev {
-    if [[ -d firefox ]]; then
-            rm -rf firefox
-    fi
-    mkdir firefox && cd firefox
-    asp update firefox-developer-edition
-    asp checkout firefox-developer-edition
-    cd firefox-developer-edition/repos/cummunity-x86_64
-
-    changefirefox
-
-    updpkgsums
-    gpg --recv-keys F1A6668FBB7D572E
-    rm -rf ../../../../arch/firefox*.pkg.tar.xz
-    repo-add ../../../../arch/tos.db.tar.gz firefox*.pkg.tar.xz
-    cp  firefox*.pkg.tar.xz ../../../../arch
-    cd ../../../../
-    
-}
 if [[ "$1" == "" ]]; then
     read -p "Do you want to install default packages? (y/N)" default
 fi
