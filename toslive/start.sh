@@ -2,11 +2,13 @@
 
 # This is a simple script to build an iso image. It prepares the build directory and then starts the build
 if [[ ! -f version.txt ]]; then
-            ./version-builder.sh
+            ./version_builder.sh
 fi
 version=$(cat version.txt)
 iso_version=$(date +%Y.%m.%d)
-iso_azerty=$(echo toslinux-"$iso_version"-x86_64_azerty.iso | tr '.' '-')
+iso_azerty=$(echo toslinux-"$iso_version"-x86_64_azerty | tr '.' '-')
+iso_normal=$(echo toslinux-"$iso_version"-x86_64 | tr '.' '-')
+append=""
             
 function build {
     # Install needed dependencies
@@ -30,25 +32,26 @@ function build {
 
     if [[ "$1" == "-g" ]]; then
         if [[ "$2" == "-a" ]]; then
-            cp out/toslinux*.iso images/client/$iso_azerty
+            cp out/toslinux*.iso images/client/"$iso_azerty""$append".iso
             mv out/toslinux*.iso out/toslive-azerty.iso
         else
-            cp out/toslinux*.iso images/client/
+            cp out/toslinux*.iso images/client/"$iso_normal""$append".iso
             mv out/toslinux*.iso out/toslive.iso
         fi
     fi
 
     if [[ "$1" == "-s" ]]; then
         if [[ "$2" == "-a" ]]; then
-            cp out/toslinux*.iso images/server/$iso_azerty
+            cp out/toslinux*.iso images/server/"$iso_azerty""$append".iso
             mv out/toslinux*.iso out/tosserver-azerty.iso
         else
-            cp out/toslinux*.iso images/server/
+            cp out/toslinux*.iso images/server/"$iso_normal""$append".iso
             mv out/toslinux*.iso out/tosserver.iso
         fi  
     fi
 
 }
+
 if [[ "$1" == "-g" ]]; then
         cp customize_airootfs.sh_client airootfs/root/customize_airootfs.sh || exit 1
 elif [[ "$1" == "-s" ]]; then
@@ -58,8 +61,14 @@ fi
 if [[ "$2" == "-a" ]]; then
     sed -i 's;azerty="0";azerty="1";' airootfs/root/customize_airootfs.sh || exit 1
 else
+    append="$2"
     sed -i 's;azerty="1";azerty="0";' airootfs/root/customize_airootfs.sh || exit 1
 fi
+
+if [[ "$3" != "" ]]; then
+        append="$3"
+fi
+echo "$append"
 
 if [[ "$1" == "-g" ]]; then
     sed -i 's;gui="0";gui="1";' airootfs/root/customize_airootfs.sh
