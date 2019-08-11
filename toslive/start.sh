@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # This is a simple script to build an iso image. It prepares the build directory and then starts the build
-
+if [[ ! -f version.txt ]]; then
+            ./version-builder.sh
+fi
 version=$(cat version.txt)
 iso_version=$(date +%Y.%m.%d)
 iso_azerty=$(echo toslinux-"$iso_version"-x86_64_azerty.iso | tr '.' '-')
