@@ -14,6 +14,9 @@ void setBuildStatus(String message, String state) {
 
 node('archlinux') {
   try {
+     stage('pending') {
+          setBuildStatus("Build started", "PENDING");
+     }
      stage('pull') { 
           git "https://github.com/F0xedb/tos-live.git"
           sh "cd toslive && ./version_builder.sh"
