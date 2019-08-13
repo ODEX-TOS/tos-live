@@ -112,8 +112,9 @@ fi
 
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.zshrc
 echo "PATH=/root:/root/bin\$PATH" >> /root/.bashrc
-sed -i -r 's:^neofetch:echo "TOS - '$version'"\nneofetch:' /root/.zshrc
-echo "echo \"TOS - $version\"" >> /root/.bashrc
+sed -i -r 's:^neofetch:echo "TOS - $(cat /etc/version)"\nneofetch:' /root/.zshrc
+echo "echo \"TOS - $(cat /etc/version)\"" >> /root/.bashrc
+echo "$version" > /etc/version
 
 git clone https://github.com/denysdovhan/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt"
 ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
