@@ -2,15 +2,18 @@
 
 function begin {
 
-prmpt "Build and maintained by Tom Meyers"
+echo "Build and maintained by Tom Meyers"
 
-prmpt "You are about to install tos using this automated script"
+echo "You are about to install tos using this automated script"
 
-prmpt "Note: This script assumes that you have a wireless card. If you don't you need to manually get a network connection. If you do you will be promted to connect to a network"
+echo "This install script will try to load the tos linux build by Tom"
+
+echo "Its features are LUKS encrypted drives, custom zsh, i3wm and more"
+
+echo "Note: This script assumes that you have a wireless card. If you don't you need to manually get a network connection. If you do you will be promted to connect to a network"
 
 if [[ "$1" == "" ]]; then
-    ask "Do you wish to continue? Y/n" "y"
-    entry="$result"
+    read -r -p "Do you wish to continue? y/n" entry
 fi
 }
 
@@ -363,29 +366,31 @@ function gitclone {
     cd
     rm -rf .config
     git clone https://github.com/F0xedb/dotfiles .config
-    sed -i 's;$HOME /home/zeus;$HOME '$HOME';g' ~/.config/i3/config
-    sed -i 's;$HOME /home/zeus;$HOME '$HOME';g' ~/.config/sway/config
+    sed -i 's;$HOME /home/zeus;$HOME '$HOME';g' $HOME/.config/i3/config
+    sed -i 's;$HOME /home/zeus;$HOME '$HOME';g' $HOME/.config/sway/config
 
     #setup firefox
-    mkdir -p ~/.mozilla/firefox/tos.default
-    cp ~/.config/tos/profiles.ini ~/.mozilla/firefox/profiles.ini
-    cp -r ~/.config/tos/tos-firefox/* ~/.mozilla/firefox/tos.default
+    mkdir -p $HOME/.mozilla/firefox/tos.default
+    cp $HOME/.config/tos/profiles.ini $HOME/.mozilla/firefox/profiles.ini
+    cp -r $HOME/.config/tos/tos-firefox/* $HOME/.mozilla/firefox/tos.default
 
-    rm -rf ~/.oh-my.zsh
+    rm -rf $HOME/.oh-my.zsh
     curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install.sh
     export RUNZSH=no
     export ZSH=$HOME/.oh-my-zsh
     sh install.sh
     rm install.sh
-    ln .config/.zshrc ~/.zshrc
-    ln .config/.vimrc ~/.vimrc
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    rm $HOME/.zshrc $HOME/.vimrc
+    
+    ln .config/.zshrc $HOME/.zshrc
+    ln .config/.vimrc $HOME/.vimrc
+    curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
 
-    ln .config/.Xresources ~/.Xresources
-    mkdir -p ~/.icons/default
-    ln .config/index.theme ~/.icons/default/index.theme
-    cd ~/.oh-my-zsh
+    ln .config/.Xresources $HOME/.Xresources
+    mkdir -p $HOME/.icons/default
+    ln .config/index.theme $HOME/.icons/default/index.theme
+    cd $HOME/.oh-my-zsh
     git clone https://github.com/F0xedb/zsh-load load
     cd
     rmdir Pictures
@@ -416,6 +421,8 @@ function tom {
 
     cd ~/.vim/bundle/YouCompleteMe
     python3 install.py --all
+    sudo sh -c 'curl https://raw.githubusercontent.com/F0xedb/tos-live/master/toslive/version-edit.txt > /etc/version'
+    
 }
 
 # only supports intel, nvidia or amd
