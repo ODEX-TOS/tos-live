@@ -5,6 +5,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![GPL License][license-shield]][license-url]
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FF0xedb%2Ftos-live.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FF0xedb%2Ftos-live?ref=badge_shield)
 
 
 
@@ -189,6 +190,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 
 <!-- CONTACT -->
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FF0xedb%2Ftos-live.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FF0xedb%2Ftos-live?ref=badge_large)
+
 ## Contact
 
 Tom Meyers - tom@pbfp.team
@@ -224,4 +228,3 @@ Project Link: [https://github.com/F0xedb/tos-live](https://github.com/F0xedb/tos
 [license-shield]: https://img.shields.io/github/license/F0xedb/tos-live.svg?style=flat-square
 [license-url]: https://github.com/F0xedb/tos-live/blob/master/LICENSE.txt
 [product-screenshot]: https://tos.pbfp.xyz/images/logo.svg
-
