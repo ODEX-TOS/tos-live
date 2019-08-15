@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    web:
+       build: .
+       
+       # If you don't use traefik you can remove this network tab
+       networks:
+          - web
+       
+       #ports:
+       #    - "80:80"
+       
+            
+       # If you don't use traefik you can remove these labels
+       labels:
+         - "traefik.enable=true"
+         - "traefik.backend=repo"
+         - "traefik.docker.network=web"
+         - "traefik.frontend.rule=Host:repo.pbfp.xyz"
+         - "traefik.port=80"
+       volumes:
+         - ./arch/:/var/www/html/
+
+# Your network running the external services.
+# If you don't use traefik you can remove this network
+networks:
+     web:
+       external: true
+
