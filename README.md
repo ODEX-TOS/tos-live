@@ -112,6 +112,20 @@ This will use the official repository for tos. If you want to use your own repo 
  Server = file:///home/zetta/tos/repo/arch/
 ```
 
+When using a server to serve your repository you can use the following
+
+> Change the server to point towards your instance. We have delivered a `docker and docker-compose` file so that you can serve  the repository tools
+
+Simply launch the `docker-compose` file
+
+```bash
+docker-compose up --build -d
+```
+
+If you don't use traefik you will have to edit this file. Simply remove the `labels` section and the `network` section. Also add the port section mapping port 80 to port 80. If you wish to update your repository simply rsync to the docker volume.
+
+
+
 This repository also includes the build tool to make iso's. The tool can be found under `toslive/start.sh`
 
 It can be activated as followed
