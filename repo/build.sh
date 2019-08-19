@@ -18,11 +18,12 @@ function installbuilds {
             rm -rf "$dir"
         fi
         mkdir "$dir"
-        cp "BUILD/$package" "$dir/"
+        cp "$package" "$dir/"
         cd "$dir" || exit 1
         makepkg
         cp *.pkg.tar.xz ../arch
         repo-add ../arch/tos.db.tar.gz *.pkg.tar.xz
+        cd ../ || exit 1
     done
 }
 
