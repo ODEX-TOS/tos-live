@@ -1,6 +1,6 @@
 # Maintainer: Tom Meyers <tom@pbfp.team>
 
-pkgname=st-F0xedb-git
+pkgname=st-tos
 _pkgname=sucklessterminal
 pkgrel=1
 pkgver=r1115.eabdf9c
