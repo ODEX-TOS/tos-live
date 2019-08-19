@@ -18,7 +18,7 @@ function installbuilds {
             rm -rf "$dir"
         fi
         mkdir "$dir"
-        cp "$package" "$dir/"
+        cp "$package" "$dir/PKGBUILD"
         cd "$dir" || exit 1
         makepkg
         cp *.pkg.tar.xz ../arch
