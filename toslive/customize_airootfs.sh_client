@@ -40,30 +40,7 @@ cd
 curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall -o /root/dialogarchinstall
 chmod +x /root/dialogarchinstall
 
-if [[ ! -d /root/st ]]; then
-    git clone https://github.com/F0xedb/sucklessterminal /root/st
-fi
 
-if [[ ! -d /root/i3 ]]; then
-    git clone https://www.github.com/F0xedb/i3 i3
-fi
-
-cd /root/st
-make && make install
-cd ../
-rm -rf st
-
-
-cd /root/i3
-
-autoreconf --force --install
-rm -rf build/
-mkdir -p build && cd build/
-../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
-make
-sudo make install
-cd
-rm -rf /root/i3
 
 rm -rf /root/bin
 rm -rf /root/.config
