@@ -20,7 +20,7 @@ function installbuilds {
         mkdir "$dir"
         cp "$package" "$dir/PKGBUILD"
         cd "$dir" || exit 1
-        makepkg
+        makepkg || exit 1
         cp *.pkg.tar.xz ../arch
         repo-add ../arch/tos.db.tar.gz *.pkg.tar.xz
         cd ../ || exit 1
@@ -34,7 +34,7 @@ function installpackage {
     fi
     git clone $1 $2
     cd $2
-    makepkg
+    makepkg || exit 1
     rm ../arch/$3*.pkg.tar.xz
     cp $3*.pkg.tar.xz ../arch
     repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.xz
