@@ -9,7 +9,7 @@ if [[ ! -d arch ]];then
 fi
 
 
-yes | yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip
+yes | yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl
 
 function installbuilds {
     for package in BUILD/* ; do
