@@ -11,6 +11,21 @@ fi
 
 yes | yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip
 
+function installbuilds {
+    for package in BUILD/* ; do
+        dir=$(echo "$package" | cut -d_ -f2)
+        if [[ -d "$dir" ]]; then
+            rm -rf "$dir"
+        fi
+        mkdir "$dir"
+        cp "BUILD/$package" "$dir/"
+        cd "$dir" || exit 1
+        makepkg
+        cp *.pkg.tar.xz ../arch
+        repo-add ../arch/tos.db.tar.gz *.pkg.tar.xz
+    done
+}
+
 # $1 is the url $2 is the installdir $3 is the package name
 function installpackage {
     if [[ -d "$2" ]]; then
@@ -86,6 +101,8 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
     installpackage https://aur.archlinux.org/i3lock-color.git color i3lock-color-
 
     installpackage https://aur.archlinux.org/xcursor-human.git cursor  xcursor-human-
+
+    installbuilds
 fi
 if [[ "$1" == "" ]]; then
     read -p "Do you want to install fonts? (y/N)" fonts
