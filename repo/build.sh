@@ -103,6 +103,10 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
     installpackage https://aur.archlinux.org/xcursor-human.git cursor  xcursor-human-
 
+    installpackage  https://aur.archlinux.org/readme-generator-git.git readme readme-generator-git-
+
+    installpackage https://aur.archlinux.org/shunit-git.git  shunit  shunit-git-
+
     installbuilds
 fi
 if [[ "$1" == "" ]]; then
