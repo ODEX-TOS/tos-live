@@ -68,7 +68,7 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 
 git clone https://github.com/F0xedb/zsh-load /root/.oh-my-zsh/load
 if [[ "$azerty" == "0" ]]; then
-    sed -i "s;setxkbmap be;;" /root/.oh-my-zsh/load/etc.sh
+    sed -i 's;setxkbmap $KEY;;' /root/.oh-my-zsh/load/etc.sh
 fi
 curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
@@ -103,6 +103,5 @@ if [[ -f "/root/tos" ]]; then
 fi
 
 if [[ "$azerty" == "1" ]]; then
-    echo "loadkeys be-latin1" >> /root/.zshrc
-    echo "loadkeys be-latin1" >> /root/.bashrc
+    echo "loadkeys be-latin1" >> /root/.profile
 fi
