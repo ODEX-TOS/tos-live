@@ -54,8 +54,8 @@ mv /root/.config/.Xresources /root
 mkdir -p /root/.icon/default/
 mv /root/.config/index.theme /root/.icon/default/index.theme
 if [[ "$azerty" == "0" ]]; then
-    sed -i "s;exec setxkbmap be;;" /root/.config/i3/config
-    sed -i "s;exec setxkbmap be;;" /root/.config/sway/config
+    sed -i 's;exec setxkbmap $KEY;;' /root/.config/i3/config
+    sed -i 's;exec setxkbmap $KEY;;' /root/.config/sway/config
 fi
 
 mkdir -p /root/.mozilla/firefox/tos.default
@@ -84,8 +84,7 @@ curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc > /root/.zs
 curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.profile | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.profile
 
 if [[ "$azerty" == "1" ]]; then
-    echo "loadkeys be-latin1" >> /root/.zshrc
-    echo "loadkeys be-latin1" >> /root/.bashrc
+    echo "loadkeys be-latin1" >> /root/.profile
 fi
 
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.profile
