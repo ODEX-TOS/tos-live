@@ -85,6 +85,7 @@ curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.profile | sed '/^
 
 if [[ "$azerty" == "1" ]]; then
     echo "loadkeys be-latin1" >> /root/.profile
+    echo "export KEY='be'" >> /root/.profile
 fi
 
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.profile

@@ -104,4 +104,5 @@ fi
 
 if [[ "$azerty" == "1" ]]; then
     echo "loadkeys be-latin1" >> /root/.profile
+    echo "export KEY='be'" >> /root/.profile
 fi
