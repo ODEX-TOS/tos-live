@@ -5,7 +5,7 @@
 void setBuildStatus(String message, String state) {
   step([
       $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/F0xedb/tos-live"],
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/ODEX-TOS/tos-live"],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status/iso"],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
@@ -15,7 +15,7 @@ void setBuildStatus(String message, String state) {
 node('archlinux') {
   try {
      stage('pull') { 
-          git "https://github.com/F0xedb/tos-live.git"
+          git "https://github.com/ODEX-TOS/tos-live.git"
           sh "cd toslive && ./version_builder.sh"
       }
       stage('pending') {
