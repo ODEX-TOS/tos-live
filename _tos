@@ -10,6 +10,7 @@ _tos_subcommands() {
     {-u,--update}":Update the system to the latest version" \
     {-c,--crypto}":Add a ssh key, when a user@ip is specified add current key to that host" \
     {-rs,--repair-system}":Perform a system repair (this will take a long time)" \
+    {gpg,g}": Show pgp (Gnu pg) related commands"\
     {network,n}": Show network related commands"\
     {theme,t}": Show theme related commands"\
     {bluetooth,b}": Show bluetooth related commands"\
@@ -42,6 +43,9 @@ function _tos {
         "-Q"*)
             _tos_Q_query
             ;;
+        "g"|"gpg")
+            _tos_gpg
+            ;;
         "n"|"network")
             _tos_network
             ;;
@@ -59,6 +63,51 @@ function _tos {
             ;;
         
     esac
+}
+
+_tos_gpg_subcommands() {
+  local commands; commands=(
+    {info,in}": Get general information"
+    {key,k}": List all keys"
+    {export,e}": Export a key to a file"
+    {import,i}": Import a key from a file"
+    {upload,u}": Upload a key to a keyserver"
+    {generate,ge}": Generate a gpg key"
+    {git,gi}": Add a gpg key to your git config"
+  )
+  _describe -t commands 'subcommands' commands "$@"
+}
+
+function _tos_gpg {
+    local context curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local ret=1
+    
+    _arguments -C \
+        '1: :_tos_gpg_subcommands' \
+        '*::arg:->args' 
+
+    case $line[1] in
+        "export"|"e")
+            _tos_gpg_key
+        ;;
+        "upload"|"u")
+            _tos_gpg_key
+        ;;
+        "git"|"gi")
+            _tos_gpg_key
+        ;;
+    "import"|"i")
+            _tos_gpg_file
+        ;;
+    esac
+}
+
+function _tos_gpg_key() {
+    list=$(tos gpg key)
+    _arguments -C\
+    "1: :($list)"\
 }
 
 _tos_network_subcommands() {
@@ -233,12 +282,16 @@ function _tos_volume {
         '*::arg:->args' 
 }
 
+function _tos_gpg_file {
+    _arguments -C\
+    '*:keys:_files -g "*"'\
+}
+
 function _tos_screen_toggle {
     list=$(xrandr | awk '$1 !~ /Screen|[0-9]*x[0-9]*/ {print $1}')
     _arguments -C\
     "1: :($list)"\
     "2: :(on off)"\
-
 }
 
 function _tos_screen_refresh_rate {
