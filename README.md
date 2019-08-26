@@ -5,14 +5,14 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![GPL License][license-shield]][license-url]
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FF0xedb%2Ftos-live.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FF0xedb%2Ftos-live?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FODEX-TOS%2Ftos-live.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FODEX-TOS%2Ftos-live?ref=badge_shield)
 
 
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/F0xedb/tos-live">
+  <a href="https://github.com/ODEX-TOS/tos-live">
     <img src="https://tos.pbfp.xyz/images/logo.svg" alt="Logo" width="150" height="150">
   </a>
 
@@ -21,14 +21,14 @@
   <p align="center">
     This repo contains the build for TOS (Tom OS live iso)
     <br />
-    <a href="https://github.com/F0Xedb/tos-live"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/ODEX-TOS/tos-live"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/F0xedb/tos-live">View Demo</a>
+    <a href="https://github.com/ODEX-TOS/tos-live">View Demo</a>
     ·
-    <a href="https://github.com/F0xedb/tos-live/issues">Report Bug</a>
+    <a href="https://github.com/ODEX-TOS/tos-live/issues">Report Bug</a>
     ·
-    <a href="https://github.com/F0xedb/tos-live/issues">Request Feature</a>
+    <a href="https://github.com/ODEX-TOS/tos-live/issues">Request Feature</a>
   </p>
 </p>
 
@@ -85,7 +85,7 @@ uname -r
  
 1. Clone the repo
 ```sh
-git clone https:://github.com/F0xedb/tos-live.git
+git clone https:://github.com/ODEX-TOS/tos-live.git
 ```
 
 > You can only build the iso if you are running an arch based distribution.
@@ -173,13 +173,13 @@ This will completely build a arch based repository from scratch. If building you
 #### repo/genpackagelist.sh
 This generates a html file that shows all data about tos packages.
 
-_For more examples, please refer to the [Documentation](https://github.com/F0xedb/tos-live/wiki)_
+_For more examples, please refer to the [Documentation](https://github.com/ODEX-TOS/tos-live/wiki)_
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/F0xedb/tos-live/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/ODEX-TOS/tos-live/issues) for a list of proposed features (and known issues).
 
 
 
@@ -205,13 +205,13 @@ Distributed under the GPL License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FF0xedb%2Ftos-live.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FF0xedb%2Ftos-live?ref=badge_large)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FODEX-TOS%2Ftos-live.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FODEX-TOS%2Ftos-live?ref=badge_large)
 
 ## Contact
 
 Tom Meyers - tom@pbfp.team
 
-Project Link: [https://github.com/F0xedb/tos-live](https://github.com/F0xedb/tos-live)
+Project Link: [https://github.com/ODEX-TOS/tos-live](https://github.com/ODEX-TOS/tos-live)
 
 
 
