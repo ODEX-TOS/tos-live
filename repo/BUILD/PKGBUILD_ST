@@ -1,16 +1,16 @@
-# Maintainer: Tom Meyers <tom@pbfp.team>
+# Maintainer: Tom Meyers <tom@odex.be>
 
 pkgname=st-tos
 _pkgname=sucklessterminal
 pkgrel=1
 pkgver=r1115.eabdf9c
 pkgdesc="Simple Terminal from suckless.org (Fork)"
-url="https://github.com/F0xedb/sucklessterminal"
+url="https://github.com/ODEX-TOS/sucklessterminal"
 arch=('i686' 'x86_64')
 license=('MIT')
 depends=('libxft')
 makedepends=('git')
-source=('git+https://github.com/F0xedb/sucklessterminal')
+source=('git+https://github.com/ODEX-TOS/sucklessterminal')
 md5sums=('SKIP')
 
 provides=('st')

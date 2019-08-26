@@ -37,16 +37,16 @@ if [[ $(ping -c1 1.1.1.1 | grep "0% packet loss") == "" ]]; then
 fi
 
 cd
-curl https://raw.githubusercontent.com/F0xedb/helper-scripts/master/dialogarchinstall -o /root/dialogarchinstall
-chmod +x /root/dialogarchinstall
+curl https://raw.githubusercontent.com/ODEX-TOS/tools/master/tosinstall -o /root/tosinstall
+chmod +x /root/tosinstall
 
 
 
 rm -rf /root/bin
 rm -rf /root/.config
 rm -rf .oh-my-zsh
-git clone https://github.com/F0xedb/helper-scripts.git /root/bin
-git clone https://github.com/F0xedb/dotfiles /root/.config
+git clone https://github.com/ODEX-TOS/tools.git /root/bin
+git clone https://github.com/ODEX-TOS/dotfiles /root/.config
 mv /root/.config/.vimrc /root
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -54,8 +54,8 @@ mv /root/.config/.Xresources /root
 mkdir -p /root/.icon/default/
 mv /root/.config/index.theme /root/.icon/default/index.theme
 if [[ "$azerty" == "0" ]]; then
-    sed -i "s;exec setxkbmap be;;" /root/.config/i3/config
-    sed -i "s;exec setxkbmap be;;" /root/.config/sway/config
+    sed -i 's;exec setxkbmap $KEY;;' /root/.config/i3/config
+    sed -i 's;exec setxkbmap $KEY;;' /root/.config/sway/config
 fi
 
 mkdir -p /root/.mozilla/firefox/tos.default
@@ -74,18 +74,18 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-
 git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/custom/plugins/zsh-completions
 
 
-git clone https://github.com/F0xedb/zsh-load /root/.oh-my-zsh/load
+git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
 if [[ "$azerty" == "0" ]]; then
     sed -i "s;setxkbmap be;;" /root/.oh-my-zsh/load/etc.sh
 fi
-curl https://raw.githubusercontent.com/F0xedb/tos-live/master/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
+curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
-curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.zshrc > /root/.zshrc
-curl https://raw.githubusercontent.com/F0xedb/dotfiles/master/.profile | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.profile
+curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.zshrc > /root/.zshrc
+curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.profile | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.profile
 
 if [[ "$azerty" == "1" ]]; then
-    echo "loadkeys be-latin1" >> /root/.zshrc
-    echo "loadkeys be-latin1" >> /root/.bashrc
+    echo "loadkeys be-latin1" >> /root/.profile
+    echo "export KEY='be'" >> /root/.profile
 fi
 
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.profile
@@ -100,7 +100,7 @@ printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.zshrc
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >> /root/.bashrc
 
 rm -rf /root/Pictures
-git clone https://github.com/F0xedb/Pictures /root/Pictures
+git clone https://github.com/ODEX-TOS/Pictures /root/Pictures
 printf "xrdb ~/.Xresources\nexec i3" > /root/.xinitrc
 
 rm -rf /root/.vim

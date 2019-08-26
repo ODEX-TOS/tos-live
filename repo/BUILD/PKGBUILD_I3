@@ -1,4 +1,4 @@
-# Maintainer: Tom Meyers <tom@pbfp.team>
+# Maintainer: Tom Meyers <tom@odex.be>
 # Based on i3-gaps-next-git PKGBUILD 
 
 pkgname=i3-gaps-tos
@@ -6,7 +6,7 @@ pkgver=4.16.1.r184.g00181678
 pkgrel=1
 pkgdesc='A fork of i3wm tiling window manager with more features, including gaps and rounded corners'
 arch=('i686' 'x86_64')
-url='https://github.com/F0xedb/i3'
+url='https://github.com/ODEX-TOS/i3'
 license=('BSD')
 provides=('i3-wm')
 conflicts=('i3-wm' 'i3bar' 'i3bar-git' 'i3-git' 'i3-gaps-git' 'i3-gaps')
