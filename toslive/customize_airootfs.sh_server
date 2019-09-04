@@ -23,17 +23,15 @@ sed -i 's/#\(HandleSuspendKey=\)suspend/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleHibernateKey=\)hibernate/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleLidSwitch=\)suspend/\1ignore/' /etc/systemd/logind.conf
 if [[ "$azerty" == "1" ]]; then
-    loadkeys be-latin1
+	loadkeys be-latin1
 fi
-
-
 
 systemctl enable pacman-init.service choose-mirror.service
 systemctl set-default multi-user.target
 systemctl enable NetworkManager
 
 if [[ $(ping -c1 1.1.1.1 | grep "0% packet loss") == "" ]]; then
-        wifi-menu
+	wifi-menu
 fi
 
 cd
@@ -47,7 +45,6 @@ mv /root/.config/.vimrc /root
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
-
 curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install.sh
 export RUNZSH=no
 export CHSH=no
@@ -58,20 +55,19 @@ git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/cust
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/custom/plugins/zsh-completions
 
-
 git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
 if [[ "$azerty" == "0" ]]; then
-    sed -i 's;setxkbmap $KEY;;' /root/.oh-my-zsh/load/etc.sh
+	sed -i 's;setxkbmap $KEY;;' /root/.oh-my-zsh/load/etc.sh
 fi
-curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
+curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos >/root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
-curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.zshrc > /root/.zshrc
-curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.profile | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' > /root/.profile
+curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.zshrc >/root/.zshrc
+curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.profile | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' >/root/.profile
 
-echo "PATH=/root:/root/bin\$PATH" >> /root/.profile
+echo "PATH=/root:/root/bin\$PATH" >>/root/.profile
 sed -i -r 's:^neofetch:echo "TOS - $(cat /etc/version)"\nneofetch:' /root/.zshrc
-echo "echo \"TOS - $(cat /etc/version)\"" >> /root/.bashrc
-echo "$version" > /etc/version
+echo "echo \"TOS - $(cat /etc/version)\"" >>/root/.bashrc
+echo "$version" >/etc/version
 
 git clone https://github.com/denysdovhan/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt"
 ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
@@ -79,23 +75,23 @@ ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/ro
 rm -rf /root/.vim
 mkdir -p /root/.vim/colors
 touch /root/.vim /root/.vim/colors/badwolf.vim
-curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > ~/.vim/colors/badwolf.vim
+curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim >~/.vim/colors/badwolf.vim
 
 rm -rf /etc/issue /etc/os-release
-echo "TOS Linux" > /etc/issue
+echo "TOS Linux" >/etc/issue
 printf 'NAME="Tos Linux"
 PRETTY_NAME="Tos Linux"
 ID=tos
 BUILD_ID=rolling
 ANSI_COLOR="0;36"
 HOME_URL="https://tos.pbfp.xyz/"
-LOGO=toslinux' > /etc/os-release
+LOGO=toslinux' >/etc/os-release
 
 if [[ -f "/root/tos" ]]; then
-        rm /root/tos
+	rm /root/tos
 fi
 
 if [[ "$azerty" == "1" ]]; then
-    echo "loadkeys be-latin1" >> /root/.profile
-    echo "export KEY='be'" >> /root/.profile
+	echo "loadkeys be-latin1" >>/root/.profile
+	echo "export KEY='be'" >>/root/.profile
 fi
