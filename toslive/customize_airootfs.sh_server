@@ -47,13 +47,6 @@ mv /root/.config/.vimrc /root
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
-mv /root/.config/.Xresources /root
-
-if [[ "$azerty" == "0" ]]; then
-    sed -i "s;exec setxkbmap be;;" /root/.config/i3/config
-    sed -i "s;exec setxkbmap be;;" /root/.config/sway/config
-fi
-
 
 curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install.sh
 export RUNZSH=no
