@@ -19,6 +19,7 @@ function installbuilds {
         fi
         mkdir "$dir"
         cp "$package" "$dir/PKGBUILD"
+        cp BUILD/*.patch "$dir"
         cd "$dir" || exit 1
         makepkg || exit 1
         cp *.pkg.tar.xz ../arch
