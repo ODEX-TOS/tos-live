@@ -55,7 +55,7 @@ function changePKGBUILD {
     if [[ "$1" == "" ]]; then
         read -p "how many cores do you wish to use for compilation?" cores
     else
-        cores="$2"
+        cores="$1"
     fi
     sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
 
@@ -71,7 +71,7 @@ function installlinux {
     asp checkout linux
     cd linux/repos/core-x86_64
     
-    changePKGBUILD    
+    changePKGBUILD "$1"    
 
     updpkgsums
     gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
@@ -123,7 +123,7 @@ if [[ "$1" == "" ]]; then
     read -p "Do you want to install the latest kernel? (y/N)" kernel
 fi
 if [[ "$kernel" == "y" || "$1" == "-k" ]]; then
-    installlinux
+    installlinux "$2"
 fi
 
 # Only ask to update toslive if an image has been build
