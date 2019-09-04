@@ -54,8 +54,8 @@ mv /root/.config/.Xresources /root
 mkdir -p /root/.icon/default/
 mv /root/.config/index.theme /root/.icon/default/index.theme
 if [[ "$azerty" == "0" ]]; then
-    sed -i 's;exec setxkbmap $KEY;;' /root/.config/i3/config
-    sed -i 's;exec setxkbmap $KEY;;' /root/.config/sway/config
+    sed -i 's;set $KEY be;set $KEY us;' /root/.config/i3/config
+    sed -i 's;set $KEY be;set $KEY us;' /root/.config/sway/config
 fi
 
 mkdir -p /root/.mozilla/firefox/tos.default
@@ -75,9 +75,6 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 
 
 git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
-if [[ "$azerty" == "0" ]]; then
-    sed -i "s;setxkbmap be;;" /root/.oh-my-zsh/load/etc.sh
-fi
 curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos > /root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
 curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.zshrc > /root/.zshrc
@@ -86,6 +83,8 @@ curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.profile | sed '
 if [[ "$azerty" == "1" ]]; then
     echo "loadkeys be-latin1" >> /root/.profile
     echo "export KEY='be'" >> /root/.profile
+else
+    echo "export KEY='us'" >> /root/.profile
 fi
 
 echo "PATH=/root:/root/bin:\$PATH" >> /root/.profile
