@@ -52,7 +52,7 @@ build() {
 
 package_nvidia() {
     pkgdesc="NVIDIA drivers for linux"
-    depends=('linux' "nvidia-utils=${pkgver}" 'libglvnd')
+    depends=('linux-tos' "nvidia-utils=${pkgver}" 'libglvnd')
 
     install -Dt "${pkgdir}/usr/lib/modules/${_extramodules}" -m644 \
       "${srcdir}/${_pkg}/kernel"/nvidia{,-modeset,-drm,-uvm}.ko
@@ -68,7 +68,7 @@ package_nvidia() {
 package_nvidia-dkms() {
     pkgdesc="NVIDIA driver sources for linux"
     depends=('dkms' "nvidia-utils=$pkgver" 'libglvnd')
-    optdepends=('linux-headers: Build the module for Arch kernel'
+    optdepends=('linux-tos-headers: Build the module for TOS kernel'
                 'linux-lts-headers: Build the module for LTS Arch kernel')
     provides=("nvidia=$pkgver")
     conflicts+=('nvidia')
