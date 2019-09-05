@@ -11,8 +11,7 @@ fi
 yes | yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl
 
 function installbuilds() {
-	for package in BUILD/*; do
-        if [[ ! "$package" == "*.patch" ]]; then
+	for package in BUILD/PKGBUILD*; do
 		    dir=$(echo "$package" | cut -d_ -f2)
 		    if [[ -d "$dir" ]]; then
 			    rm -rf "$dir"
@@ -25,7 +24,6 @@ function installbuilds() {
 		    cp *.pkg.tar.xz ../arch
 		    repo-add ../arch/tos.db.tar.gz *.pkg.tar.xz
 		    cd ../ || exit 1
-        fi
 	done
 }
 
