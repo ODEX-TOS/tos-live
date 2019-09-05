@@ -10,7 +10,7 @@ pkgrel=1
 pkgdesc="NVIDIA drivers for linux, support for the tos kernel"
 arch=('x86_64')
 url="http://www.nvidia.com/"
-makedepends=("nvidia-utils=${pkgver}" 'libglvnd' 'linux' 'linux-headers')
+makedepends=("nvidia-utils=${pkgver}" 'libglvnd' 'linux-tos' 'linux-tos-headers')
 license=('custom')
 options=('!strip')
 _pkg="NVIDIA-Linux-x86_64-${pkgver}"
