@@ -1,0 +1,22 @@
+# Maintainer: Tom Meyers tom@odex.be
+pkgname=tdraw
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="A simple drawing app"
+arch=(any)
+url="https://github.com/ODEX-TOS/TDraw"
+license=('GPL')
+
+source=("https://github.com/ODEX-TOS/TDraw/releases/download/v0.1.0/TDraw")
+md5sums=('SKIP')
+
+
+
+build() {
+    return 0;
+}
+
+package() {
+        cd "$srcdir"
+        install -Dm755 TDraw "$pkgdir"/usr/bin/tdraw
+}
