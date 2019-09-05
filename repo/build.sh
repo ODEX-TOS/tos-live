@@ -12,18 +12,20 @@ yes | yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xor
 
 function installbuilds() {
 	for package in BUILD/*; do
-		dir=$(echo "$package" | cut -d_ -f2)
-		if [[ -d "$dir" ]]; then
-			rm -rf "$dir"
-		fi
-		mkdir "$dir"
-		cp "$package" "$dir/PKGBUILD"
-		cp BUILD/*.patch "$dir"
-		cd "$dir" || exit 1
-		makepkg || exit 1
-		cp *.pkg.tar.xz ../arch
-		repo-add ../arch/tos.db.tar.gz *.pkg.tar.xz
-		cd ../ || exit 1
+        if [[ ! "$package" == "*.patch" ]]; then
+		    dir=$(echo "$package" | cut -d_ -f2)
+		    if [[ -d "$dir" ]]; then
+			    rm -rf "$dir"
+		    fi
+		    mkdir "$dir"
+		    cp "$package" "$dir/PKGBUILD"
+		    cp BUILD/*.patch "$dir"
+		    cd "$dir" || exit 1
+		    makepkg || exit 1
+		    cp *.pkg.tar.xz ../arch
+		    repo-add ../arch/tos.db.tar.gz *.pkg.tar.xz
+		    cd ../ || exit 1
+        fi
 	done
 }
 
