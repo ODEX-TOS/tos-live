@@ -2,7 +2,7 @@
 # Based on i3-gaps-next-git PKGBUILD 
 
 pkgname=i3-gaps-tos
-pkgver=4.16.1.r184.g00181678
+pkgver=4.17.1.r184.g00181678
 pkgrel=1
 pkgdesc='A fork of i3wm tiling window manager with more features, including gaps and rounded corners'
 arch=('i686' 'x86_64')
@@ -21,7 +21,7 @@ optdepends=('rxvt-unicode: The terminal emulator used in the default config.'
             'perl-json-xs: For i3-save-tree'
             'perl-anyevent-i3: For i3-save-tree')
 options=('docs' '!strip')
-source=('git://github.com/F0xedb/i3#branch=shape')
+source=('git://github.com/ODEX-TOS/i3#branch=shape')
 sha1sums=('SKIP')
 
 _gitname='i3'
