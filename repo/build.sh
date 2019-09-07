@@ -107,6 +107,8 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
 	installpackage https://aur.archlinux.org/shunit-git.git shunit shunit-git-
 
+	installpackage https://github.com/ODEX-TOS/tos-installer-backend.git installer-backend installer-backend-
+
 	installbuilds
 fi
 if [[ "$1" == "" ]]; then
