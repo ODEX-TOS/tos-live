@@ -102,3 +102,4 @@ xdotool
 lsd
 python-yaml
 installer-backend
+installer-cli

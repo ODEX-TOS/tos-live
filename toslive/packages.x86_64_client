@@ -136,3 +136,5 @@ i3-gaps-tos
 st-tos
 python-yaml
 installer-backend
+installer-cli
+installer-gui
