@@ -109,6 +109,10 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
 	installpackage https://github.com/ODEX-TOS/tos-installer-backend.git installer-backend installer-backend-
 
+	installpackage https://github.com/ODEX-TOS/installer-gui.git installer-gui installer-gui-
+
+	installpackage https://github.com/ODEX-TOS/installer-curses.git installer-cli installer-cli-
+
 	installbuilds
 fi
 if [[ "$1" == "" ]]; then
