@@ -2,13 +2,15 @@
 
 # This file will prepare and install all software needed for the custom tos repo.
 # You have to ability to install custom software, fonts and even the latest kernel version
-# TODO: don't remove and rebuild all the software. just remove and rebuild the requested software
+
+# NOTE: For building tos-installer-cli and tos-installer-gui you will need tos-backend-api as a dependency
 
 if [[ ! -d arch ]]; then
 	mkdir arch
 fi
 
-yes | yay -Syu python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl
+yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl
+
 
 function installbuilds() {
 	for package in BUILD/PKGBUILD*; do
