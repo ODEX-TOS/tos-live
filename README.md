@@ -85,7 +85,7 @@ uname -r
  
 1. Clone the repo
 ```sh
-git clone https:://github.com/ODEX-TOS/tos-live.git
+git clone https://github.com/ODEX-TOS/tos-live.git
 ```
 
 > You can only build the iso if you are running an arch based distribution.
@@ -209,7 +209,7 @@ Distributed under the GPL License. See `LICENSE` for more information.
 
 ## Contact
 
-Tom Meyers - tom@pbfp.team
+Tom Meyers - tom@odex.be
 
 Project Link: [https://github.com/ODEX-TOS/tos-live](https://github.com/ODEX-TOS/tos-live)
 
