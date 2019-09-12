@@ -45,6 +45,18 @@ node('archlinux') {
               }
            }
       }
+      // Build tos client edition
+      stage('kde'){
+          try {
+              sh "cd toslive && sudo ./start.sh -k && pwd" // run start.sh as a root user since the live iso chroot is a root user
+           } catch(error) {
+              echo "Second build failed, let's retry."
+              echo "This probably happend because our repository has been updated"
+              retry(2) {
+                 sh "cd toslive && sudo ./start.sh -k && pwd"
+              }
+           }
+      }
       // Build tos server edition with azerty layout
       stage('server azerty'){
            try {
@@ -65,6 +77,18 @@ node('archlinux') {
               echo "This probably happend because our repository has been updated"
               retry(2) {
                  sh "cd toslive && sudo ./start.sh -g -a && pwd"
+              }
+           }
+      }
+      // Build tos client edition
+      stage('kde azerty'){
+          try {
+              sh "cd toslive && sudo ./start.sh -k -a && pwd" // run start.sh as a root user since the live iso chroot is a root user
+           } catch(error) {
+              echo "Second build failed, let's retry."
+              echo "This probably happend because our repository has been updated"
+              retry(2) {
+                 sh "cd toslive && sudo ./start.sh -k -a && pwd"
               }
            }
       }
