@@ -115,6 +115,8 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
 	installpackage https://github.com/ODEX-TOS/installer-curses.git installer-cli installer-cli-
 
+	installpackage https://github.com/ODEX-TOS/tools.git tools  tos-tools-
+
 	installbuilds
 fi
 if [[ "$1" == "" ]]; then
