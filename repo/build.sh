@@ -117,6 +117,8 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
 	installpackage https://github.com/ODEX-TOS/tools.git tools  tos-tools-
 
+	installpackage https://github.com/ODEX-TOS/grub-theme.git grub  tos-grub-theme-
+
 	installbuilds
 fi
 if [[ "$1" == "" ]]; then
