@@ -23,7 +23,7 @@ function installbuilds() {
 		    cp "$package" "$dir/PKGBUILD"
 		    cp BUILD/*.patch "$dir"
 		    cd "$dir" || exit 1
-		    makepkg || exit 1
+		    makepkg -s --noconfirm || exit 1
 		    cp *.pkg.tar.xz ../arch
 		    repo-add ../arch/tos.db.tar.gz *.pkg.tar.xz
 		    cd ../ || exit 1
