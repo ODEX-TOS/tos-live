@@ -9,7 +9,8 @@ if [[ ! -d arch ]]; then
 	mkdir arch
 fi
 
-yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl
+yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl pythonqt
+sudo pip install pyboost
 
 
 function installbuilds() {
@@ -89,6 +90,8 @@ if [[ "$1" == "" ]]; then
 	read -p "Do you want to install default packages? (y/N)" default
 fi
 if [[ "$default" == "y" || "$1" == "-a" ]]; then
+	installpackage https://github.com/ODEX-TOS/installer.git calamares  installer-3
+
 	installpackage https://aur.archlinux.org/polybar-git.git polybar polybar-git-
 
 	installpackage https://aur.archlinux.org/ccat.git ccat ccat-
@@ -118,6 +121,7 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 	installpackage https://github.com/ODEX-TOS/tools.git tools  tos-tools-
 
 	installpackage https://github.com/ODEX-TOS/grub-theme.git grub  tos-grub-theme-
+
 
 	installbuilds
 fi
