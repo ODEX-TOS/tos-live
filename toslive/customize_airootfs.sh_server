@@ -56,6 +56,9 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
 if [[ "$azerty" == "0" ]]; then
 	sed -i 's;setxkbmap $KEY;;' /root/.oh-my-zsh/load/etc.sh
+    printf 'KEYMAP=us' > /etc/vconsole.conf
+else
+    printf 'KEYMAP=be-latin1' > /etc/vconsole.conf
 fi
 curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos >/root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
