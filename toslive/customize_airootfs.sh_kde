@@ -50,6 +50,9 @@ mv /root/.config/index.theme /root/.icon/default/index.theme
 if [[ "$azerty" == "0" ]]; then
 	sed -i 's;set $KEY be;set $KEY us;' /root/.config/i3/config
 	sed -i 's;set $KEY be;set $KEY us;' /root/.config/sway/config
+    printf 'KEYMAP=us' > /etc/vconsole.conf
+else
+    printf 'KEYMAP=be-latin1' > /etc/vconsole.conf
 fi
 
 mkdir -p /root/.mozilla/firefox/tos.default
