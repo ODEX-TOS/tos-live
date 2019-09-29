@@ -2,7 +2,7 @@
 # Contributor: Dustin Falgout <dustin@antergos.com>
 # Contributor: Tom Meyers <tom@odex.be>
 
-pkgname=lightdm-webkit2-greeter
+pkgname=lightdm-webkit2-tos-greeter
 _pkgname=web-greeter
 pkgver=2.2.5
 pkgrel=2
