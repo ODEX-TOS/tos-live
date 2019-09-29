@@ -1,0 +1,47 @@
+# Maintainer: Filipe Laíns (FFY00) <lains@archlinux.org>
+# Contributor: Dustin Falgout <dustin@antergos.com>
+# Contributor: Tom Meyers <tom@odex.be>
+
+pkgname=lightdm-webkit2-greeter
+_pkgname=web-greeter
+pkgver=2.2.5
+pkgrel=2
+pkgdesc='LightDM greeter that uses WebKit2 for theming via HTML/JavaScript tos exstention.'
+arch=('x86_64')
+url='https://github.com/antergos/web-greeter'
+license=('GPL3')
+depends=('lightdm' 'webkit2gtk' 'accountsservice' 'gnome-backgrounds')
+makedepends=('gobject-introspection' 'meson' 'gettext' 'dbus-glib')
+backup=("etc/lightdm/$pkgname.conf")
+source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
+        'tos-logo.svg::https://raw.githubusercontent.com/ODEX-TOS/Pictures/master/tos/TOS_logo.svg')
+sha512sums=("SKIP" "SKIP")
+prepare() {
+  cd $_pkgname-$pkgver
+
+  # Replace tos logos
+  sed -i \
+  	-e 's|/usr.*antergos.png|/usr/share/pixmaps/tos-logo.svg|g;' \
+  	-e 's|/usr.*logo-user.png|/usr/share/pixmaps/tos-logo.svg|g' \
+  	"data/$pkgname.conf"
+}
+
+build() {
+  cd $_pkgname-$pkgver/build
+
+  arch-meson ..
+
+  ninja
+}
+
+package() {
+  cd $_pkgname-$pkgver/build
+
+  DESTDIR="$pkgdir" ninja install
+
+  install -Dm 644 "$srcdir"/tos-logo.svg "$pkgdir"/usr/share/pixmaps/tos-logo.svg
+  # Update the install below to contain the user specific logo
+  # install -Dm 644 "$srcdir"/archlinux-user.svg "$pkgdir"/usr/share/pixmaps/archlinux-user.svg
+}
+
+
