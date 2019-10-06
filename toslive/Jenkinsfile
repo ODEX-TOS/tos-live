@@ -57,6 +57,18 @@ node('archlinux') {
               }
            }
       }
+      // Build tos awesome edition
+      stage('awesome'){
+          try {
+              sh "cd toslive && sudo ./start.sh -awesome && pwd" // run start.sh as a root user since the live iso chroot is a root user
+           } catch(error) {
+              echo "Second build failed, let's retry."
+              echo "This probably happend because our repository has been updated"
+              retry(2) {
+                 sh "cd toslive && sudo ./start.sh -awesome && pwd"
+              }
+           }
+      }
       // Build tos server edition with azerty layout
       stage('server azerty'){
            try {
@@ -92,6 +104,17 @@ node('archlinux') {
               }
            }
       }
+      // Build tos client edition
+      stage('awesome azerty'){
+          try {
+              sh "cd toslive && sudo ./start.sh -awesome -a && pwd" // run start.sh as a root user since the live iso chroot is a root user
+           } catch(error) {
+              echo "Second build failed, let's retry."
+              echo "This probably happend because our repository has been updated"
+              retry(2) {
+                 sh "cd toslive && sudo ./start.sh -awesome -a && pwd"
+              }
+           }
       // Copy local tos builds to local repository
       stage('copy'){
           sh "cd repo && sh build.sh -u"
