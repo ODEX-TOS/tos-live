@@ -23,7 +23,7 @@ sed -i 's/#\(HandleSuspendKey=\)suspend/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleHibernateKey=\)hibernate/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleLidSwitch=\)suspend/\1ignore/' /etc/systemd/logind.conf
 if [[ "$azerty" == "1" ]]; then
-	loadkeys be-latin1
+  loadkeys be-latin1
 fi
 
 systemctl enable pacman-init.service choose-mirror.service
@@ -31,7 +31,7 @@ systemctl set-default multi-user.target
 systemctl enable NetworkManager
 
 if [[ $(ping -c1 1.1.1.1 | grep "0% packet loss") == "" ]]; then
-	wifi-menu
+  wifi-menu
 fi
 
 cd
@@ -48,11 +48,11 @@ mv /root/.config/.Xresources /root
 mkdir -p /root/.icon/default/
 mv /root/.config/index.theme /root/.icon/default/index.theme
 if [[ "$azerty" == "0" ]]; then
-	sed -i 's;set $KEY be;set $KEY us;' /root/.config/i3/config
-	sed -i 's;set $KEY be;set $KEY us;' /root/.config/sway/config
-    printf 'KEYMAP=us' > /etc/vconsole.conf
+  sed -i 's;set $KEY be;set $KEY us;' /root/.config/i3/config
+  sed -i 's;set $KEY be;set $KEY us;' /root/.config/sway/config
+  printf 'KEYMAP=us' >/etc/vconsole.conf
 else
-    printf 'KEYMAP=be-latin1' > /etc/vconsole.conf
+  printf 'KEYMAP=be-latin1' >/etc/vconsole.conf
 fi
 
 mkdir -p /root/.mozilla/firefox/tos.default
@@ -77,10 +77,10 @@ curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.zshrc >/root/.z
 curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.profile | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' >/root/.profile
 
 if [[ "$azerty" == "1" ]]; then
-	echo "loadkeys be-latin1" >>/root/.profile
-	echo "export KEY='be'" >>/root/.profile
+  echo "loadkeys be-latin1" >>/root/.profile
+  echo "export KEY='be'" >>/root/.profile
 else
-	echo "export KEY='us'" >>/root/.profile
+  echo "export KEY='us'" >>/root/.profile
 fi
 
 sed -i -r 's:^neofetch:echo "TOS - $(cat /etc/version)"\nneofetch:' /root/.zshrc
@@ -115,5 +115,5 @@ HOME_URL="https://tos.pbfp.xyz/"
 LOGO=toslinux' >/etc/os-release
 
 if [[ -f "/root/tos" ]]; then
-	rm /root/tos
+  rm /root/tos
 fi
