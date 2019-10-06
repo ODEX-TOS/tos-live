@@ -115,6 +115,7 @@ node('archlinux') {
                  sh "cd toslive && sudo ./start.sh -awesome -a && pwd"
               }
            }
+      }
       // Copy local tos builds to local repository
       stage('copy'){
           sh "cd repo && sh build.sh -u"
