@@ -37,7 +37,11 @@ function installpackage() {
 	fi
 	git clone $1 $2
 	cd $2
-	makepkg || exit 1
+	if [[ "$4" == "no-exit" ]]; then
+		makepkg
+	else
+		makepkg || exit 1
+	fi
 	rm ../arch/$3*.pkg.tar.xz
 	cp $3*.pkg.tar.xz ../arch
 	repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.xz
@@ -90,7 +94,7 @@ if [[ "$1" == "" ]]; then
 	read -p "Do you want to install default packages? (y/N)" default
 fi
 if [[ "$default" == "y" || "$1" == "-a" ]]; then
-	installpackage https://github.com/ODEX-TOS/installer.git calamares  installer-3
+	installpackage https://github.com/ODEX-TOS/installer.git calamares  installer-3 "no-exit"
 
 	installpackage https://aur.archlinux.org/polybar-git.git polybar polybar-git-
 
