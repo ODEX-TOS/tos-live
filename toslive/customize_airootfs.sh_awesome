@@ -117,3 +117,6 @@ LOGO=toslinux' >/etc/os-release
 if [[ -f "/root/tos" ]]; then
   rm /root/tos
 fi
+mkdir -p /root/.config/tos
+printf "on\ntime=1800\n/root/Pictures/drawing/cabin.png\n" >> /root/.config/tos/theme
+
