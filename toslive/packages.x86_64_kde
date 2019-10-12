@@ -146,3 +146,4 @@ installer
 xf86-input-synaptics
 tos-grub-theme
 lightdm-webkit2-tos-greeter
+iwlwifi-ucode
