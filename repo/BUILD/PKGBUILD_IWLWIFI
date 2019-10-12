@@ -1,0 +1,17 @@
+# Maintainer: Tom Meyers <tom@odex.be>
+pkgname='iwlwifi-ucode'
+pkgver='1'
+pkgrel=1
+pkgdesc="Intel® Dual Band Wireless-AC 3165, Intel® Dual Band Wireless-AC 7265, Intel® Dual Band Wireless-N 7265, Intel® Wireless-N 7265 firmware"
+arch=('any')
+url='https://wireless.wiki.kernel.org'
+license=('custom')
+source=("git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git/")
+sha256sums=('SKIP')
+
+package() {
+    mkdir -p "${pkgdir}/usr/lib/firmware/"
+    install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" "${srcdir}/linux-firmware/LICENSE."*
+    install -Dm644 -t "${pkgdir}/usr/lib/firmware/" "${srcdir}/linux-firmware/"*.ucode
+}
+
