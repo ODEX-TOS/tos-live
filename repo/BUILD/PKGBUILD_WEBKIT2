@@ -15,8 +15,10 @@ depends=('lightdm' 'webkit2gtk' 'accountsservice' 'gnome-backgrounds')
 makedepends=('gobject-introspection' 'meson' 'gettext' 'dbus-glib')
 backup=("etc/lightdm/$pkgname.conf")
 source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
-        'tos-logo.svg::https://raw.githubusercontent.com/ODEX-TOS/Pictures/master/tos/TOS_logo.svg')
-sha512sums=("SKIP" "SKIP")
+        'tos-logo.svg::https://raw.githubusercontent.com/ODEX-TOS/Pictures/master/tos/TOS_logo.svg'
+'git://github.com/ODEX-TOS/Pictures.git'
+)
+sha512sums=("SKIP" "SKIP" "SKIP")
 prepare() {
   cd $_pkgname-$pkgver
 
@@ -24,6 +26,7 @@ prepare() {
   sed -i \
   	-e 's|/usr.*antergos.png|/usr/share/pixmaps/tos-logo.svg|g;' \
   	-e 's|/usr.*logo-user.png|/usr/share/pixmaps/tos-logo.svg|g' \
+    -e 's|background_images =.*|background_images = /usr/share/backgrounds/tos|' \
   	"data/$_original.conf"
 }
 
@@ -41,6 +44,9 @@ package() {
   DESTDIR="$pkgdir" ninja install
 
   install -Dm 644 "$srcdir"/tos-logo.svg "$pkgdir"/usr/share/pixmaps/tos-logo.svg
+  mkdir -p "$pkgdir"/usr/share/backgrounds/tos
+  install -Dm 644 "$srcdir"/Pictures/drawing/* "$pkgdir"/usr/share/backgrounds/tos/
+  sed -i 's:session=cinnamon:session=awesome:' "$pkgdir"/usr/share/lightdm-webkit/themes/antergos/index.theme
   # Update the install below to contain the user specific logo
   # install -Dm 644 "$srcdir"/archlinux-user.svg "$pkgdir"/usr/share/pixmaps/archlinux-user.svg
 }
