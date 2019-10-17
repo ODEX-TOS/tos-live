@@ -147,3 +147,16 @@ tos-grub-theme
 lightdm-webkit2-tos-greeter
 linux-firmware
 ckbcomp-tos
+diffutils
+jfsutils
+lvm2
+man-db
+man-pages
+nano
+netctl
+usbutils
+vi
+xfsprogs
+dhcpd
+mdadm
+reiserfsprogs
