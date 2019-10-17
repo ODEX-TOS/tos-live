@@ -95,7 +95,7 @@ printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.bashrc
 
 rm -rf /root/Pictures
 git clone https://github.com/ODEX-TOS/Pictures /root/Pictures
-printf "xrdb ~/.Xresources\nexec startkde" >/root/.xinitrc
+printf "xrdb ~/.Xresources\nexec startplasma-x11" >/root/.xinitrc
 
 rm -rf /root/.vim
 mkdir -p /root/.vim/colors
