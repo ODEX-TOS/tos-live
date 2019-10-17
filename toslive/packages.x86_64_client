@@ -157,6 +157,6 @@ netctl
 usbutils
 vi
 xfsprogs
-dhcpd
+dhcpcd
 mdadm
 reiserfsprogs
