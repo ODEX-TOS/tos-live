@@ -11,4 +11,3 @@ index 73cdeed..e691014 100644
  #else
      return NV_FALSE;
  #endif
-
