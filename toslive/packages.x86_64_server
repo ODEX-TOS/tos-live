@@ -108,3 +108,16 @@ tos-tools
 os-prober
 tos-grub-theme
 linux-firmware
+diffutils
+jfsutils
+lvm2
+man-db
+man-pages
+nano
+netctl
+usbutils
+vi
+xfsprogs
+dhcpd
+mdadm
+reiserfsprogs
