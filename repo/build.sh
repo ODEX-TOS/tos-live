@@ -46,8 +46,8 @@ function installbuilds() {
 		    cp BUILD/*.patch "$dir"
 		    cd "$dir" || exit 1
 		    makepkg -s --noconfirm || exit 1
-		    cp *.pkg.tar.xz ../arch
-		    repo-add ../arch/tos.db.tar.gz *.pkg.tar.xz
+		    cp *.pkg.tar.* ../arch
+		    repo-add ../arch/tos.db.tar.gz *.pkg.tar.*
 		    cd ../ || exit 1
 	done
 }
@@ -64,9 +64,9 @@ function installpackage() {
 	else
 		makepkg || exit 1
 	fi
-	rm ../arch/$3*.pkg.tar.xz
-	cp $3*.pkg.tar.xz ../arch
-	repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.xz
+	rm ../arch/$3*.pkg.tar.*
+	cp $3*.pkg.tar.* ../arch
+	repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.*
 	cd ../
 }
 
@@ -105,9 +105,9 @@ function installlinux() {
 	updpkgsums
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
 	makepkg -s
-	rm -rf ../../../../arch/linux-tos*.pkg.tar.xz
-	repo-add ../../../../arch/tos.db.tar.gz linux-tos*.pkg.tar.xz
-	cp linux-tos*.pkg.tar.xz ../../../../arch
+	rm -rf ../../../../arch/linux-tos*.pkg.tar.*
+	repo-add ../../../../arch/tos.db.tar.gz linux-tos*.pkg.tar.*
+	cp linux-tos*.pkg.tar.* ../../../../arch
 	cd ../../../../
 
 }
