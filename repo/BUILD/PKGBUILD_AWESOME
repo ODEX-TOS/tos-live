@@ -1,0 +1,55 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Sébastien Luttringer
+# Contributor: xduugu
+# Contributor: Ronald van Haren <ronald.archlinux.org>
+# Contributor: Vesa Kaihlavirta
+# Contributor: Tom Meyers <tom@odex.be>
+
+pkgname=awesome-tos
+_name=awesome
+pkgver=4.3
+pkgrel=1
+pkgdesc='Highly configurable framework window manager with the default tos skin'
+url='https://awesomewm.org/'
+arch=('x86_64')
+license=('GPL2')
+depends=('cairo' 'dbus' 'gdk-pixbuf2' 'imlib2' 'libxdg-basedir' 'lua' 'lua-lgi' 'pango'
+         'startup-notification' 'xcb-util-cursor' 'xcb-util-keysyms' 'xcb-util-wm'
+         'xorg-xmessage' 'libxkbcommon-x11' 'libxkbcommon' 'xcb-util-xrm')
+makedepends=('asciidoc' 'cmake' 'docbook-xsl' 'doxygen' 'imagemagick' 'ldoc' 'xmlto')
+optdepends=('rlwrap: readline support for awesome-client'
+            'dex: autostart your desktop files'
+            'vicious: widgets for the Awesome window manager')
+provides=('notification-daemon')
+conflicts=('awesome')
+backup=('etc/xdg/awesome/rc.lua')
+source=(https://github.com/awesomeWM/awesome/releases/download/v${pkgver}/awesome-${pkgver}.tar.xz{,.asc} git://github.com/ODEX-TOS/dotfiles.git)
+sha512sums=('c5ef1e8dc593e7783b895d22143154aea8f211beeda24672a7ee4ed5112b4f4284043f848a151f3d3c4f569e91308670367a4353f705b20511b36495b22fa3f5'
+            'SKIP' 
+            'SKIP')
+validpgpkeys=('SKIP')
+
+prepare() {
+  cd ${_name}-${pkgver}
+  mkdir -p build
+}
+
+build() {
+  cd ${_name}-${pkgver}/build
+  cmake .. \
+    -DCMAKE_BUILD_TYPE=RELEASE \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DSYSCONFDIR=/etc \
+    -DLUA_LIBRARY=/usr/lib/liblua.so
+  make
+}
+
+package() {
+  cd ${_name}-${pkgver}
+  make -C build DESTDIR="${pkgdir}" install
+  install -Dm 644 awesome.desktop -t "${pkgdir}/usr/share/xsessions"
+  
+  cp -r ../dotfiles/awesome "${pkgdir}/etc/xdg/"
+}
