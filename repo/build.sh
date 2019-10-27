@@ -45,7 +45,7 @@ function installbuilds() {
 		    cp "$package" "$dir/PKGBUILD"
 		    cp BUILD/*.patch "$dir"
 		    cd "$dir" || exit 1
-		    makepkg -s --noconfirm || exit 1
+		    makepkg --skippgpcheck -s --noconfirm || exit 1
 		    cp *.pkg.tar.* ../arch
 		    repo-add ../arch/tos.db.tar.gz *.pkg.tar.*
 		    cd ../ || exit 1
@@ -60,9 +60,9 @@ function installpackage() {
 	git clone $1 $2
 	cd $2
 	if [[ "$4" == "no-exit" ]]; then
-		makepkg
+		makepkg -s --skippgpcheck
 	else
-		makepkg || exit 1
+		makepkg -s --skippgpcheck || exit 1
 	fi
 	rm ../arch/$3*.pkg.tar.*
 	cp $3*.pkg.tar.* ../arch
@@ -104,7 +104,7 @@ function installlinux() {
 
 	updpkgsums
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
-	makepkg -s
+	makepkg -s --skippgpcheck
 	rm -rf ../../../../arch/linux-tos*.pkg.tar.*
 	repo-add ../../../../arch/tos.db.tar.gz linux-tos*.pkg.tar.*
 	cp linux-tos*.pkg.tar.* ../../../../arch
