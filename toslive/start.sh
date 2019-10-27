@@ -155,6 +155,7 @@ if [[ "$1" == "-h" ]]; then
   echo "-s | compile iso in server mode"
   echo "-g | compile iso in gui mode "
   echo "-k | compile iso in kde mode "
+  echo "-awesome | compile iso in awesome mode "
   echo "-a | compile iso with azerty as keyboard layout (works with both -s and -g) This option must be the last option specified "
   exit 0
 fi
