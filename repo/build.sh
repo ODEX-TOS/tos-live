@@ -204,20 +204,20 @@ if [[ -f "../toslive/out/tosserver-azerty.iso" ]]; then
 		cp ../toslive/out/tosserver-azerty.iso arch/tosserver-azerty.iso
 	fi
 fi
-if [[ -f "../toslive/out/toslive-kde-azerty.iso" ]]; then
+if [[ -f "../toslive/out/toslive-awesome-azerty.iso" ]]; then
 	if [[ "$1" == "" ]]; then
-		read -p "Do you want to include toslive kde azerty edition? (y/N)" toslive
+		read -p "Do you want to include toslive awesome azerty edition? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
-		cp ../toslive/out/toslive-kde-azerty.iso arch/toslive-kde-azerty.iso
+		cp ../toslive/out/toslive-awesome-azerty.iso arch/toslive-awesome-azerty.iso
 	fi
 fi
-if [[ -f "../toslive/out/toslive-kde.iso" ]]; then
+if [[ -f "../toslive/out/toslive-awesome.iso" ]]; then
 	if [[ "$1" == "" ]]; then
-		read -p "Do you want to include toslive kde edition? (y/N)" toslive
+		read -p "Do you want to include toslive awesome edition? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
-		cp ../toslive/out/toslive-kde.iso arch/toslive-kde.iso
+		cp ../toslive/out/toslive-awesome.iso arch/toslive-awesome.iso
 	fi
 fi
 cp index.html arch/
