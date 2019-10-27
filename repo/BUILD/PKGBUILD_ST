@@ -1,4 +1,5 @@
 # Maintainer: Tom Meyers <tom@odex.be>
+# SILENT: on
 
 pkgname=st-tos
 _pkgname=sucklessterminal
