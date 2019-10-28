@@ -1,0 +1,3 @@
+pre_install(){
+    rm -rf /etc/os-release
+}
