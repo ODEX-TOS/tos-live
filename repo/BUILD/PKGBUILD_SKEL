@@ -59,15 +59,6 @@ package() {
         mkdir -p "$pkgdir"/etc/skel/.vim/colors
         curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > "$pkgdir"/etc/skel/.vim/colors/badwolf.vim
 
-        # os specific data
-        mkdir -p "$pkgdir"/etc
-        printf 'NAME="Tos Linux"
-        PRETTY_NAME="Tos Linux"
-        ID=tos
-        BUILD_ID=rolling
-        ANSI_COLOR="0;36"
-        HOME_URL="https://tos.pbfp.xyz/"
-        LOGO=toslinux' >"$pkgdir"/etc/os-release
         mkdir -p "$pkgdir"/etc/skel/.config/tos
         printf "on\ntime=1800\n/root/Pictures/drawing/cabin.png\n" >> "$pkgdir"/etc/skel/.config/tos/theme
 }
