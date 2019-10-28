@@ -12,7 +12,7 @@ source=(
 "git+https://github.com/ODEX-TOS/dotfiles.git")
 md5sums=('SKIP')
 makedepends=('git')
-
+install="$pkgname".install
 pkgver() {
   cd "$srcdir/$_reponame"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
@@ -55,14 +55,12 @@ package() {
         mv .zshrc "$pkgdir"/etc/skel/
 
         mv .profile "$pkgdir"/etc/skel/.profile
-        echo "echo \"TOS - $(cat /etc/version)\"" >> "$pkgdir"/etc/skel/.bashrc
         git clone https://github.com/ODEX-TOS/Pictures "$pkgdir"/etc/skel/Pictures
         mkdir -p "$pkgdir"/etc/skel/.vim/colors
         curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > "$pkgdir"/etc/skel/.vim/colors/badwolf.vim
 
         # os specific data
         mkdir -p "$pkgdir"/etc
-        echo "TOS Linux" > "$pkgdir"/etc/issue
         printf 'NAME="Tos Linux"
         PRETTY_NAME="Tos Linux"
         ID=tos
