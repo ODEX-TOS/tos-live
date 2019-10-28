@@ -162,3 +162,4 @@ dhcpcd
 mdadm
 reiserfsprogs
 libarchive
+skel

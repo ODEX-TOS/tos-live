@@ -38,15 +38,7 @@ cd
 curl https://raw.githubusercontent.com/ODEX-TOS/tools/master/tosinstall -o /root/tosinstall
 chmod +x /root/tosinstall
 
-rm -rf /root/.config
 rm -rf .oh-my-zsh
-git clone https://github.com/ODEX-TOS/dotfiles /root/.config
-mv /root/.config/.vimrc /root
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-mv /root/.config/.Xresources /root
-mkdir -p /root/.icon/default/
-mv /root/.config/index.theme /root/.icon/default/index.theme
 if [[ "$azerty" == "0" ]]; then
   sed -i 's;set $KEY be;set $KEY us;' /root/.config/i3/config
   sed -i 's;set $KEY be;set $KEY us;' /root/.config/sway/config
@@ -54,10 +46,6 @@ if [[ "$azerty" == "0" ]]; then
 else
   printf 'KEYMAP=be-latin1' >/etc/vconsole.conf
 fi
-
-mkdir -p /root/.mozilla/firefox/tos.default
-cp /root/.config/tos/profiles.ini /root/.mozilla/firefox/profiles.ini
-cp -r /root/.config/tos/tos-firefox/* /root/.mozilla/firefox/tos.default
 
 curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install.sh
 export RUNZSH=no
@@ -73,9 +61,6 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
 curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos >/root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
-curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.zshrc >/root/.zshrc
-curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.profile | sed '/^PATH/d' | sed '/^export PATH=\/home\/zeus/d' | sed '/export PATH=$HOME/d' >/root/.profile
-
 if [[ "$azerty" == "1" ]]; then
   echo "loadkeys be-latin1" >>/root/.profile
   echo "export KEY='be'" >>/root/.profile
@@ -83,8 +68,6 @@ else
   echo "export KEY='us'" >>/root/.profile
 fi
 
-sed -i -r 's:^neofetch:echo "TOS - $(cat /etc/version)"\nneofetch:' /root/.zshrc
-echo "echo \"TOS - $(cat /etc/version)\"" >>/root/.bashrc
 echo "$version" >/etc/version
 
 git clone https://github.com/denysdovhan/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt"
@@ -93,30 +76,11 @@ ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/ro
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.zshrc
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.bashrc
 
-rm -rf /root/Pictures
-git clone https://github.com/ODEX-TOS/Pictures /root/Pictures
 printf "xrdb ~/.Xresources\nexec awesome" >/root/.xinitrc
 
-rm -rf /root/.vim
-mkdir -p /root/.vim/colors
-touch /root/.vim /root/.vim/colors/badwolf.vim
-curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim >~/.vim/colors/badwolf.vim
-
 sed -i 's;$HOME /home/zeus;$HOME /root;' ~/.config/i3/config
-
-rm -rf /etc/issue /etc/os-release
-echo "TOS Linux" >/etc/issue
-printf 'NAME="Tos Linux"
-PRETTY_NAME="Tos Linux"
-ID=tos
-BUILD_ID=rolling
-ANSI_COLOR="0;36"
-HOME_URL="https://tos.pbfp.xyz/"
-LOGO=toslinux' >/etc/os-release
 
 if [[ -f "/root/tos" ]]; then
   rm /root/tos
 fi
-mkdir -p /root/.config/tos
-printf "on\ntime=1800\n/root/Pictures/drawing/cabin.png\n" >> /root/.config/tos/theme
 
