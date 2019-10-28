@@ -1,0 +1,75 @@
+# Maintainer: Tom Meyers tom@odex.be
+pkgname=skel
+pkgver=r191.8d4e622
+pkgrel=1
+pkgdesc="Default user settings for when you need to create a new user"
+arch=(any)
+url="https://github.com/ODEX-TOS/dotfiles"
+_reponame="dotfiles"
+license=('MIT')
+
+source=(
+"git+https://github.com/ODEX-TOS/dotfiles.git")
+md5sums=('SKIP')
+makedepends=('git')
+
+pkgver() {
+  cd "$srcdir/$_reponame"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+        cd "$srcdir/$_reponame"
+        curl -fLo plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        git clone https://github.com/VundleVim/Vundle.vim.git Vundle.vim
+        sed -i '/^PATH/d' .profile
+        sed -i '/^export PATH=\/home\/zeus/d' .profile
+        sed -i '/export PATH=$HOME/d' .profile
+        sed -i -r 's:^neofetch:echo "TOS - $(cat /etc/version)"\nneofetch:' .zshrc
+}
+
+build() {
+    return 0;
+}
+
+package() {
+        mkdir -p "$pkgdir"/etc/skel/.config
+        cp -r "$srcdir/$_reponame"/* "$pkgdir"/etc/skel/.config
+        cd "$srcdir/$_reponame"
+
+        # install vim packages
+        install -Dm755 .vimrc "$pkgdir"/etc/skel/.vimrc
+        install -Dm755 plug.vim "$pkgdir"/etc/skel/.vim/autoload/plug.vim
+        cp -r Vundle.vim "$pkgdir"/etc/skel/.vim/bundle/
+
+        # install default packages
+        install -Dm755 .Xresources "$pkgdir"/etc/skel/.Xresources
+        install -Dm755 index.theme "$pkgdir"/etc/skel/.icon/default/index.theme
+
+        # Firefox customization
+        mkdir -p "$pkgdir"/etc/skel/.mozilla/firefox/tos.default
+        cp tos/profiles.ini "$pkgdir"/etc/skel/.mozilla/firefox/profiles.ini
+        cp -r tos/tos-firefox/* "$pkgdir"/etc/skel/.mozilla/firefox/tos.default
+
+        # zsh
+        mv .zshrc "$pkgdir"/etc/skel/
+
+        mv .profile "$pkgdir"/etc/skel/.profile
+        echo "echo \"TOS - $(cat /etc/version)\"" >> "$pkgdir"/etc/skel/.bashrc
+        git clone https://github.com/ODEX-TOS/Pictures "$pkgdir"/etc/skel/Pictures
+        mkdir -p "$pkgdir"/etc/skel/.vim/colors
+        curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > "$pkgdir"/etc/skel/.vim/colors/badwolf.vim
+
+        # os specific data
+        mkdir -p "$pkgdir"/etc
+        echo "TOS Linux" > "$pkgdir"/etc/issue
+        printf 'NAME="Tos Linux"
+        PRETTY_NAME="Tos Linux"
+        ID=tos
+        BUILD_ID=rolling
+        ANSI_COLOR="0;36"
+        HOME_URL="https://tos.pbfp.xyz/"
+        LOGO=toslinux' >"$pkgdir"/etc/os-release
+        mkdir -p "$pkgdir"/etc/skel/.config/tos
+        printf "on\ntime=1800\n/root/Pictures/drawing/cabin.png\n" >> "$pkgdir"/etc/skel/.config/tos/theme
+}
