@@ -34,6 +34,7 @@ build() {
 package() {
         mkdir -p "$pkgdir"/etc/skel/.config
         cp -r "$srcdir/$_reponame"/* "$pkgdir"/etc/skel/.config
+        rm -rf "$pkgdir"/etc/skel/.config/awesome # awesome-tos already uses these files system-wide users don't need the seperate config files
         cd "$srcdir/$_reponame"
 
         # install vim packages
