@@ -1,4 +1,5 @@
 # Maintainer: Tom Meyers tom@odex.be
+# SILENT: on
 pkgname=skel
 pkgver=r191.8d4e622
 pkgrel=2
