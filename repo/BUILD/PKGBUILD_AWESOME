@@ -52,4 +52,5 @@ package() {
   install -Dm 644 awesome.desktop -t "${pkgdir}/usr/share/xsessions"
   
   cp -r ../dotfiles/awesome "${pkgdir}/etc/xdg/"
+  chmod 666 "${pkgdir}/etc/xdg/awesome/configuration/compton.conf"
 }
