@@ -35,6 +35,7 @@ package() {
         mkdir -p "$pkgdir"/etc/skel/.config
         cp -r "$srcdir/$_reponame"/* "$pkgdir"/etc/skel/.config
         mv "$pkgdir"/etc/skel/.config/awesome/configuration/compton.conf "$pkgdir"/etc/skel/.config/compton.conf 
+        chmod 666 "$pkgdir"/etc/skel/.config/compton.conf
         rm -rf "$pkgdir"/etc/skel/.config/awesome # awesome-tos already uses these files system-wide users don't need the seperate config files
         cd "$srcdir/$_reponame"
 
