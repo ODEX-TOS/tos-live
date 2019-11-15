@@ -2,7 +2,7 @@
 # Maintainer: Tom Meyers <krzysztof1987 at gmail>
 
 pkgbase=perl-checkupdates-aur
-pkgname=(perl-checkupdates-aur-tos checkupdates-aur-tos)
+pkgname=(perl-checkupdates-aur checkupdates-aur-tos)
 _lastauthor=T/TH/THREEED
 _pkgname=OS-CheckUpdates-AUR
 pkgver=0.04
@@ -33,8 +33,7 @@ check() {
 	perl Build test
 }
 
-package_perl-checkupdates-aur-tos() {
-    replaces=('perl-checkupdates-aur')
+package_perl-checkupdates-aur () {
 	cd "${_pkgname}-${pkgver}"
 	perl Build install
 
@@ -43,7 +42,7 @@ package_perl-checkupdates-aur-tos() {
 
 package_checkupdates-aur-tos() {
     replaces=('checkupdates-aur')
-	depends=('perl-checkupdates-aur-tos')
+	depends=('perl-checkupdates-aur')
 
 	cd "${_pkgname}-${pkgver}"
 	install -D -m755 bin/checkupdates-aur "$pkgdir/usr/bin/checkupdates-aur"
