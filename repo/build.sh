@@ -116,6 +116,9 @@ if [[ "$1" == "" ]]; then
 	read -p "Do you want to install default packages? (y/N)" default
 fi
 if [[ "$default" == "y" || "$1" == "-a" ]]; then
+
+	installpackage https://github.com/ODEX-TOS/system-updater.git updater system-updater-
+
 	installpackage https://github.com/ODEX-TOS/installer.git calamares  installer-3 "no-exit"
 
 	installpackage https://aur.archlinux.org/polybar-git.git polybar polybar-git-
