@@ -84,3 +84,8 @@ if [[ -f "/root/tos" ]]; then
   rm /root/tos
 fi
 
+# prepend backend="xrender" to compton.conf
+echo 'backend="xrender"' > /root/.config/compton.conf_new
+cat /root/.config/compton.conf >> /root/.config/compton.conf_new
+mv /root/.config/compton.conf_new /root/.config/compton.conf
+
