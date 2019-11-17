@@ -127,7 +127,6 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
 	installpackage https://aur.archlinux.org/i3lock-next-git.git i3lock i3lock-next-git
 
-	installpackage https://aur.archlinux.org/mcmojave-circle-icon-theme-git.git icon mcmojave-circle-
 
 	installpackage https://aur.archlinux.org/visual-studio-code-insiders.git vs visual-studio-code-insiders
 
@@ -135,7 +134,6 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
 	installpackage https://aur.archlinux.org/i3lock-color.git color i3lock-color-
 
-	installpackage https://aur.archlinux.org/xcursor-human.git cursor xcursor-human-
 
 	installpackage https://aur.archlinux.org/readme-generator-git.git readme readme-generator-git-
 
@@ -163,6 +161,10 @@ if [[ "$fonts" == "y" || "$1" == "-f" ]]; then
 	installpackage https://aur.archlinux.org/siji-git.git font2 siji-git-
 
 	installpackage https://aur.archlinux.org/ttf-symbola.git font3 ttf-symbola-
+
+	installpackage https://aur.archlinux.org/mcmojave-circle-icon-theme-git.git icon mcmojave-circle-
+
+	installpackage https://aur.archlinux.org/xcursor-human.git cursor xcursor-human-
 fi
 if [[ "$1" == "" ]]; then
 	read -p "Do you want to install the latest kernel? (y/N)" kernel
