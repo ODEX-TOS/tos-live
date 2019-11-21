@@ -1,0 +1,23 @@
+# Maintainer: mark.blakeney at bullet-systems dot net
+# Maintainer: tom at odex dot be
+pkgname=libinput-gestures-tos
+_pkgname=libinput-gestures
+pkgver=2.48
+pkgrel=1
+pkgdesc="Actions gestures on your touchpad using libinput with the pre configured tos files"
+url="https://github.com/bulletmark/$_pkgname"
+license=("GPL3")
+arch=("any")
+depends=("python>=3.4" "libinput" "xdotool" "wmctrl" "hicolor-icon-theme")
+conflicts=("$pkgname-git")
+replaces=("$pkgname-git")
+backup=("etc/$_pkgname.conf")
+source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz" "git://github.com/ODEX-TOS/dotfiles.git")
+md5sums=('ea9f122127779354f80433b2b3196e24' "SKIP") 
+
+package() {
+  cd "$_pkgname-$pkgver"
+  make DESTDIR="$pkgdir/" install
+  rm -rf "$pkgdir"/etc/libinput-gestures.conf # remove the default configuration file
+  cp "$srcdir"/dotfiles/libinput-gestures.conf "$pkgdir"/etc/libinput-gestures.conf
+}
