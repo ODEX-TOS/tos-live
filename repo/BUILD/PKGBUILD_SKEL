@@ -25,6 +25,7 @@ prepare() {
         sed -i '/^PATH/d' .profile
         sed -i '/^export PATH=\/home\/zeus/d' .profile
         sed -i '/export PATH=$HOME/d' .profile
+        cp .profile .xprofile
         sed -i -r 's:^neofetch:echo "TOS - $(cat /etc/version)"\nneofetch:' .zshrc
 }
 
