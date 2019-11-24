@@ -26,6 +26,8 @@ prepare() {
 
 package() {
 	cd "$srcdir/sugar-candy"
-	find . -type f -exec install -Dm644 {} "$pkgdir/usr/share/sddm/themes/Sugar-Candy/{}" \;
+	find . -type f -exec install -Dm644 {} "$pkgdir/usr/share/sddm/themes/sugar-candy/{}" \;
+    mkdir -p "$pkgdir"/etc/sddm.conf.d/
+    echo "[Theme]\nCurrent=sugar-candy" > "$pkgdir"/etc/sddm.conf.d/avatar.conf
 }
 
