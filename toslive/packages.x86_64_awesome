@@ -18,6 +18,8 @@ dnsutils
 dosfstools
 elinks
 ethtool
+zip
+unzip
 exfat-utils
 f2fs-tools
 fsarchiver
@@ -59,7 +61,6 @@ sudo
 tcpdump
 testdisk
 usb_modeswitch
-vim-minimal
 vpnc
 wget
 wireless-regdb
@@ -70,7 +71,6 @@ xl2tpd
 vim
 bluez
 compton
-dunst
 feh
 glances
 neofetch
@@ -118,7 +118,6 @@ arandr
 polybar-git
 r8152-dkms
 ccat
-i3lock-next-git
 visual-studio-code-insiders
 libmpdclient
 python-pywal
