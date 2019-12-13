@@ -160,7 +160,7 @@ if [[ "$fonts" == "y" || "$1" == "-f" ]]; then
 
 	installpackage https://aur.archlinux.org/siji-git.git font2 siji-git-
 
-	installpackage https://aur.archlinux.org/ttf-symbola.git font3 ttf-symbola-
+	installpackage https://aur.archlinux.org/ttf-symbola.git font3 ttf-symbola- "no-exit"
 
 	installpackage https://aur.archlinux.org/mcmojave-circle-icon-theme-git.git icon mcmojave-circle-
 
