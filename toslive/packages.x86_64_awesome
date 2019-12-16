@@ -173,3 +173,6 @@ nemo
 gnome-system-monitor
 system-updater
 libinput-gestures-tos
+intel-ucode
+amd-ucode
+mesa
