@@ -175,3 +175,6 @@ libinput-gestures-tos
 intel-ucode
 amd-ucode
 mesa
+alsa-lib
+alsa-plugins
+alsa-utils
