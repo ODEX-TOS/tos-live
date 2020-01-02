@@ -78,7 +78,6 @@ pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
 python-pip
-xf86-input-mouse
 xf86-video-intel
 playerctl
 nm-connection-editor
