@@ -100,6 +100,16 @@ function build() {
 
 }
 
+if [[ "$1" == "-h" ]]; then
+  echo "-h | help message"
+  echo "-s | compile iso in server mode"
+  echo "-g | compile iso in gui mode "
+  echo "-k | compile iso in kde mode "
+  echo "-awesome | compile iso in awesome mode "
+  echo "-a | compile iso with azerty as keyboard layout (works with all other modes) This option must be the last option specified "
+  exit 0
+fi
+
 if [[ "$1" == "-g" ]]; then
   cp customize_airootfs.sh_client airootfs/root/customize_airootfs.sh || exit 1
 elif [[ "$1" == "-s" ]]; then
@@ -150,13 +160,4 @@ if [[ "$1" == "-s" ]]; then
   build "$1" "$2"
 fi
 
-if [[ "$1" == "-h" ]]; then
-  echo "-h | help message"
-  echo "-s | compile iso in server mode"
-  echo "-g | compile iso in gui mode "
-  echo "-k | compile iso in kde mode "
-  echo "-awesome | compile iso in awesome mode "
-  echo "-a | compile iso with azerty as keyboard layout (works with both -s and -g) This option must be the last option specified "
-  exit 0
-fi
 
