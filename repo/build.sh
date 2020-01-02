@@ -31,8 +31,8 @@ if [[ ! -d arch ]]; then
 	mkdir arch
 fi
 
-yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl pythonqt
-sudo pip install pyboost
+#yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl pythonqt 
+#sudo pip install pyboost
 
 
 function installbuilds() {
@@ -112,43 +112,41 @@ function installlinux() {
 
 }
 
+function populatedb {
+    repo-add *.db.tar.* *.pkg.tar.* || exit 1
+}
+
+
+# this function will build all packages from a given package file eg packages.conf
+# supply the config file as the first argument
+function buildpackages {
+    if [[ "$1" == "" ]]; then
+        printf "supply a config file to the buildpackages function\n"
+        exit 1
+    fi
+    if [[ ! -f "$1" ]]; then
+        printf "$1 is a non existing file. Cannot decode packages to build\n"
+        exit 1
+    fi
+    # file exists at this point
+    OLD="$IFS"
+    IFS=$'\n'
+    for line in $(sed -e 's:#.*::g' -e '/^\s*$/d' "$1"); do # sanitize the file
+        url="$( printf $line | cut -d ' ' -f1)" 
+        dir="$( printf $line | cut -d ' ' -f2)" 
+        glob="$( printf $line | cut -d ' ' -f3)" 
+        abortcode="$( printf $line | cut -d ' ' -f4)" 
+        installpackage "$url" "$dir" "$glob" "$abortcode"
+    done
+    IFS="$OLD"
+}
+exit 1
 if [[ "$1" == "" ]]; then
 	read -p "Do you want to install default packages? (y/N)" default
 fi
 if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
-	installpackage https://github.com/ODEX-TOS/system-updater.git updater system-updater-
-
-	installpackage https://github.com/ODEX-TOS/installer.git calamares  installer-3 "no-exit"
-
-	installpackage https://aur.archlinux.org/polybar-git.git polybar polybar-git-
-
-	installpackage https://aur.archlinux.org/ccat.git ccat ccat-
-
-	installpackage https://aur.archlinux.org/i3lock-next-git.git i3lock i3lock-next-git
-
-
-	installpackage https://aur.archlinux.org/visual-studio-code-insiders.git vs visual-studio-code-insiders
-
-	installpackage https://aur.archlinux.org/r8152-dkms.git r8 r8152-dkms-
-
-	installpackage https://aur.archlinux.org/i3lock-color.git color i3lock-color-
-
-
-	installpackage https://aur.archlinux.org/readme-generator-git.git readme readme-generator-git-
-
-	installpackage https://aur.archlinux.org/shunit-git.git shunit shunit-git-
-
-	installpackage https://github.com/ODEX-TOS/tos-installer-backend.git installer-backend installer-backend-
-
-	installpackage https://github.com/ODEX-TOS/installer-gui.git installer-gui installer-gui-
-
-	installpackage https://github.com/ODEX-TOS/installer-curses.git installer-cli installer-cli-
-
-	installpackage https://github.com/ODEX-TOS/tools.git tools  tos-tools-
-
-	installpackage https://github.com/ODEX-TOS/grub-theme.git grub  tos-grub-theme-
-
+    buildpackages "packages.conf"
 
 	installbuilds
 fi
@@ -156,15 +154,7 @@ if [[ "$1" == "" ]]; then
 	read -p "Do you want to install fonts? (y/N)" fonts
 fi
 if [[ "$fonts" == "y" || "$1" == "-f" ]]; then
-	installpackage https://aur.archlinux.org/nerd-fonts-complete.git font nerd-fonts-complete-
-
-	installpackage https://aur.archlinux.org/siji-git.git font2 siji-git-
-
-	installpackage https://aur.archlinux.org/ttf-symbola.git font3 ttf-symbola- "no-exit"
-
-	installpackage https://aur.archlinux.org/mcmojave-circle-icon-theme-git.git icon mcmojave-circle-
-
-	installpackage https://aur.archlinux.org/xcursor-human.git cursor xcursor-human-
+        buildpackages "fonts.conf"
 fi
 if [[ "$1" == "" ]]; then
 	read -p "Do you want to install the latest kernel? (y/N)" kernel
