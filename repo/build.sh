@@ -31,8 +31,8 @@ if [[ ! -d arch ]]; then
 	mkdir arch
 fi
 
-#yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl pythonqt 
-#sudo pip install pyboost
+yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl pythonqt 
+sudo pip install pyboost
 
 
 function installbuilds() {
@@ -149,18 +149,22 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
     buildpackages "packages.conf"
 
 	installbuilds
+
+    populatedb
 fi
 if [[ "$1" == "" ]]; then
 	read -p "Do you want to install fonts? (y/N)" fonts
 fi
 if [[ "$fonts" == "y" || "$1" == "-f" ]]; then
-        buildpackages "fonts.conf"
+    buildpackages "fonts.conf"
+    populatedb
 fi
 if [[ "$1" == "" ]]; then
 	read -p "Do you want to install the latest kernel? (y/N)" kernel
 fi
 if [[ "$kernel" == "y" || "$1" == "-k" ]]; then
 	installlinux "$2"
+    populatedb
 fi
 
 # Only ask to update toslive if an image has been build
