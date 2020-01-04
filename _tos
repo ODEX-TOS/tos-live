@@ -377,7 +377,7 @@ function _tos_add_theme {
 }
 
 function _tos_delete_theme {
-        list=$(cat ~/.config/tos/theme | awk '$0 !~ /^on|^off/{print $0}')
+        list=$(awk '$0 ~ /^.*\.png|^.*\.jpg|^.*\.jpeg/{print $0}' ~/.config/tos/theme | sed '/^#/d')
         _arguments -C\
         "1: :($list)"
 }
