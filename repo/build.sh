@@ -114,7 +114,9 @@ function installlinux() {
 
 function populatedb {
     # change depending on the repo name
+    cd arch || exit 1
     repo-add tos.db.tar.gz *.pkg.tar.* || exit 1
+    cd ../ || exit 1
 }
 
 
