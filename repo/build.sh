@@ -31,8 +31,8 @@ if [[ ! -d arch ]]; then
 	mkdir arch
 fi
 
-yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color-git dkms xorg-xset unzip asciidoc docbook-xsl pythonqt 
-sudo pip install pyboost
+#yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color-git dkms xorg-xset unzip asciidoc docbook-xsl pythonqt 
+#sudo pip install pyboost
 
 
 function installbuilds() {
@@ -65,6 +65,8 @@ function installpackage() {
 		makepkg -s --skippgpcheck || exit 1
 	fi
 	rm ../arch/$3*.pkg.tar.*
+    ls $3*.pkg.tar.*
+    sleep 10
 	cp $3*.pkg.tar.* ../arch
 	repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.*
 	cd ../
@@ -135,7 +137,7 @@ function buildpackages {
     # file exists at this point
     OLD="$IFS"
     IFS=$'\n'
-    for line in $(sed -e 's:#.*::g' -e '/^\s*$/d' "$1"); do # sanitize the file
+    for line in $(sed -e 's:#.*::g' -e '/^\s*$/d' "$1" | tr -s ' ' ); do # sanitize the file
         url="$( printf $line | cut -d ' ' -f1)" 
         dir="$( printf $line | cut -d ' ' -f2)" 
         glob="$( printf $line | cut -d ' ' -f3)" 
