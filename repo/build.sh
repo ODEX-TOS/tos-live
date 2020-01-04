@@ -140,16 +140,14 @@ function buildpackages {
     done
     IFS="$OLD"
 }
-exit 1
+
 if [[ "$1" == "" ]]; then
-	read -p "Do you want to install default packages? (y/N)" default
+    read -p "Do you want to install default packages? (y/N)" default
 fi
 if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
     buildpackages "packages.conf"
-
-	installbuilds
-
+    installbuilds
     populatedb
 fi
 if [[ "$1" == "" ]]; then
@@ -160,10 +158,10 @@ if [[ "$fonts" == "y" || "$1" == "-f" ]]; then
     populatedb
 fi
 if [[ "$1" == "" ]]; then
-	read -p "Do you want to install the latest kernel? (y/N)" kernel
+    read -p "Do you want to install the latest kernel? (y/N)" kernel
 fi
 if [[ "$kernel" == "y" || "$1" == "-k" ]]; then
-	installlinux "$2"
+    installlinux "$2"
     populatedb
 fi
 
