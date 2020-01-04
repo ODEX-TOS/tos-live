@@ -34,7 +34,7 @@ node('archlinux') {
            }
       }
       // Build tos client edition
-      stage('client'){
+      /*stage('client'){
           try {
               sh "cd toslive && sudo ./start.sh -g && pwd" // run start.sh as a root user since the live iso chroot is a root user
            } catch(error) {
@@ -44,7 +44,7 @@ node('archlinux') {
                  sh "cd toslive && sudo ./start.sh -g && pwd"
               }
            }
-      }
+      }*/
       // Build tos client edition
       /*stage('kde'){
           try {
@@ -81,7 +81,7 @@ node('archlinux') {
               }
            }    }
       // Build tos client edition with azerty layout
-      stage('client azerty'){
+      /*stage('client azerty'){
           try {
               sh "cd toslive && sudo ./start.sh -g -a && pwd" // run start.sh as a root user since the live iso chroot is a root user
            } catch(error) {
@@ -91,7 +91,7 @@ node('archlinux') {
                  sh "cd toslive && sudo ./start.sh -g -a && pwd"
               }
            }
-      }
+      }*/
       // Build tos client edition
       /*stage('kde azerty'){
           try {
