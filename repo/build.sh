@@ -113,7 +113,8 @@ function installlinux() {
 }
 
 function populatedb {
-    repo-add *.db.tar.* *.pkg.tar.* || exit 1
+    # change depending on the repo name
+    repo-add tos.db.tar.gz *.pkg.tar.* || exit 1
 }
 
 
