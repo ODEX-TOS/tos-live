@@ -31,7 +31,7 @@ if [[ ! -d arch ]]; then
 	mkdir arch
 fi
 
-yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color dkms xorg-xset unzip asciidoc docbook-xsl pythonqt 
+yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color-git dkms xorg-xset unzip asciidoc docbook-xsl pythonqt 
 sudo pip install pyboost
 
 
