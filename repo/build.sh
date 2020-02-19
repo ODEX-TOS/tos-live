@@ -74,7 +74,7 @@ function installpackage() {
 
 function changePKGBUILD() {
 	# Set the package version
-	pkgver=$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | sed 's/arch/tos/' | tr '-' '.')
+	pkgver=$(curl -sf https://raw.githubusercontent.com/ODEX-TOS/linux/tos-latest/.PKGVER)
 	extraversion="-"$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | cut -d- -f2)
 	# uncomment the next line if you don't want this build to be the default
 	sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
@@ -84,7 +84,7 @@ function changePKGBUILD() {
 	sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
     sed -i 's;$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
 
-	sed -i 's;pkgver=${_srcver//-/.};pkgver='$pkgver';' PKGBUILD
+	sed -i 's;pkgver=.*;pkgver='$pkgver';' PKGBUILD
 	if [[ "$1" == "" ]]; then
 		read -p "how many cores do you wish to use for compilation?" cores
 	else
