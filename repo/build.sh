@@ -82,7 +82,7 @@ function changePKGBUILD() {
 	sed -i 's;# CONFIG_THINKPAD_ACPI_UNSAFE_LEDS is not set;CONFIG_THINKPAD_ACPI_UNSAFE_LEDS=y;g' config
 	sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = '$extraversion':EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
 	sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
-    sed -i 's;$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos;g' PKGBUILD
+    sed -i 's;$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
 
 	sed -i 's;pkgver=${_srcver//-/.};pkgver='$pkgver';' PKGBUILD
 	if [[ "$1" == "" ]]; then
