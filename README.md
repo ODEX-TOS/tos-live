@@ -174,6 +174,17 @@ The script that actually builds the iso's
 
 This will completely build a arch based repository from scratch. If building you own repo don't forget to reference it in the pacman.conf file.
 
+The build script has numerous options.
+
+```sh
+./build.sh -a # build all generic packages
+./build.sh -f # build all fonts
+./build.sh -k # build the kernel with one core
+./build.sh -k 3 # build the kernel with three cores
+./build.sh -u # copy over all detected iso's in the toslive directory over to the repo
+./build.sh # interactively ask what needs to be build
+```
+
 #### repo/genpackagelist.sh
 
 This generates a html file that shows all data about tos packages.
