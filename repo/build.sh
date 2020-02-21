@@ -27,6 +27,11 @@
 
 # NOTE: For building tos-installer-cli and tos-installer-gui you will need tos-backend-api as a dependency
 
+# ENUM VARIABLES
+NO_ABORT_FLAG="^# NO_ABORT" # this flag must be present in order to not abort the build when something goes wrong
+# END ENUM VARIABLES
+
+
 if [[ ! -d arch ]]; then
 	mkdir arch
 fi
@@ -45,7 +50,11 @@ function installbuilds() {
 		    cp "$package" "$dir/PKGBUILD"
 		    cp BUILD/*.patch "$dir"
 		    cd "$dir" || exit 1
-		    makepkg --skippgpcheck -s --noconfirm || exit 1
+			if grep -q -E "$NO_ABORT_FLAG" "PKGBUILD"; then
+		    	makepkg --skippgpcheck -s --noconfirm || echo "[ERROR] Build of $package failed. Continuing build..."
+			else
+				makepkg --skippgpcheck -s --noconfirm || exit 1
+			fi
 		    cp *.pkg.tar.* ../arch
 		    repo-add ../arch/tos.db.tar.gz *.pkg.tar.*
 		    cd ../ || exit 1

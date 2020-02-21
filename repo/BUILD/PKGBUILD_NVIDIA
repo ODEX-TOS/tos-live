@@ -2,6 +2,7 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor: Thomas Baechler <thomas@archlinux.org>
 # Contributor: Tom Meyers <tom@odex.be>
+# NO_ABORT
 pkgbase=nvidia
 pkgname=(nvidia nvidia-dkms)
 pkgver=440.59
