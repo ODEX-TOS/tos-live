@@ -43,6 +43,10 @@ function log {
 # functions to handle a specific package based on its url
 function get {
     html=$(curl -s $1)
+    # retreive variables in a safe manner
+    eval $(source "$item";
+            echo version="$pkgver";
+            echo release="$pkgrel")
     version=$(printf "%s" "$html" | grep "pkgver=") # grep the current version in tos repo
     release=$(printf "%s" "$html" | grep "pkgrel=") # grep the current release in the tos repo
     if ! cat "$4" | grep -q "# SILENT: on"; then
