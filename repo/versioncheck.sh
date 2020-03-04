@@ -31,6 +31,14 @@ core_url="https://git.archlinux.org/svntogit/packages.git/plain/trunk/PKGBUILD?h
 extra_url="https://git.archlinux.org/svntogit/packages.git/plain/trunk/PKGBUILD?h=packages/"
 aur_url="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h="
 
+LOG_ERROR="\033[0;31m[ERROR]\033[0m "
+LOG_WARN="\033[0;33m[WARN]\033[0m "
+LOG_INFO="\033[0;33m[INFO]\033[0m "
+LOG_DEBUG="\033[0;35m[DEBUG]\033[0m "
+
+function log {
+    echo -e "$@"
+}
 
 # functions to handle a specific package based on its url
 function get {
@@ -39,7 +47,7 @@ function get {
     release=$(printf "%s" "$html" | grep "pkgrel=") # grep the current release in the tos repo
     if ! cat "$4" | grep -q "# SILENT: on"; then
         if [[ "$version" != "$2" && "$release" != "$3" ]]; then
-            printf "$4: should be updated - $1\n"
+            log "$LOG_INFO" "$4: should be updated - $1"
         fi
     fi
 }
@@ -49,9 +57,13 @@ function get {
 # We only search for versions in this script.
 
 for item in BUILD/PKGBUILD*; do
-        version=$(grep "pkgver=" "$item") # grep the current version in tos repo
-        release=$(grep "pkgrel=" "$item") # grep the current release in the tos repo
-        name=$(grep -E "^pkgname=" "$item" | cut -d= -f2 | sed 's:-tos::g' | sed "s:'::g") # Get the package name
+        # retreive variables in a safe manner
+        eval $(source "$item";
+                echo version="$pkgver";
+                echo release="$pkgrel";
+                echo pkgname="$pkgname")
+        name=$(printf "$pkgname" | cut -d= -f2 | sed 's:-tos::g' | sed "s:'::g") # Get the package name
+        # check if the first name is 
         # Get the PKGBUILD from the arch repo, try each repo type until a succesfull match is found
         if curl -s "$core_url"$name | grep -E -q "^pkgname="; then
                 get "$core_url"$name "$version" "$release" "$item"
@@ -63,7 +75,7 @@ for item in BUILD/PKGBUILD*; do
                 get "$aur_url"$name "$version" "$release" "$item"
         else
                 if [[ "$1" != "-s" && "$1" != "--silent" ]]; then
-                    echo "Cannot find $name in any repo"
+                    log "$LOG_ERROR" "Cannot find $name in any repo (detected in file $(basename $item))"
                 fi
         fi
 done
