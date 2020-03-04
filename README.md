@@ -97,7 +97,7 @@ You will see the following entry:
 ```bash
 [tos]
 SigLevel = Optional TrustAll
-Server = https://repo.pbfp.xyz
+Server = https://repo.odex.be
 ```
 
 This will use the official repository for tos. If you want to use your own repo change the above to
@@ -130,15 +130,18 @@ sudo ./start.sh -g # build the desktop iso
 
 sudo ./start.sh -s -a # build the server iso with the keyboard layout to azerty
 sudo ./start.sh -g -a # build the desktop iso with the keyboard layout to qwerty
+
+# for more information use the help page
+sudo ./start.sh -h
 ```
 
-> start.sh needs to be activated in the same folder or your images won't get build. You also need to be on the latest kernel for the build to succees
+> start.sh needs to be activated in the same folder or your images won't get build. You also need to be on the latest kernel for the build to succeed
 
 ## Structure
 
 Our project has the following files you need to know about:
 
-#### toslive/packages.x86_64_client
+#### toslive/packages.x86_64_awesome
 
 This file contains all packages required for the operating system (for the desktop edition)
 
@@ -154,7 +157,14 @@ This file is a script that will be executed during build. In this file you "prep
 
 > Do not install packages from the aur here. It won't work
 
-#### toslive/version.txt
+#### toslive/packages.x86_64_awesome
+
+This file contains the packages that are going to be installed in the live environment.
+You should add an extra line if you want to install an extra package.
+
+> Do not install packages from the aur here. It won't work.
+
+#### toslive/version-edit.txt
 
 This contains the current version of our operating system. When making a pull request please update it accordingly.
 
@@ -188,6 +198,40 @@ The build script has numerous options.
 #### repo/genpackagelist.sh
 
 This generates a html file that shows all data about tos packages.
+
+#### repo/versioncheck.sh
+
+Run this command to get a list of `PKGBUILDS` that need manual intervention to be updated.
+
+#### repo/BUILD/*
+
+Add custom pkgbuild files that will be build and added to the repository
+
+#### repo/build.sh
+
+Build certain parts of the repository
+```bash
+./build.sh -a # build all common packages
+./build.sh -f # build all fonts
+./build.sh -k # build the kernel using one core
+./build.sh -k 3 # build the kernel using 3 cores
+./build.sh # interactivaly build everything
+./build.sh -u # upload all build iso images
+```
+
+#### repo/cleanup.sh
+
+Remove duplicate packages in the `repo/arch` directory
+
+#### repo/packages.conf
+
+List all packages that will be added to the repo.
+Each line equals one package.
+For the construction of a line look at the comments in that file
+
+### repo/fonts.conf
+
+Same as above but for fonts.
 
 _For more examples, please refer to the [Documentation](https://github.com/ODEX-TOS/tos-live/wiki)_
 
