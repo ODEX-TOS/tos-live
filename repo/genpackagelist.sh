@@ -25,8 +25,8 @@
 # This file generates the package list html file.
 
 repo="tos"
-url="https://repo.pbfp.xyz"
-infourl="https://tos.pbfp.xyz"
+url="https://repo.odex.be"
+infourl="https://tos.odex.be"
 workdir="arch"
 packages=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 2)
 packageversion=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 3)

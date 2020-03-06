@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/ODEX-TOS/tos-live">
-    <img src="https://tos.pbfp.xyz/images/logo.svg" alt="Logo" width="150" height="150">
+    <img src="https://tos.odex.be/images/logo.svg" alt="Logo" width="150" height="150">
   </a>
 
   <h3 align="center">TOS-Live</h3>
@@ -53,7 +53,7 @@
 
 ### Built By
 
-- [F0xedb](https://www.pbfp.xyz)
+- [F0xedb](https://www.odex.be)
 
 <!-- GETTING STARTED -->
 
@@ -299,16 +299,16 @@ Project Link: [https://github.com/ODEX-TOS/tos-live](https://github.com/ODEX-TOS
 
 ## Acknowledgements
 
-- [F0xedb](https://www.pbfp.xyz)
-- [TOS Homepage](https://tos.pbfp.xyz)
+- [F0xedb](https://www.odex.be)
+- [TOS Homepage](https://tos.odex.be)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[repo-build]: https://jenkins.pbfp.xyz/buildStatus/icon?job=tos-repo&style=flat-square&subject=repo+build
-[repo-url]: https://jenkins.pbfp.xyz/job/tos-repo/
-[iso-build]: https://jenkins.pbfp.xyz/buildStatus/icon?job=tos-iso&style=flat-square&subject=iso+build
-[iso-url]: https://jenkins.pbfp.xyz/job/tos-iso/
+[repo-build]: https://jenkins.odex.be/buildStatus/icon?job=tos-repo&style=flat-square&subject=repo+build
+[repo-url]: https://jenkins.odex.be/job/tos-repo/
+[iso-build]: https://jenkins.odex.be/buildStatus/icon?job=tos-iso&style=flat-square&subject=iso+build
+[iso-url]: https://jenkins.odex.be/job/tos-iso/
 [contributors-shield]: https://img.shields.io/github/contributors/ODEX-TOS/tos-live.svg?style=flat-square
 [contributors-url]: https://github.com/ODEX-TOS/tos-live/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/ODEX-TOS/tos-live.svg?style=flat-square
@@ -319,4 +319,4 @@ Project Link: [https://github.com/ODEX-TOS/tos-live](https://github.com/ODEX-TOS
 [issues-url]: https://github.com/ODEX-TOS/tos-live/issues
 [license-shield]: https://img.shields.io/github/license/ODEX-TOS/tos-live.svg?style=flat-square
 [license-url]: https://github.com/ODEX-TOS/tos-live/blob/master/LICENSE.txt
-[product-screenshot]: https://tos.pbfp.xyz/images/logo.svg
+[product-screenshot]: https://tos.odex.be/images/logo.svg
