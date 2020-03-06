@@ -95,3 +95,7 @@ if [[ "$azerty" == "1" ]]; then
 	echo "loadkeys be-latin1" >>/root/.profile
 	echo "export KEY='be'" >>/root/.profile
 fi
+
+# enable sysrq triggers
+mkdir -p /etc/sysctl.d/
+echo "kernel.sysrq = 511" >> /etc/sysctl.d/99-sysctl.conf

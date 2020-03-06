@@ -117,3 +117,7 @@ LOGO=toslinux' >/etc/os-release
 if [[ -f "/root/tos" ]]; then
 	rm /root/tos
 fi
+
+# enable sysrq triggers
+mkdir -p /etc/sysctl.d/
+echo "kernel.sysrq = 511" >> /etc/sysctl.d/99-sysctl.conf
