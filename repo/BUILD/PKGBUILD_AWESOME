@@ -24,7 +24,7 @@ optdepends=('rlwrap: readline support for awesome-client'
             'vicious: widgets for the Awesome window manager'
             'librsvg: for displaying SVG files without scaling artifacts')
 provides=('notification-daemon')
-conflicts=('awesome')
+conflicts=('awesome' 'awesome-git')
 backup=('etc/xdg/awesome/rc.lua')
 source=("$_name::git+https://github.com/awesomeWM/awesome.git" git://github.com/ODEX-TOS/dotfiles.git)
 sha512sums=('SKIP'
