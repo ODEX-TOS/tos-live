@@ -73,12 +73,13 @@ echo "$version" >/etc/version
 git clone https://github.com/denysdovhan/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt"
 ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
+# update zshrc file to the official tos version
+cp /root/.config/.zshrc /root/.zshrc 
+
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.zshrc
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.bashrc
 
 printf "xrdb ~/.Xresources\nexec awesome" >/root/.xinitrc
-
-sed -i 's;$HOME /home/zeus;$HOME /root;' ~/.config/i3/config
 
 if [[ -f "/root/tos" ]]; then
   rm /root/tos
