@@ -26,7 +26,7 @@ set -e -u
 
 iso_name=toslinux
 iso_label="TOS_$(date +%Y%m)"
-iso_publisher="PBFP <http://www.pbfp.xyz>"
+iso_publisher="ODEX <http://www.odex.be>"
 iso_application="TOS Linux Live/Rescue CD"
 iso_version=$(date +%Y.%m.%d)
 install_dir=arch
@@ -123,7 +123,7 @@ make_customize_airootfs() {
 
     curl -o ${work_dir}/x86_64/airootfs/etc/pacman.d/mirrorlist 'https://www.archlinux.org/mirrorlist/?country=all&protocol=http&use_mirror_status=on'
 
-    lynx -dump -nolist 'https://wiki.archlinux.org/index.php/Installation_Guide?action=render' >> ${work_dir}/x86_64/airootfs/root/install.txt
+    echo "Run 'tos calamares' inside of a terminal to start the installation" >> ${work_dir}/x86_64/airootfs/root/install.txt
 
     mkarchiso ${verbose} -w "${work_dir}/x86_64" -C "${work_dir}/pacman.conf" -D "${install_dir}" -r '/root/customize_airootfs.sh' run
     rm ${work_dir}/x86_64/airootfs/root/customize_airootfs.sh
