@@ -1,8 +1,8 @@
 # Maintainer: Tom Meyers tom@odex.be
 # SILENT: on
 pkgname=skel
-pkgver=r191.8d4e622
-pkgrel=2
+pkgver=r621.0f58336
+pkgrel=1
 pkgdesc="Default user settings for when you need to create a new user"
 arch=(any)
 url="https://github.com/ODEX-TOS/dotfiles"
@@ -36,6 +36,10 @@ build() {
 package() {
         mkdir -p "$pkgdir"/etc/skel/.config
         cp -r "$srcdir/$_reponame"/* "$pkgdir"/etc/skel/.config
+        
+        # copy over used dotfiles
+        cp -r "$srcdir/$_reponame"/.{zshrc,profile,xprofile,Xresources} "$pkgdir"/etc/skel/.config
+
         mv "$pkgdir"/etc/skel/.config/awesome/configuration/compton.conf "$pkgdir"/etc/skel/.config/compton.conf 
         chmod 666 "$pkgdir"/etc/skel/.config/compton.conf
         rm -rf "$pkgdir"/etc/skel/.config/awesome # awesome-tos already uses these files system-wide users don't need the seperate config files
