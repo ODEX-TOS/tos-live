@@ -15,14 +15,14 @@ depends=("awesome-tos")
 provides=("$_pkgname")
 conflicts=("$_pkgname")
 sha256sums=("SKIP")
-source=("$_pkgname-${pkgver}.zip::https://github.com/lcpz/$_pkgname/archive/$pkgsha.zip")
+source=("$_pkgname::git+https://github.com/lcpz/$_pkgname.git")
 
-prepare() {
-    rm -fr "$_pkgname/$_pkgname-$pkgsha"*
-    mv "$_pkgname-$pkgsha"* $_pkgname
-}
+#prepare() {
+    
+#}
 
 package() {
+    ls
     install -dm755 "$pkgdir/usr/share/lua/5.3/${_pkgname##*-}"
     install -m644 $_pkgname/{LICENSE,README.rst,*.lua} "$pkgdir/usr/share/lua/5.3/${_pkgname##*-}"
 }
