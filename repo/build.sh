@@ -118,7 +118,7 @@ function installlinux() {
 
 	updpkgsums
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
-	makepkg -s --skippgpcheck
+	makepkg -s --skippgpcheck || exit 1
 	rm -rf ../../../../arch/linux-tos*.pkg.tar.*
 	repo-add ../../../../arch/tos.db.tar.gz linux-tos*.pkg.tar.*
 	cp linux-tos*.pkg.tar.* ../../../../arch
