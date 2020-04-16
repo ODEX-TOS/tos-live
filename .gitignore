@@ -10,6 +10,8 @@ toslive/version.txt
 
 toslive/airootfs/root/customize_airootfs.sh
 
+!repo/arch/public.gpg
+
 repo/ccat/
 
 repo/i3lock/
@@ -46,4 +48,3 @@ repo/shunit/
 
 repo/installer-backend/
 
-repo/arch/public.gpg
