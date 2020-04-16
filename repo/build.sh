@@ -31,6 +31,17 @@
 NO_ABORT_FLAG="^# NO_ABORT" # this flag must be present in order to not abort the build when something goes wrong
 # END ENUM VARIABLES
 
+# change this to the gpg key of your mail address
+GPG_EMAIL="tom@odex.be"
+
+# WARN: Do not commit a password into version control!
+# GPG_PASS="" # set this in your env or directly here.
+
+
+if [[ "$GPG_PASS" == "" ]]; then
+	echo "NO GPG password set please resolve"
+	sleep 5
+fi
 
 if [[ ! -d arch ]]; then
 	mkdir arch
@@ -158,6 +169,20 @@ function buildpackages {
     IFS="$OLD"
 }
 
+# generate the ISO checksum and gpg sig
+function secureISO {
+	if [[ "$(command -v sha265sum)" ]]; then
+		echo "cannot generate checksum of $1. You should have sha265sum installed"
+		return
+	fi
+	if [[ "$(command -v gpg)" ]]; then
+		echo "GNU gpg should be installed on your system and have a valid key."
+		return
+	fi
+	sha265sum "$1" > "$1".sha265
+	gpg --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
+}
+
 if [[ "$1" == "" ]]; then
     read -p "Do you want to install default packages? (y/N)" default
 fi
@@ -189,6 +214,7 @@ if [[ -f "../toslive/out/toslive.iso" ]]; then
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/toslive.iso arch/toslive.iso
+		secureISO arch/toslive.iso
 	fi
 fi
 
@@ -198,6 +224,7 @@ if [[ -f "../toslive/out/tosserver.iso" ]]; then
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/tosserver.iso arch/tosserver.iso
+		secureISO arch/tosserver.iso
 	fi
 fi
 
@@ -207,6 +234,7 @@ if [[ -f "../toslive/out/toslive-azerty.iso" ]]; then
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/toslive-azerty.iso arch/toslive-azerty.iso
+		secureISO arch/toslive-azerty.iso
 	fi
 fi
 
@@ -216,6 +244,7 @@ if [[ -f "../toslive/out/tosserver-azerty.iso" ]]; then
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/tosserver-azerty.iso arch/tosserver-azerty.iso
+		secureISO arch/tosserver-azerty.iso
 	fi
 fi
 if [[ -f "../toslive/out/toslive-awesome-azerty.iso" ]]; then
@@ -224,6 +253,7 @@ if [[ -f "../toslive/out/toslive-awesome-azerty.iso" ]]; then
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/toslive-awesome-azerty.iso arch/toslive-awesome-azerty.iso
+		secureISO arch/toslive-awesome-azerty.iso
 	fi
 fi
 if [[ -f "../toslive/out/toslive-awesome.iso" ]]; then
@@ -232,6 +262,7 @@ if [[ -f "../toslive/out/toslive-awesome.iso" ]]; then
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/toslive-awesome.iso arch/toslive-awesome.iso
+		secureISO arch/toslive-awesome.iso
 	fi
 fi
 cp index.html arch/
