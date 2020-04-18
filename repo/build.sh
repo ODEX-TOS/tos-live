@@ -171,11 +171,11 @@ function buildpackages {
 
 # generate the ISO checksum and gpg sig
 function secureISO {
-	if [[ "$(command -v sha256sum)" ]]; then
+	if [[ ! "$(command -v sha256sum)" ]]; then
 		echo "cannot generate checksum of $1. You should have sha256sum installed"
 		return
 	fi
-	if [[ "$(command -v gpg)" ]]; then
+	if [[ ! "$(command -v gpg)" ]]; then
 		echo "GNU gpg should be installed on your system and have a valid key."
 		return
 	fi
