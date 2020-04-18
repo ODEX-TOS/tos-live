@@ -171,15 +171,15 @@ function buildpackages {
 
 # generate the ISO checksum and gpg sig
 function secureISO {
-	if [[ "$(command -v sha265sum)" ]]; then
-		echo "cannot generate checksum of $1. You should have sha265sum installed"
+	if [[ "$(command -v sha256sum)" ]]; then
+		echo "cannot generate checksum of $1. You should have sha256sum installed"
 		return
 	fi
 	if [[ "$(command -v gpg)" ]]; then
 		echo "GNU gpg should be installed on your system and have a valid key."
 		return
 	fi
-	sha265sum "$1" > "$1".sha265
+	sha256sum "$1" > "$1".sha256
 	gpg --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
 }
 
