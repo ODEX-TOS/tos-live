@@ -180,6 +180,7 @@ function secureISO {
 		return
 	fi
 	sha256sum "$1" > "$1".sha256
+	sed -i 's/arch\///g' "$1".sha256
 	# accept all user input for overriding files
 	yes | gpg --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
 }
