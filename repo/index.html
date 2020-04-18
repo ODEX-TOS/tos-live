@@ -22,22 +22,43 @@
   SOFTWARE.
 -->
 <html>
-        <head>
-            <title>TOS - REPO</title>
-        </head>
-        <body>
-            <h1>TOS repo</h1>
-            <p>You are viewing the homepage of the tos repo. This repo contains custom software used by the tos operating system. The repo can be used on any arch based distribution.</p>
+  <head>
+    <title>TOS - REPO</title>
+  </head>
+  <body>
+    <h1>TOS repo</h1>
+    <p>
+      You are viewing the homepage of the tos repo. This repo contains custom
+      software used by the tos operating system. The repo can be used on any
+      arch based distribution.
+    </p>
 
-            <h3>Usefull links</h3>
-            <a href="https://tos.odex.be">TOS homepage</a>
-            <br>
-            <a href="https://repo.odex.be/toslive.iso">TOS Download link</a>
-            <br>
-            <a href="https://tos.odex.be/blog/tos/tos-repo/">Setup tos repo</a>
-            <br>
-            <a href="https://tos.odex.be/blog/tos/tos-tool/">TOS tool</a>
-            <br>
-            <a href="https://repo.odex.be/list.html">Packages in this repo</a>
-        </body>
+    <h3>Useful links</h3>
+    <a href="https://tos.odex.be">TOS homepage</a>
+    <br />
+    <a href="https://repo.odex.be/toslive-awesome.iso">TOS Download link</a>
+    <br />
+    <a href="https://wiki.odex.be">Wiki</a>
+    <br />
+    <a href="https://github.com/ODEX-TOS">Source code</a>
+    <br />
+    <a href="https://repo.odex.be/list.html">Packages in this repo</a>
+    <div>
+      <h3>GPG Public key</h3>
+      <pre id="gpg"></pre>
+    </div>
+    <!-- This script is present to gather the public gpg key and display it to the users-->
+    <script>
+      var xmlHttp = new XMLHttpRequest();
+      function get(uri, func) {
+        xmlHttp.onreadystatechange = func
+        xmlHttp.open("GET", uri, true);
+        xmlHttp.send();
+      }
+      let gpg = document.querySelector("#gpg");
+      get("/public.gpg", () => {
+        gpg.innerHTML = xmlHttp.responseText
+      });
+    </script>
+  </body>
 </html>
