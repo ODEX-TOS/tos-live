@@ -180,7 +180,8 @@ function secureISO {
 		return
 	fi
 	sha256sum "$1" > "$1".sha256
-	gpg --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
+	# accept all user input for overriding files
+	yes | gpg --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
 }
 
 if [[ "$1" == "" ]]; then
