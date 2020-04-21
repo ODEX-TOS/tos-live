@@ -5,7 +5,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![GPL License][license-shield]][license-url]
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FODEX-TOS%2Ftos-live.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FODEX-TOS%2Ftos-live?ref=badge_shield)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -286,8 +285,6 @@ Contributions are what make the open source community such an amazing place to b
 Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FODEX-TOS%2Ftos-live.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FODEX-TOS%2Ftos-live?ref=badge_large)
 
 ## Contact
 
