@@ -60,6 +60,9 @@ function installbuilds() {
 		    mkdir "$dir"
 		    cp "$package" "$dir/PKGBUILD"
 		    cp BUILD/*.patch "$dir"
+            if [[ "BUILD/$dir" ]]; then
+                    cp -r "BUILD/$dir/*" "$dir"
+            fi
 		    cd "$dir" || exit 1
 			if grep -q -E "$NO_ABORT_FLAG" "PKGBUILD"; then
 		    	makepkg --skippgpcheck -s --noconfirm || echo "[ERROR] Build of $package failed. Continuing build..."
