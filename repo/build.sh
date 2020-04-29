@@ -60,7 +60,7 @@ function installbuilds() {
 		    mkdir "$dir"
 		    cp "$package" "$dir/PKGBUILD"
 		    cp BUILD/*.patch "$dir"
-            if [[ "BUILD/$dir" ]]; then
+            if [[ -d "BUILD/$dir" ]]; then
                     cp -r "BUILD/$dir/*" "$dir"
             fi
 		    cd "$dir" || exit 1
