@@ -50,6 +50,24 @@ fi
 #yay -Syu --noconfirm python-sphinx rust cargo asp pacman-contrib i3lock-color-git dkms xorg-xset unzip asciidoc docbook-xsl pythonqt 
 #sudo pip install pyboost
 
+# Wait until the repo loc has been lifted
+# $1 is the repo name $2 is the directory location of the database
+function addToRepo() {
+	# wait for the lock file to dissapear
+	while [[ -f "$1".lck ]] do
+		sleep 1
+	done
+	loc=$(pwd)
+	cd "$2"
+	if [[ "$3" == "" ]]; then
+		repo-add "$1" *.pkg.tar.*
+	else
+		repo-add "$1" "$3"*.pkg.tar.*
+	fi
+	cd "$loc"
+
+}
+
 
 function installbuilds() {
 	for package in BUILD/PKGBUILD*; do
@@ -70,7 +88,7 @@ function installbuilds() {
 				makepkg --skippgpcheck -s --noconfirm || exit 1
 			fi
 		    cp *.pkg.tar.* ../arch
-		    repo-add ../arch/tos.db.tar.gz *.pkg.tar.*
+		    addToRepo tos.db.tar.gz ../arch/
 		    cd ../ || exit 1
 	done
 }
@@ -91,7 +109,7 @@ function installpackage() {
     ls $3*.pkg.tar.*
     sleep 10
 	cp $3*.pkg.tar.* ../arch
-	repo-add ../arch/tos.db.tar.gz $3*.pkg.tar.*
+	addToRepo tos.db.tar.gz ../arch/ "$3"
 	cd ../
 }
 
@@ -134,8 +152,8 @@ function installlinux() {
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
 	makepkg -s --skippgpcheck || exit 1
 	rm -rf ../../../../arch/linux-tos*.pkg.tar.*
-	repo-add ../../../../arch/tos.db.tar.gz linux-tos*.pkg.tar.*
 	cp linux-tos*.pkg.tar.* ../../../../arch
+	addToRepo tos.db.tar.gz ../../../../arch/ linux-tos
 	cd ../../../../
 
 }
@@ -143,7 +161,7 @@ function installlinux() {
 function populatedb {
     # change depending on the repo name
     cd arch || exit 1
-    repo-add tos.db.tar.gz *.pkg.tar.* || exit 1
+	addToRepo tos.db.tar.gz . linux-tos || exit 1
     cd ../ || exit 1
 }
 
