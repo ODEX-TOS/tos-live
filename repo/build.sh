@@ -54,7 +54,7 @@ fi
 # $1 is the repo name $2 is the directory location of the database
 function addToRepo() {
 	# wait for the lock file to dissapear
-	while [[ -f "$1".lck ]] do
+	while [[ -f "$1".lck ]]; do
 		sleep 1
 	done
 	loc=$(pwd)
