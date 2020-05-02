@@ -36,6 +36,8 @@ GPG_EMAIL="tom@odex.be"
 
 # WARN: Do not commit a password into version control!
 # GPG_PASS="" # set this in your env or directly here.
+# make sure to load the profile even if we are doing this in a custom environment
+source ~/.profile
 
 
 if [[ "$GPG_PASS" == "" ]]; then
