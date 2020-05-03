@@ -7,10 +7,8 @@ Please execute
   $ sudo systemctl enable linux-modules-cleanup
 
 Report any issues to:
-https://github.com/saber-nyan/kernel-modules-hook/issues
-
-
-										~desu
+https://github.com/ODEX-TOS/tos-live/issues
+										~desu & Tom
 
 EOF
 }
