@@ -90,9 +90,9 @@ function installbuilds() {
 				makepkg --skippgpcheck -s --noconfirm || exit 1
 			fi
 		    cp *.pkg.tar.* ../arch
-		    addToRepo tos.db.tar.gz ../arch/
 		    cd ../ || exit 1
 	done
+	addToRepo tos.db.tar.gz ../arch/
 }
 
 # $1 is the url $2 is the installdir $3 is the package name
@@ -111,7 +111,6 @@ function installpackage() {
     ls $3*.pkg.tar.*
     sleep 10
 	cp $3*.pkg.tar.* ../arch
-	addToRepo tos.db.tar.gz ../arch/ "$3"
 	cd ../
 }
 
@@ -190,6 +189,7 @@ function buildpackages {
         installpackage "$url" "$dir" "$glob" "$abortcode"
     done
     IFS="$OLD"
+	addToRepo tos.db.tar.gz ../arch/ "$3"
 }
 
 # generate the ISO checksum and gpg sig
