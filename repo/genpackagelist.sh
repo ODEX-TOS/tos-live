@@ -30,6 +30,7 @@ infourl="https://tos.odex.be"
 workdir="arch"
 packages=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 2)
 packageversion=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 3)
+EXT="xz"
 
 file="$workdir/list.html"
 
@@ -73,21 +74,25 @@ cat <<-EOF > "$file"
             <th>Version</th>
             <th>Description</th>
             <th>Download size</th>
+            <th>Package link</th>
         </tr>
 
 EOF
 
 
 for package in $packages; do
+ echo "Scanning $package"
  info=$(pacman -Si $package)
  desc=$(echo "$info" | head -n4 | tail -n1 | cut -d: -f2)
- vers=$(echo "$info" | head -n3 | tail -n1 | cut -d: -f2)
- download=$(echo "$info" | tail -n5 | head -n1 | cut -d: -f2)
+ vers=$(echo "$info" | head -n3 | tail -n1 | cut -d: -f2 | sed -E 's/ +//g')
+ download=$(echo "$info" | tail -n5 | head -n1 | cut -d: -f2 | sed -E 's/ +//g')
+ link="$package-$vers.pkg.tar.$EXT"
  printf "\t\t<tr>\n" >> $file
  printf "\t\t\t<td>$package</td>\n" >> $file
  printf "\t\t\t<td>$vers</td>\n" >> $file
  printf "\t\t\t<td>$desc</td>\n" >> $file
  printf "\t\t\t<td>$download</td>\n" >> $file
+ printf "\t\t\t<td><a href='$link' >file</a></td>\n" >> $file
  printf "\t\t</tr>\n" >> $file
 done
 
