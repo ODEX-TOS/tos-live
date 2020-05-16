@@ -1,5 +1,5 @@
 linux-tos
-filesystem-tos
+tos/filesystem
 base
 archlinux-keyring
 arch-install-scripts

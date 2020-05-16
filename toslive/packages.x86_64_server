@@ -1,5 +1,5 @@
 linux-tos
-filesystem-tos
+tos/filesystem
 base
 arch-install-scripts
 arch-wiki-lite
