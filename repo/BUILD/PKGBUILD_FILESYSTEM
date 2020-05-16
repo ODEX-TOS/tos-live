@@ -9,7 +9,6 @@ pkgdesc='Base TOS Linux files'
 arch=('x86_64')
 license=('GPL')
 url='https://tos.odex.be'
-replaces=('filesystem')
 conflicts=('filesystem')
 depends=('iana-etc')
 backup=('etc/crypttab' 'etc/fstab' 'etc/group' 'etc/gshadow' 'etc/host.conf'
