@@ -38,6 +38,7 @@ GPG_EMAIL="tom@odex.be"
 # GPG_PASS="" # set this in your env or directly here.
 # make sure to load the profile even if we are doing this in a custom environment
 source ~/.profile
+DEFAULT_PWD="$(pwd)"
 
 
 if [[ "$GPG_PASS" == "" ]]; then
@@ -159,11 +160,12 @@ function installlinux() {
 
 }
 
+# go to the project root
 function populatedb {
     # change depending on the repo name
-    cd arch || exit 1
+    cd "$DEFAULT_PWD"/arch || exit 1
 	addToRepo tos.db.tar.gz . linux-tos || exit 1
-    cd ../ || exit 1
+    cd "$DEFAULT_PWD" || exit 1
 }
 
 
