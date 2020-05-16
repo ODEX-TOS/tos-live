@@ -2,7 +2,7 @@
 # Maintainer: Tom Meyers < tom [at] odex [dot] be>
 # Contributor: Tom Gundersen <teg@jklm.no>
 
-pkgname=filesystem-tos
+pkgname=filesystem
 pkgver=2020.05.07
 pkgrel=1
 pkgdesc='Base TOS Linux files'
