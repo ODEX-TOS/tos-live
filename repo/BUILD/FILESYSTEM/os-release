@@ -1,0 +1,10 @@
+NAME="TOS Linux"
+PRETTY_NAME="TOS Linux"
+ID=tos
+BUILD_ID=rolling
+ANSI_COLOR="0;36"
+HOME_URL="https://tos.pbfp.xyz/"
+DOCUMENTATION_URL="https://tos.pbfp.xyz/"
+SUPPORT_URL="https://tos.pbfp.xyz/"
+BUG_REPORT_URL="https://tos.pbfp.xyz/"
+LOGO=toslinux
