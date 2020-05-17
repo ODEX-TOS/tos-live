@@ -61,4 +61,5 @@ package() {
   git clone https://github.com/ODEX-TOS/Pictures "$pkgdir"/usr/share/backgrounds/tos
   # remove the git directory from the final build
   rm -rf "$pkgdir"/usr/share/backgrounds/tos/.git
+  chmod -R 755 /usr/share/backgrounds/tos
 }
