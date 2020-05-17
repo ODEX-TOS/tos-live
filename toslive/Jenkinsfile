@@ -116,6 +116,10 @@ node('archlinux') {
               }
            }
       }
+      // Remove the build files that are no longer required
+      stage('cleanup'){
+         sh 'sudo rm -rf toslive/work'
+      }
       // Copy local tos builds to local repository
       stage('copy'){
           sh "cd repo && sh build.sh -u"
