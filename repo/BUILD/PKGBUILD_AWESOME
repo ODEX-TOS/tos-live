@@ -61,5 +61,7 @@ package() {
   git clone https://github.com/ODEX-TOS/Pictures "$pkgdir"/usr/share/backgrounds/tos
   # remove the git directory from the final build
   rm -rf "$pkgdir"/usr/share/backgrounds/tos/.git
+  # remove the readme, only show the png/jpg files
+  rm "$pkgdir"/usr/share/backgrounds/tos/README.md
   chmod -R 755 /usr/share/backgrounds/tos
 }
