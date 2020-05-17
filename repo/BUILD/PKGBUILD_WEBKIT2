@@ -1,6 +1,7 @@
 # Maintainer: Filipe Laíns (FFY00) <lains@archlinux.org>
 # Contributor: Dustin Falgout <dustin@antergos.com>
 # Contributor: Tom Meyers <tom@odex.be>
+# NO_ABORT
 
 pkgname=lightdm-webkit2-tos-greeter
 _original=lightdm-webkit2-greeter
@@ -45,7 +46,7 @@ package() {
 
   install -Dm 644 "$srcdir"/tos-logo.svg "$pkgdir"/usr/share/pixmaps/tos-logo.svg
   mkdir -p "$pkgdir"/usr/share/backgrounds/tos
-  install -Dm 644 "$srcdir"/Pictures/* "$pkgdir"/usr/share/backgrounds/tos/
+  install -Dm 644 "$srcdir"/Pictures/*{png,jpg,jpeg} "$pkgdir"/usr/share/backgrounds/tos/
   sed -i 's:session=cinnamon:session=awesome:' "$pkgdir"/usr/share/lightdm-webkit/themes/antergos/index.theme
   # Update the install below to contain the user specific logo
   # install -Dm 644 "$srcdir"/archlinux-user.svg "$pkgdir"/usr/share/pixmaps/archlinux-user.svg
