@@ -41,7 +41,9 @@ package() {
         cp -r "$srcdir/$_reponame"/.{zshrc,profile,xprofile,Xresources} "$pkgdir"/etc/skel/.config
 
         mv "$pkgdir"/etc/skel/.config/awesome/configuration/compton.conf "$pkgdir"/etc/skel/.config/compton.conf 
+        mv "$pkgdir"/etc/skel/.config/awesome/configuration/picom.conf "$pkgdir"/etc/skel/.config/picom.conf 
         chmod 666 "$pkgdir"/etc/skel/.config/compton.conf
+        chmod 666 "$pkgdir"/etc/skel/.config/picom.conf
         rm -rf "$pkgdir"/etc/skel/.config/awesome # awesome-tos already uses these files system-wide users don't need the seperate config files
         rm -rf "$pkgdir"/etc/skel/.config/libinput-gestures.conf # this config is already provided in the tos version of libinput-gestures
         cd "$srcdir/$_reponame"
