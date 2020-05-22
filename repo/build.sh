@@ -69,9 +69,9 @@ function addToRepo() {
 	loc=$(pwd)
 	cd "$2"
 	if [[ "$3" == "" ]]; then
-		repo-add --verify --sign -k "$GPG_REPO_KEY" "$1" *.pkg.tar.*
+		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" *.pkg.tar.*
 	else
-		repo-add --verify --sign -k "$GPG_REPO_KEY" "$1" "$3"*.pkg.tar.*
+		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" "$3"*.pkg.tar.*
 	fi
 	cd "$loc"
 
@@ -92,9 +92,9 @@ function installbuilds() {
             fi
 		    cd "$dir" || exit 1
 			if grep -q -E "$NO_ABORT_FLAG" "PKGBUILD"; then
-		    	makepkg --sign -k "$GPG_REPO_KEY" -s --noconfirm || echo "[ERROR] Build of $package failed. Continuing build..."
+		    	makepkg --sign --key "$GPG_REPO_KEY" -s --noconfirm || echo "[ERROR] Build of $package failed. Continuing build..."
 			else
-				makepkg --sign -k "$GPG_REPO_KEY" -s --noconfirm || exit 1
+				makepkg --sign --key "$GPG_REPO_KEY" -s --noconfirm || exit 1
 			fi
 		    cp *.pkg.tar.* ../arch
 		    cd ../ || exit 1
@@ -110,7 +110,7 @@ function installpackage() {
 	git clone $1 $2
 	cd $2
 	if [[ "$4" == "no-exit" ]]; then
-		makepkg -s --sign -k "$GPG_REPO_KEY"
+		makepkg -s --sign --key "$GPG_REPO_KEY"
 	else
 		makepkg -s --sign -f "$GPG_REPO_KEY" || exit 1
 	fi
@@ -158,7 +158,7 @@ function installlinux() {
 
 	updpkgsums
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
-	makepkg -s --sign -k "$GPG_REPO_KEY" || exit 1
+	makepkg -s --sign --key "$GPG_REPO_KEY" || exit 1
 	rm -rf ../../../../arch/linux-tos*.pkg.tar.*
 	cp linux-tos*.pkg.tar.* ../../../../arch
 	addToRepo tos.db.tar.gz ../../../../arch/ linux-tos
