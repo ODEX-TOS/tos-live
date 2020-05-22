@@ -2,6 +2,8 @@ linux-tos
 base
 arch-install-scripts
 arch-wiki-docs
+tos/filesystem
+tos-keyring
 b43-fwcutter
 broadcom-wl
 btrfs-progs

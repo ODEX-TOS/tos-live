@@ -1,5 +1,6 @@
 linux-tos
 tos/filesystem
+tos-keyring
 base
 arch-install-scripts
 arch-wiki-lite
