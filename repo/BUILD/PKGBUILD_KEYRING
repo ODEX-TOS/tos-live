@@ -1,0 +1,21 @@
+# Maintainer: Pierre Schmitz <pierre@archlinux.de>
+# Maintainer: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+
+pkgname=tos-keyring
+pkgver=20200422
+pkgrel=1
+pkgdesc='TOS Linux PGP keyring'
+arch=(any)
+url='https://wiki.odex.be'
+license=(MIT)
+install=tos-keyring.install
+source=('tos.gpg' 'tos-revoked' 'tos-trusted')
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP')
+
+package() {
+  install -Dm 644 tos.gpg "$pkgdir"/usr/share/pacman/keyrings/tos.gpg
+  install -Dm 644 tos-revoked "$pkgdir"/usr/share/pacman/keyrings/tos-revoked
+  install -Dm 644 tos-trusted "$pkgdir"/usr/share/pacman/keyrings/tos-trusted
+}
