@@ -34,6 +34,8 @@ NO_ABORT_FLAG="^# NO_ABORT" # this flag must be present in order to not abort th
 # change this to the gpg key of your mail address
 GPG_EMAIL="tom@odex.be"
 
+GPG_REPO_KEY="${GPG_REPO_KEY:-}"
+
 # WARN: Do not commit a password into version control!
 # GPG_PASS="" # set this in your env or directly here.
 # make sure to load the profile even if we are doing this in a custom environment
@@ -44,6 +46,10 @@ DEFAULT_PWD="$(pwd)"
 if [[ "$GPG_PASS" == "" ]]; then
 	echo "NO GPG password set please resolve"
 	sleep 5
+fi
+
+if [[ "$GPG_REPO_KEY" == "" ]]; then
+    echo "No repo key found! Please set the GPG_REPO_KEY env variable to the correct key"
 fi
 
 if [[ ! -d arch ]]; then
@@ -63,9 +69,9 @@ function addToRepo() {
 	loc=$(pwd)
 	cd "$2"
 	if [[ "$3" == "" ]]; then
-		repo-add "$1" *.pkg.tar.*
+		repo-add --verify --sign -k "$GPG_REPO_KEY" "$1" *.pkg.tar.*
 	else
-		repo-add "$1" "$3"*.pkg.tar.*
+		repo-add --verify --sign -k "$GPG_REPO_KEY" "$1" "$3"*.pkg.tar.*
 	fi
 	cd "$loc"
 
@@ -86,9 +92,9 @@ function installbuilds() {
             fi
 		    cd "$dir" || exit 1
 			if grep -q -E "$NO_ABORT_FLAG" "PKGBUILD"; then
-		    	makepkg --skippgpcheck -s --noconfirm || echo "[ERROR] Build of $package failed. Continuing build..."
+		    	makepkg --sign -k "$GPG_REPO_KEY" -s --noconfirm || echo "[ERROR] Build of $package failed. Continuing build..."
 			else
-				makepkg --skippgpcheck -s --noconfirm || exit 1
+				makepkg --sign -k "$GPG_REPO_KEY" -s --noconfirm || exit 1
 			fi
 		    cp *.pkg.tar.* ../arch
 		    cd ../ || exit 1
@@ -104,9 +110,9 @@ function installpackage() {
 	git clone $1 $2
 	cd $2
 	if [[ "$4" == "no-exit" ]]; then
-		makepkg -s --skippgpcheck
+		makepkg -s --sign -k "$GPG_REPO_KEY"
 	else
-		makepkg -s --skippgpcheck || exit 1
+		makepkg -s --sign -f "$GPG_REPO_KEY" || exit 1
 	fi
 	rm ../arch/$3*.pkg.tar.*
     ls $3*.pkg.tar.*
@@ -152,7 +158,7 @@ function installlinux() {
 
 	updpkgsums
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
-	makepkg -s --skippgpcheck || exit 1
+	makepkg -s --sign -k "$GPG_REPO_KEY" || exit 1
 	rm -rf ../../../../arch/linux-tos*.pkg.tar.*
 	cp linux-tos*.pkg.tar.* ../../../../arch
 	addToRepo tos.db.tar.gz ../../../../arch/ linux-tos
