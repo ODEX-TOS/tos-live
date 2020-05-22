@@ -69,9 +69,9 @@ function addToRepo() {
 	loc=$(pwd)
 	cd "$2"
 	if [[ "$3" == "" ]]; then
-		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" *.pkg.tar.*
+		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" *.pkg.tar.???
 	else
-		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" "$3"*.pkg.tar.*
+		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" "$3"*.pkg.tar.???
 	fi
 	cd "$loc"
 
@@ -99,6 +99,7 @@ function installbuilds() {
 		    cp *.pkg.tar.* ../arch
 		    cd ../ || exit 1
 	done
+    cd "$DEFAULT_PWD"
 	addToRepo tos.db.tar.gz arch/
 }
 
@@ -108,17 +109,18 @@ function installpackage() {
 		rm -rf "$2"
 	fi
 	git clone $1 $2
+    loc=$(pwd)
 	cd $2
 	if [[ "$4" == "no-exit" ]]; then
 		makepkg -s --sign --key "$GPG_REPO_KEY"
 	else
 		makepkg -s --sign -f --key "$GPG_REPO_KEY" || exit 1
 	fi
-	rm ../arch/$3*.pkg.tar.*
+	rm "$loc"/arch/$3*.pkg.tar.*
     ls $3*.pkg.tar.*
-    sleep 10
-	cp $3*.pkg.tar.* ../arch
-	cd ../
+    sleep 1
+	cp $3*.pkg.tar.* "$loc"/arch
+	cd "$loc"
 }
 
 function changePKGBUILD() {
@@ -159,10 +161,10 @@ function installlinux() {
 	updpkgsums
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
 	makepkg -s --sign --key "$GPG_REPO_KEY" || exit 1
-	rm -rf ../../../../arch/linux-tos*.pkg.tar.*
-	cp linux-tos*.pkg.tar.* ../../../../arch
-	addToRepo tos.db.tar.gz ../../../../arch/ linux-tos
-	cd ../../../../
+	rm -rf "$DEFAULT_PWD"/arch/linux-tos*.pkg.tar.*
+	cp linux-tos*.pkg.tar.* "$DEFAULT_PWD"/arch
+	addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch/ linux-tos
+	cd "$DEFAULT_PWD"
 
 }
 
@@ -170,7 +172,7 @@ function installlinux() {
 function populatedb {
     # change depending on the repo name
     cd "$DEFAULT_PWD"/arch || exit 1
-	addToRepo tos.db.tar.gz . linux-tos || exit 1
+	addToRepo tos.db.tar.gz . || exit 1
     cd "$DEFAULT_PWD" || exit 1
 }
 
@@ -197,7 +199,7 @@ function buildpackages {
         installpackage "$url" "$dir" "$glob" "$abortcode"
     done
     IFS="$OLD"
-	addToRepo tos.db.tar.gz ../arch/ "$3"
+	addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch/ "$3"
 }
 
 # generate the ISO checksum and gpg sig
