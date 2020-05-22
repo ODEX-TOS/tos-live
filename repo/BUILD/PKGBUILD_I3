@@ -1,5 +1,6 @@
 # Maintainer: Tom Meyers <tom@odex.be>
 # Based on i3-gaps-next-git PKGBUILD 
+# NO_ABORT
 
 pkgname=i3-gaps-tos
 pkgver=4.17.1.r184.g00181678

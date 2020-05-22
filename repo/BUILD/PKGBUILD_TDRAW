@@ -1,4 +1,5 @@
 # Maintainer: Tom Meyers tom@odex.be
+# NO_ABORT
 pkgname=tdraw
 pkgver=0.1.0
 pkgrel=1
