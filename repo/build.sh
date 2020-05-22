@@ -99,7 +99,7 @@ function installbuilds() {
 		    cp *.pkg.tar.* ../arch
 		    cd ../ || exit 1
 	done
-	addToRepo tos.db.tar.gz ../arch/
+	addToRepo tos.db.tar.gz arch/
 }
 
 # $1 is the url $2 is the installdir $3 is the package name
@@ -112,7 +112,7 @@ function installpackage() {
 	if [[ "$4" == "no-exit" ]]; then
 		makepkg -s --sign --key "$GPG_REPO_KEY"
 	else
-		makepkg -s --sign -f "$GPG_REPO_KEY" || exit 1
+		makepkg -s --sign -f --key "$GPG_REPO_KEY" || exit 1
 	fi
 	rm ../arch/$3*.pkg.tar.*
     ls $3*.pkg.tar.*
