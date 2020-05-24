@@ -71,7 +71,6 @@ wvdial
 xl2tpd
 vim
 bluez
-compton
 feh
 glances
 neofetch
@@ -132,7 +131,7 @@ xcursor-human
 papirus-icon-theme
 lsd
 awesome-tos
-compton-tryone-tos
+picom-tryone-tos
 xfce4-settings
 xfce4-power-manager
 acpi
