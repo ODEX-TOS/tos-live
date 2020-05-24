@@ -30,7 +30,7 @@ infourl="https://tos.odex.be"
 workdir="arch"
 packages=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 2)
 packageversion=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 3)
-EXT="xz"
+EXT="zst"
 
 file="$workdir/list.html"
 
