@@ -94,4 +94,6 @@ mv /root/.config/compton.conf_new /root/.config/compton.conf
 mkdir -p /etc/sysctl.d/
 echo "kernel.sysrq = 511" >> /etc/sysctl.d/99-sysctl.conf
 
-
+if [[ -f "/etc/mkinitcpio.d/linux.preset" ]]; then
+        rm /etc/mkinitcpio.d/linux.preset
+fi
