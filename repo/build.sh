@@ -220,6 +220,9 @@ function secureISO {
 
 if [[ "$1" == "-p" ]]; then
         cd "$2" || exit 1
+        # remove all subdirectories
+        # these will conflict with rebuilds
+        find -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R
 		makepkg -s -f --sign --key "$GPG_REPO_KEY" || exit 1
         cp *.pkg.tar.* $DEFAULT_PWD"/arch" || exit 1
         addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch || exit 1
