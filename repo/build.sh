@@ -218,6 +218,13 @@ function secureISO {
 	gpg --yes --pinentry-mode loopback --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
 }
 
+if [[ "$1" == "-p" ]]; then
+        cd "$2" || exit 1
+		makepkg -s --sign --key "$GPG_REPO_KEY" || exit 1
+        cp *.pkg.tar.* $DEFAULT_PWD"/arch" || exit 1
+        addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch || exit 1
+fi
+
 if [[ "$1" == "" ]]; then
     read -p "Do you want to install default packages? (y/N)" default
 fi
