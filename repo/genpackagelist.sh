@@ -32,6 +32,7 @@ packages=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 2)
 packageversion=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 3)
 EXT="zst"
 
+
 file="$workdir/list.html"
 
 cat <<-EOF > "$file"
@@ -87,7 +88,8 @@ for package in $packages; do
  desc=$(echo "$info" | head -n4 | tail -n1 | cut -d: -f2)
  vers=$(echo "$info" | head -n3 | tail -n1 | cut -d: -f2 | sed -E 's/ +//g')
  download=$(echo "$info" | tail -n5 | head -n1 | cut -d: -f2 | sed -E 's/ +//g')
- link="$package-$vers.pkg.tar.$EXT"
+ arch=$(echo "$info" | head -n5 | tail -n1 | cut -d: -f2 | sed -E 's/ +//g')
+ link="$package-$vers-$arch.pkg.tar.$EXT"
  printf "\t\t<tr>\n" >> $file
  printf "\t\t\t<td>$package</td>\n" >> $file
  printf "\t\t\t<td>$vers</td>\n" >> $file
