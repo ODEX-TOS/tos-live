@@ -226,6 +226,7 @@ if [[ "$1" == "-p" ]]; then
 		makepkg -s -f --sign --key "$GPG_REPO_KEY" || exit 1
         cp *.pkg.tar.* $DEFAULT_PWD"/arch" || exit 1
         addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch || exit 1
+        exit 0
 fi
 
 if [[ "$1" == "" ]]; then
