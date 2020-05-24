@@ -4,7 +4,6 @@ tos-keyring
 base
 archlinux-keyring
 arch-install-scripts
-arch-wiki-docs
 b43-fwcutter
 broadcom-wl
 btrfs-progs

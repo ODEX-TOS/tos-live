@@ -3,7 +3,6 @@ tos/filesystem
 tos-keyring
 base
 arch-install-scripts
-arch-wiki-lite
 b43-fwcutter
 broadcom-wl
 btrfs-progs
