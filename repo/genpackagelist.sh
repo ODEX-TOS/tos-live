@@ -75,6 +75,7 @@ cat <<-EOF > "$file"
             <th>Description</th>
             <th>Download size</th>
             <th>Package link</th>
+            <th>Package signature</th>
         </tr>
 
 EOF
@@ -93,6 +94,7 @@ for package in $packages; do
  printf "\t\t\t<td>$desc</td>\n" >> $file
  printf "\t\t\t<td>$download</td>\n" >> $file
  printf "\t\t\t<td><a href='$link' >file</a></td>\n" >> $file
+ printf "\t\t\t<td><a href='$link.sig' >signature</a></td>\n" >> $file
  printf "\t\t</tr>\n" >> $file
 done
 
