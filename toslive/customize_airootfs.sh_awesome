@@ -86,10 +86,7 @@ if [[ -f "/root/tos" ]]; then
 fi
 
 # prepend backend="xrender" to compton.conf
-echo 'backend="xrender"' > /root/.config/compton.conf_new
-cat /root/.config/compton.conf >> /root/.config/compton.conf_new
-mv /root/.config/compton.conf_new /root/.config/compton.conf
-
+sed -i 's/"glx";/"xrender";/g' /etc/xdg/awesome/configuration/picom.conf
 # enable sysrq triggers
 mkdir -p /etc/sysctl.d/
 echo "kernel.sysrq = 511" >> /etc/sysctl.d/99-sysctl.conf
