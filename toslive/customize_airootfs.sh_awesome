@@ -97,4 +97,6 @@ echo "kernel.sysrq = 511" >> /etc/sysctl.d/99-sysctl.conf
 if [[ -f "/etc/mkinitcpio.d/linux.preset" ]]; then
         rm /etc/mkinitcpio.d/linux.preset
 fi
+pacman-key --init
+pacman-key --populate archlinux
 pacman-key --populate tos
