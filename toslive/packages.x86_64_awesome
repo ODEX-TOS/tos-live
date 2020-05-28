@@ -95,17 +95,10 @@ xorg-xrandr
 xclip
 git
 openssh
-ttf-bitstream-vera
 ttf-fira-code
 ttf-fira-mono
-ttf-inconsolata
-ttf-liberation
 ttf-linux-libertine
-sdl_ttf
 noto-fonts
-font-bh-ttf
-bdf-unifont
-ttf-dejavu
 make
 base-devel
 firefox-developer-edition
