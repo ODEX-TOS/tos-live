@@ -87,6 +87,7 @@ fi
 
 # prepend backend="xrender" to compton.conf
 sed -i 's/"glx";/"xrender";/g' /etc/xdg/awesome/configuration/picom.conf
+sed -i 's/"glx";/"xrender";/g' /root/.config/picom.conf
 # enable sysrq triggers
 mkdir -p /etc/sysctl.d/
 echo "kernel.sysrq = 511" >> /etc/sysctl.d/99-sysctl.conf
