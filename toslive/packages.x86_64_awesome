@@ -1,5 +1,6 @@
 linux-tos
 tos/filesystem
+tos/systemd
 tos-keyring
 base
 archlinux-keyring
