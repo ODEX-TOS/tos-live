@@ -14,7 +14,7 @@ source=("http://ftp.de.debian.org/debian/pool/main/c/console-setup/console-setup
 sha512sums=('f9ee8df45cfb78dea12b1ba3020e32f245dd940bc1d22801849f673f4448853c0ebadb6944a92b462e3e56c59ee13fd6d2130c260a1a406e1bb1c72e9902c04d')
 
 package() {
-    cd console-setup-${pkgver}
+    cd console-setup
     install -d ${pkgdir}/usr/bin/
     install -m755 Keyboard/ckbcomp ${pkgdir}/usr/bin/
 }
