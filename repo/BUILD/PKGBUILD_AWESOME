@@ -17,7 +17,7 @@ arch=('x86_64')
 license=('GPL2')
 depends=('cairo' 'dbus' 'gdk-pixbuf2' 'imlib2' 'libxdg-basedir' 'lua' 'lua-lgi' 'pango'
          'startup-notification' 'xcb-util-cursor' 'xcb-util-keysyms' 'xcb-util-wm'
-         'xorg-xmessage' 'libxkbcommon-x11' 'libxkbcommon' 'xcb-util-xrm' 'tos-tools' 'pacman-contrib' 'xcb-util-errors' 'playerctl' 'mantablockscreen-tos' 'awesome-freedesktop-git' 'lxsession-gtk3' 'psi-notify' 'rofi-tos' 'python-gobject' 'python-dbus')
+         'xorg-xmessage' 'libxkbcommon-x11' 'libxkbcommon' 'xcb-util-xrm' 'tos-tools' 'pacman-contrib' 'xcb-util-errors' 'playerctl' 'mantablockscreen-tos' 'awesome-freedesktop-git' 'lxsession-gtk3' 'psi-notify' 'rofi-tos' 'python-gobject' 'python-dbus' 'maim')
 makedepends=('asciidoc' 'cmake' 'docbook-xsl' 'doxygen' 'imagemagick' 'ldoc' 'xmlto')
 optdepends=('rlwrap: readline support for awesome-client'
             'dex: autostart your desktop files'
