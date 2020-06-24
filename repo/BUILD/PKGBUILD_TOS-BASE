@@ -1,0 +1,31 @@
+# Maintainer: Tom Meyers
+
+pkgname=tos-base
+pkgver=1
+pkgrel=1
+pkgdesc='Minimal package set to contain tos without a GUI'
+url='https://tos.odex.be'
+arch=('any')
+license=('MIT')
+depends=(
+  # tos base packages
+  'tos-keyring' 'tos-tools'
+  # useful packages
+  'tlp' 'skel' 'system-updater' 'base' 
+  # candy software
+  'lsd' 'neofetch' 'chafa' 'ccat'
+  # networking
+  'networkmanager' 'openssh' 'wget'
+  # audio
+  'pulseaudio' 'alsa-utils' 'alsa-lib' 'alsa-plugins' 'pulseaudio-bluetooth' 'bluez' 'bluez-utils'
+  # shell
+  'zsh' 'zsh-autosuggestions' 'zsh-syntax-highlighting'
+  # linux
+  'linux-firmware' 'amd-ucode' 'intel-ucode'
+
+
+)
+optdepends=('linux-tos: bare metal support')
+
+# vim: ts=2 sw=2 et:
+

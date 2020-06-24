@@ -1,0 +1,23 @@
+# Maintainer: Tom Meyers
+
+pkgname=tos-base-desktop
+pkgver=1
+pkgrel=1
+pkgdesc='Package set for the tos desktop'
+url='https://tos.odex.be'
+arch=('any')
+license=('MIT')
+depends=(
+    # base
+    'tos-base'
+    # WM/DE stuff
+    'awesome-tos' 'st-tos' 'libinput-gestures-tos' 'arandr' 'playerctl' 'nm-connection-editor' 'materia-gtk-theme' 'papirus-icon-theme' 'xcursor-human' 'xdotool'
+    # DM
+    'sddm-theme-tos-git'
+    'feh'
+    # xorg
+    'xorg-server' 'xorg-xbacklight' 'xorg-xclipboard' 'xorg-xinit' 'xorg-xprop' 'xorg-xinput' 'xorg-xrandr' 'xclip'
+)
+
+# vim: ts=2 sw=2 et:
+
