@@ -112,9 +112,9 @@ function installpackage() {
     loc=$(pwd)
 	cd $2
 	if [[ "$4" == "no-exit" ]]; then
-		makepkg -s --sign --key "$GPG_REPO_KEY"
+		makepkg -s --sign --key "$GPG_REPO_KEY" --noconfirm
 	else
-		makepkg -s --sign -f --key "$GPG_REPO_KEY" || exit 1
+		makepkg -s --sign -f --key "$GPG_REPO_KEY" --noconfirm || exit 1
 	fi
 	rm "$loc"/arch/$3*.pkg.tar.*
     ls $3*.pkg.tar.*
@@ -168,7 +168,7 @@ function installlinux() {
 
 	updpkgsums
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
-	makepkg -s --sign --key "$GPG_REPO_KEY" || exit 1
+	makepkg -s --sign --key "$GPG_REPO_KEY" --noconfirm || exit 1
 	rm -rf "$DEFAULT_PWD"/arch/linux-tos*.pkg.tar.*
 	cp linux-tos*.pkg.tar.* "$DEFAULT_PWD"/arch
 	addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch/ linux-tos
