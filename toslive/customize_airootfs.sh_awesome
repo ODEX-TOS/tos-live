@@ -79,7 +79,7 @@ cp /root/.config/.zshrc /root/.zshrc
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.zshrc
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.bashrc
 
-printf "xrdb ~/.Xresources\nexec awesome" >/root/.xinitrc
+printf "xrdb ~/.Xresources\nexec env XDG_CURRENT_DESKTOP=TDE awesome" >/root/.xinitrc
 
 if [[ -f "/root/tos" ]]; then
   rm /root/tos

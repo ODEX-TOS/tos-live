@@ -17,7 +17,7 @@ depends=(
   # networking
   'networkmanager' 'openssh' 'wget'
   # audio
-  'pulseaudio' 'alsa-utils' 'alsa-lib' 'alsa-plugins' 'pulseaudio-bluetooth' 'bluez' 'bluez-utils'
+  'pulseaudio' 'alsa-utils' 'alsa-lib' 'alsa-plugins' 'pulseaudio-bluetooth' 'bluez' 'bluez-utils' 'pulseaudio-alsa'
   # shell
   'zsh' 'zsh-autosuggestions' 'zsh-syntax-highlighting'
   # linux
