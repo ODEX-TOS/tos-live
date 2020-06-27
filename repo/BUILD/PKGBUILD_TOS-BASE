@@ -11,7 +11,7 @@ depends=(
   # tos base packages
   'tos-keyring' 'tos-tools'
   # useful packages
-  'tlp' 'skel' 'system-updater' 'base' 
+  'tlp' 'skel' 'system-updater' 'base'  'sudo'
   # candy software
   'lsd' 'neofetch' 'chafa' 'ccat'
   # networking
