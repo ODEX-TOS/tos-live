@@ -38,6 +38,10 @@ pkgver() {
 
 prepare() {
   mkdir -p "$srcdir/$_name/"build
+  # alter the desktop file
+  file="$srcdir/$_name/"awesome.desktop
+  sed -i 's/Name=.*/Name=TDE/g' "$file"
+  sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
 }
 
 build() {
