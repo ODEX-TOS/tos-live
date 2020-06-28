@@ -10,7 +10,7 @@
 pkgname=awesome-tos
 _name=awesome-git
 pkgver=4.3.530.g76f8c117
-pkgrel=8
+pkgrel=9
 pkgdesc='Highly configurable framework window manager with the default tos skin'
 url='https://awesomewm.org/'
 arch=('x86_64')
