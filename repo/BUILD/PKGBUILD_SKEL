@@ -70,5 +70,5 @@ package() {
         curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > "$pkgdir"/etc/skel/.vim/colors/badwolf.vim
 
         mkdir -p "$pkgdir"/etc/skel/.config/tos
-        printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/cabin.png\n" >> "$pkgdir"/etc/skel/.config/tos/theme
+        printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.png\n" >> "$pkgdir"/etc/skel/.config/tos/theme
 }
