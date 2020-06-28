@@ -23,45 +23,51 @@
 # SOFTWARE.
 
 # $@ should be a list of items. We will delete all of them except for the last entry
-# in other words sort the files you wish to delete 
+# in other words grep '.zst$' | sort the files you wish to delete 
 function clean {
         for i in ${@} ; do
                 if [[ ! "${@: -1}" == "$i" ]]; then
                         echo "$i"
                         rm "$i"
+			# also remove package signatures
+			if [[ -f "$i".sig ]]; then
+				rm "$i".sig
+			fi
                 fi
         done
 }
 
-# all files to sort and only keep the last one
+# all files to grep '.zst$' | sort and only keep the last one
 
-clean $(ls arch/i3-gaps-tos* | sort)
+clean $(ls arch/i3-gaps-tos* | grep '.zst$' | sort)
 
-clean $(ls arch/installer-backend* | sort)
+clean $(ls arch/installer-backend* | grep '.zst$' | sort)
 
-clean $(ls arch/installer-gui* | sort)
-clean $(ls arch/installer-cli* | sort)
-clean $(ls arch/installer-3* | sort)
+clean $(ls arch/installer-gui* | grep '.zst$' | sort)
+clean $(ls arch/installer-cli* | grep '.zst$' | sort)
+clean $(ls arch/installer-3* | grep '.zst$' | sort)
 
-clean $(ls arch/linux-tos-5* | sort)
-clean $(ls arch/linux-tos-docs* | sort)
-clean $(ls arch/linux-tos-headers* | sort)
+clean $(ls arch/linux-tos-5* | grep '.zst$' | sort)
+clean $(ls arch/linux-tos-docs* | grep '.zst$' | sort)
+clean $(ls arch/linux-tos-headers* | grep '.zst$' | sort)
 
-clean $(ls arch/readme-generator-git* | sort)
-clean $(ls arch/shunit-git* | sort)
+clean $(ls arch/readme-generator-git* | grep '.zst$' | sort)
+clean $(ls arch/shunit-git* | grep '.zst$' | sort)
 
-clean $(ls arch/st-tos* | sort)
-clean $(ls arch/visual-studio-code-insiders* | sort)
+clean $(ls arch/st-tos* | grep '.zst$' | sort)
+clean $(ls arch/visual-studio-code-insiders* | grep '.zst$' | sort)
 
-clean $(ls arch/tos-tools* | sort)
+clean $(ls arch/tos-tools* | grep '.zst$' | sort)
 
-clean $(ls arch/polybar-git-3.4.0.* | sort)
-clean $(ls arch/mcmojave-circle-icon-theme-git-* | sort)
+clean $(ls arch/polybar-git-3.4.0.* | grep '.zst$' | sort)
+clean $(ls arch/mcmojave-circle-icon-theme-git-* | grep '.zst$' | sort)
 
-clean $(ls arch/tos-grub-theme-r* | sort)
+clean $(ls arch/tos-grub-theme-r* | grep '.zst$' | sort)
 
-clean $(ls arch/skel-* | sort)
+clean $(ls arch/skel-* | grep '.zst$' | sort)
 
-clean $(ls arch/awesome-tos-* | sort)
+clean $(ls arch/awesome-tos-* | grep '.zst$' | sort)
+
+clean $(ls arch/picom-tryone-tos-* | grep '.zst$' | sort)
 
 
