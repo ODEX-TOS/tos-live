@@ -1,7 +1,7 @@
 # Maintainer: Tom Meyers
 
 pkgname=tos-base
-pkgver=1
+pkgver=2
 pkgrel=1
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
@@ -21,7 +21,7 @@ depends=(
   # shell
   'zsh' 'zsh-autosuggestions' 'zsh-syntax-highlighting'
   # linux
-  'linux-firmware' 'amd-ucode' 'intel-ucode'
+  'linux-firmware' 'amd-ucode' 'intel-ucode' 'kernel-modules-hook'
 
 
 )

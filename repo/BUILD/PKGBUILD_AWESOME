@@ -10,14 +10,14 @@
 pkgname=awesome-tos
 _name=awesome-git
 pkgver=4.3.530.g76f8c117
-pkgrel=9
+pkgrel=10
 pkgdesc='Highly configurable framework window manager with the default tos skin'
 url='https://awesomewm.org/'
 arch=('x86_64')
 license=('GPL2')
 depends=('cairo' 'dbus' 'gdk-pixbuf2' 'imlib2' 'libxdg-basedir' 'lua' 'lua-lgi' 'pango'
          'startup-notification' 'xcb-util-cursor' 'xcb-util-keysyms' 'xcb-util-wm'
-         'xorg-xmessage' 'libxkbcommon-x11' 'libxkbcommon' 'xcb-util-xrm' 'tos-tools' 'pacman-contrib' 'xcb-util-errors' 'playerctl' 'mantablockscreen-tos' 'awesome-freedesktop-git' 'lxsession-gtk3' 'psi-notify' 'rofi-tos' 'python-gobject' 'python-dbus' 'maim' 'picom-tryone-tos')
+         'xorg-xmessage' 'libxkbcommon-x11' 'libxkbcommon' 'xcb-util-xrm' 'tos-tools' 'pacman-contrib' 'xcb-util-errors' 'playerctl' 'mantablockscreen-tos' 'awesome-freedesktop-git' 'lxsession-gtk3' 'psi-notify' 'rofi-tos' 'python-gobject' 'python-dbus' 'maim' 'picom-tryone-tos' 'pkgstats')
 makedepends=('asciidoc' 'cmake' 'docbook-xsl' 'doxygen' 'imagemagick' 'ldoc' 'xmlto')
 optdepends=('rlwrap: readline support for awesome-client'
             'dex: autostart your desktop files'
