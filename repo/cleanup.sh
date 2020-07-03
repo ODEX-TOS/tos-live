@@ -70,4 +70,17 @@ clean $(ls arch/awesome-tos-* | grep '.zst$' | sort)
 
 clean $(ls arch/picom-tryone-tos-* | grep '.zst$' | sort)
 
+clean $(ls arch/tos-base-2-* | grep '.zst$' | sort)
+clean $(ls arch/tos-base-desktop-* | grep '.zst$' | sort)
+clean $(ls arch/tos-build-system-* | grep '.zst$' | sort)
 
+clean $(ls arch/rofi-tos-* | grep '.zst$' | sort)
+clean $(ls arch/pkgstats-* | grep '.zst$' | sort)
+clean $(ls arch/psi-notify-* | grep '.zst$' | sort)
+clean $(ls arch/otf-san-francisco-* | grep '.zst$' | sort)
+clean $(ls arch/nerd-fonts-complete-* | grep '.zst$' | sort)
+clean $(ls arch/libinput-gestures-tos-* | grep '.zst$' | sort)
+
+clean $(ls arch/kernel-modules-hook-* | grep '.zst$' | sort)
+clean $(ls arch/filesystem-* | grep '.zst$' | sort)
+clean $(ls arch/ckbcomp-tos-* | grep '.zst$' | sort)
