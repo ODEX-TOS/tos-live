@@ -26,8 +26,9 @@ optdepends=('rlwrap: readline support for awesome-client'
 provides=('notification-daemon')
 conflicts=('awesome' 'awesome-git')
 backup=('etc/xdg/awesome/rc.lua')
-source=("$_name::git+https://github.com/awesomeWM/awesome.git" git://github.com/ODEX-TOS/dotfiles.git main_loop.patch config.ld ldoc.css logo.png)
+source=("$_name::git+https://github.com/awesomeWM/awesome.git" git://github.com/ODEX-TOS/dotfiles.git main_loop.patch menubar.patch config.ld ldoc.css logo.png)
 sha512sums=('SKIP'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -48,6 +49,7 @@ prepare() {
   sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
   cd "$srcdir/$_name"
   patch -Np1 -i "$srcdir/"main_loop.patch
+  patch -Np1 -i "$srcdir/"menubar.patch
   cp "$srcdir"/config.ld docs/
   cp "$srcdir"/logo.png docs/images
   cp "$srcdir"/ldoc.css docs/
