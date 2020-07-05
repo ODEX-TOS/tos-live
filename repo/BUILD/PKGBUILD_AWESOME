@@ -26,8 +26,11 @@ optdepends=('rlwrap: readline support for awesome-client'
 provides=('notification-daemon')
 conflicts=('awesome' 'awesome-git')
 backup=('etc/xdg/awesome/rc.lua')
-source=("$_name::git+https://github.com/awesomeWM/awesome.git" git://github.com/ODEX-TOS/dotfiles.git main_loop.patch)
+source=("$_name::git+https://github.com/awesomeWM/awesome.git" git://github.com/ODEX-TOS/dotfiles.git main_loop.patch config.ld ldoc.css logo.png)
 sha512sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
             'SKIP'
             'SKIP') 
 validpgpkeys=('SKIP')
@@ -45,6 +48,10 @@ prepare() {
   sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
   cd "$srcdir/$_name"
   patch -Np1 -i "$srcdir/"main_loop.patch
+  cp "$srcdir"/config.ld docs/
+  cp "$srcdir"/logo.png docs/images
+  cp "$srcdir"/ldoc.css docs/
+
 }
 
 build() {
@@ -60,6 +67,7 @@ build() {
 package() {
   cd "$srcdir/$_name/"build
   make -C .  DESTDIR="${pkgdir}" install
+  mv "${pkgdir}/usr/share/doc/awesome" "${pkgdir}/usr/share/doc/tde"
   install -Dm 644 "$srcdir/$_name/"awesome.desktop -t "${pkgdir}/usr/share/xsessions"
   
   cp -r "$srcdir"/dotfiles/awesome "${pkgdir}/etc/xdg/"
