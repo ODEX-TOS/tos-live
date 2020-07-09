@@ -2,7 +2,7 @@
 
 pkgname=tos-base
 pkgver=2
-pkgrel=1
+pkgrel=2
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
 arch=('any')
@@ -22,8 +22,6 @@ depends=(
   'zsh' 'zsh-autosuggestions' 'zsh-syntax-highlighting'
   # linux
   'linux-firmware' 'amd-ucode' 'intel-ucode' 'kernel-modules-hook'
-
-
 )
 optdepends=('linux-tos: bare metal support')
 
