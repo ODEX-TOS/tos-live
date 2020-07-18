@@ -98,3 +98,7 @@ fi
 pacman-key --init
 pacman-key --populate archlinux
 pacman-key --populate tos
+
+# custom version of theme file
+mkdir -p /root/.config/tos
+printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.png\n" > /root/.config/tos/theme

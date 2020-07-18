@@ -10,7 +10,7 @@
 pkgname=awesome-tos
 _name=awesome-git
 pkgver=4.3.856.ge7113d719
-pkgrel=13
+pkgrel=20
 pkgdesc='TDE (TOS Desktop Environment)'
 url='https://tos.odex.be/'
 arch=('x86_64')

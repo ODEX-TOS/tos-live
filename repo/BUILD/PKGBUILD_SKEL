@@ -2,7 +2,7 @@
 # SILENT: on
 pkgname=skel
 pkgver=r621.0f58336
-pkgrel=1
+pkgrel=2
 pkgdesc="Default user settings for when you need to create a new user"
 arch=(any)
 url="https://github.com/ODEX-TOS/dotfiles"
