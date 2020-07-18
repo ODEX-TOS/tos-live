@@ -106,3 +106,4 @@ dhcpcd
 mdadm
 reiserfsprogs
 libarchive
+openssh
