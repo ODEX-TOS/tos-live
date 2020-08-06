@@ -8,7 +8,7 @@ arch=('any')
 license=('custom')
 url='https://developer.apple.com/fonts/'
 depends=('fontconfig' 
-		 'xorg-font-utils')
+		 'xorg-fonts-100dpi')
 source=(SFPro-1.0.zip::https://developer.apple.com/fonts/downloads/SFPro.zip)
 md5sums=('c816b5ff4a82103fc6ff39674a4233d6')
 
