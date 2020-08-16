@@ -130,9 +130,10 @@ node('archlinux') {
       }
       stage("set success"){
          setBuildStatus("Build succeeded", "SUCCESS");
-        }
+      }
     }catch(error){
         setBuildStatus("Build failed", "FAILURE");
+        sh 'sudo rm -rf toslive/work'
     }
 
 }
