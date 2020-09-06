@@ -59,6 +59,7 @@ prepare() {
   sed -i 's| lua | lua5.3 |;s/lua)/lua5.3)/' tests/examples/CMakeLists.txt
   sed -i '1s|/usr/bin/env lua$|/usr/bin/env lua5.3|' build-utils/check_for_invalid_requires.lua
   sed -i 's/"lua"/"lua5.3"/' tests/test-spawn.lua
+  sed -E -i 's/io.stderr:write.*message.*/awesome.emit_signal("debug::error_msg", message)/g' lib/gears/debug.lua
 
 }
 
