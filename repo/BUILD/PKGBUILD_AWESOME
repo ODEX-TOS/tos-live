@@ -9,6 +9,7 @@
 
 pkgname=awesome-tos
 _name=awesome-git
+_TVER=6
 pkgver=4.3.856.ge7113d719
 pkgrel=20
 pkgdesc='TDE (TOS Desktop Environment)'
@@ -38,7 +39,7 @@ validpgpkeys=('SKIP')
 
 pkgver() {
     cd "$_name"
-    git describe | sed 's/^v//;s/-/./g'
+    printf "$(git describe | sed 's/^v//;s/-/./g').$TVER"
 }
 
 prepare() {
@@ -60,6 +61,8 @@ prepare() {
   sed -i '1s|/usr/bin/env lua$|/usr/bin/env lua5.3|' build-utils/check_for_invalid_requires.lua
   sed -i 's/"lua"/"lua5.3"/' tests/test-spawn.lua
   sed -E -i 's/io.stderr:write.*message.*/awesome.emit_signal("debug::error_msg", message)/g' lib/gears/debug.lua
+  cd "$srcdir/dotfiles"
+  echo "return '$(git rev-parse HEAD)'" > "$srcdir/dotfiles/"release.lua
 
 }
 
