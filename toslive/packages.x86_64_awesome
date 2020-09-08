@@ -1,6 +1,6 @@
 linux-tos
 tos/filesystem
-tos/systemd
+systemd
 tos-base-desktop
 arch-install-scripts
 b43-fwcutter
