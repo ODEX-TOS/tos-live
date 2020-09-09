@@ -37,6 +37,10 @@ function build() {
   if [[ "$(which mkarchiso)" != "/usr/bin/mkarchiso" ]]; then
     yay -Syu archiso || exit 1
   fi
+  if ! yay -Q | grep -q mkinitcpio-archiso; then
+    yay -Syu mkinitcpio-archiso || exit 1
+  fi
+
   # do a complete remove of the working directory since we are building 2 different version in it
   rm -rf work
 
