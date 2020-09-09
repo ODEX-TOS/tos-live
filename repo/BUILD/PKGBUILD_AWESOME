@@ -39,7 +39,7 @@ validpgpkeys=('SKIP')
 
 pkgver() {
     cd "$_name"
-    printf "$(git describe | sed 's/^v//;s/-/./g').$TVER"
+    printf "$(git tag | tail -n1 | sed 's/^v//;s/-/./g').$(git rev-list --count HEAD).$TVER"
 }
 
 prepare() {
@@ -48,6 +48,8 @@ prepare() {
   file="$srcdir/$_name/"awesome.desktop
   sed -i 's/Name=.*/Name=TDE/g' "$file"
   sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
+  mv "$file" "$srcdir/$_name/tde.desktop"
+
   cd "$srcdir/$_name"
   patch -Np1 -i "$srcdir/"main_loop.patch
   patch -Np1 -i "$srcdir/"menubar.patch
