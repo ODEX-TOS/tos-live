@@ -80,10 +80,12 @@ package() {
   mv "${pkgdir}/usr/share/doc/awesome" "${pkgdir}/usr/share/doc/tde"
 
   file="$srcdir/$_name/awesome.desktop"
+  file="$srcdir/$_name/tde.desktop"
   # alter the desktop file
   sed -i 's/Name=.*/Name=TDE/g' "$file"
   sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
-  install -Dm 644 "$file" -t "${pkgdir}/usr/share/xsessions/tde.desktop"
+  mv "$file" "$file2"
+  install -Dm 644 "$file2" -t "${pkgdir}/usr/share/xsessions/tde.desktop"
   
   cp -r "$srcdir"/dotfiles/awesome "${pkgdir}/etc/xdg/"
   chmod 666 "${pkgdir}/etc/xdg/awesome/configuration/compton.conf"
