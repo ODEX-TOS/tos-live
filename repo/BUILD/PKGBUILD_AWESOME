@@ -39,7 +39,7 @@ validpgpkeys=('SKIP')
 
 pkgver() {
     cd "$_name"
-    printf "$(git tag | tail -n1 | sed 's/^v//;s/-/./g').$(git rev-list --count HEAD).$TVER"
+    printf "$(git tag | tail -n1 | sed 's/^v//;s/-/./g').$(git rev-list --count HEAD).$_TVER"
 }
 
 prepare() {
