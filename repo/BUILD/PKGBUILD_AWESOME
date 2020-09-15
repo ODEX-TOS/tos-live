@@ -80,7 +80,7 @@ package() {
   mv "${pkgdir}/usr/share/doc/awesome" "${pkgdir}/usr/share/doc/tde"
 
   file="$srcdir/$_name/awesome.desktop"
-  file="$srcdir/$_name/tde.desktop"
+  file2="$srcdir/$_name/tde.desktop"
   # alter the desktop file
   sed -i 's/Name=.*/Name=TDE/g' "$file"
   sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
