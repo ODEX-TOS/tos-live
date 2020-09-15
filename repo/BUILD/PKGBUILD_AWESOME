@@ -45,10 +45,8 @@ pkgver() {
 prepare() {
   mkdir -p "$srcdir/$_name/"build
   # alter the desktop file
-  file="$srcdir/$_name/"awesome.desktop
   sed -i 's/Name=.*/Name=TDE/g' "$file"
   sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
-  mv "$file" "$srcdir/$_name/tde.desktop"
 
   cd "$srcdir/$_name"
   patch -Np1 -i "$srcdir/"main_loop.patch
@@ -83,7 +81,7 @@ package() {
   cd "$srcdir/$_name/"build
   make -C .  DESTDIR="${pkgdir}" install
   mv "${pkgdir}/usr/share/doc/awesome" "${pkgdir}/usr/share/doc/tde"
-  install -Dm 644 "$srcdir/$_name/"awesome.desktop -t "${pkgdir}/usr/share/xsessions"
+  install -Dm 644 "$srcdir/$_name/"awesome.desktop -t "${pkgdir}/usr/share/xsessions/tde.desktop"
   
   cp -r "$srcdir"/dotfiles/awesome "${pkgdir}/etc/xdg/"
   chmod 666 "${pkgdir}/etc/xdg/awesome/configuration/compton.conf"
