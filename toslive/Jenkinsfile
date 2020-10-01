@@ -14,7 +14,7 @@ void setBuildStatus(String message, String state) {
 
 node('archlinux') {
   try {
-     stage('pull') { 
+     stage('pull') {
           git "https://github.com/ODEX-TOS/tos-live.git"
           sh "cd toslive && ./version_builder.sh"
       }
@@ -29,34 +29,10 @@ node('archlinux') {
               echo "First build failed, let's retry."
               echo "This probably happend because our repository has been updated"
               retry(2) {
-                 sh "cd toslive && sudo ./start.sh -s && pwd"
+                 sh "sudo rm -rf toslive/work && cd toslive && sudo ./start.sh -s && pwd"
               }
            }
       }
-      // Build tos client edition
-      /*stage('client'){
-          try {
-              sh "cd toslive && sudo ./start.sh -g && pwd" // run start.sh as a root user since the live iso chroot is a root user
-           } catch(error) {
-              echo "Second build failed, let's retry."
-              echo "This probably happend because our repository has been updated"
-              retry(2) {
-                 sh "cd toslive && sudo ./start.sh -g && pwd"
-              }
-           }
-      }*/
-      // Build tos client edition
-      /*stage('kde'){
-          try {
-              sh "cd toslive && sudo ./start.sh -k && pwd" // run start.sh as a root user since the live iso chroot is a root user
-           } catch(error) {
-              echo "Second build failed, let's retry."
-              echo "This probably happend because our repository has been updated"
-              retry(2) {
-                 sh "cd toslive && sudo ./start.sh -k && pwd"
-              }
-           }
-      }*/
       // Build tos awesome edition
       stage('awesome'){
           try {
@@ -65,54 +41,7 @@ node('archlinux') {
               echo "Second build failed, let's retry."
               echo "This probably happend because our repository has been updated"
               retry(2) {
-                 sh "cd toslive && sudo ./start.sh -awesome && pwd"
-              }
-           }
-      }
-      // Build tos server edition with azerty layout
-      stage('server azerty'){
-           try {
-              sh "cd toslive && sudo ./start.sh -s -a && pwd" // run start.sh as a root user since the live iso chroot is a root user
-           } catch(error) {
-              echo "First build failed, let's retry."
-              echo "This probably happend because our repository has been updated"
-              retry(2) {
-                 sh "cd toslive && sudo ./start.sh -s -a && pwd"
-              }
-           }    }
-      // Build tos client edition with azerty layout
-      /*stage('client azerty'){
-          try {
-              sh "cd toslive && sudo ./start.sh -g -a && pwd" // run start.sh as a root user since the live iso chroot is a root user
-           } catch(error) {
-              echo "First build failed, let's retry."
-              echo "This probably happend because our repository has been updated"
-              retry(2) {
-                 sh "cd toslive && sudo ./start.sh -g -a && pwd"
-              }
-           }
-      }*/
-      // Build tos client edition
-      /*stage('kde azerty'){
-          try {
-              sh "cd toslive && sudo ./start.sh -k -a && pwd" // run start.sh as a root user since the live iso chroot is a root user
-           } catch(error) {
-              echo "Second build failed, let's retry."
-              echo "This probably happend because our repository has been updated"
-              retry(2) {
-                 sh "cd toslive && sudo ./start.sh -k -a && pwd"
-              }
-           }
-      }*/
-      // Build tos client edition
-      stage('awesome azerty'){
-          try {
-              sh "cd toslive && sudo ./start.sh -awesome -a && pwd" // run start.sh as a root user since the live iso chroot is a root user
-           } catch(error) {
-              echo "Second build failed, let's retry."
-              echo "This probably happend because our repository has been updated"
-              retry(2) {
-                 sh "cd toslive && sudo ./start.sh -awesome -a && pwd"
+                 sh "sudo rm -rf toslive/work && cd toslive && sudo ./start.sh -awesome && pwd"
               }
            }
       }
@@ -126,7 +55,7 @@ node('archlinux') {
       }
       // Upload iso's to remote repository
       stage('upload') {
-          sh "cd repo && sh upload.sh -y" 
+          sh "cd repo && sh upload.sh -y"
       }
       stage("set success"){
          setBuildStatus("Build succeeded", "SUCCESS");
