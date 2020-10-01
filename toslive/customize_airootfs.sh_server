@@ -27,7 +27,7 @@ systemctl set-default multi-user.target
 systemctl enable NetworkManager
 
 if [[ $(ping -c1 1.1.1.1 | grep "0% packet loss") == "" ]]; then
-	wifi-menu
+  wifi-menu
 fi
 
 cd
@@ -53,7 +53,7 @@ git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
 sed -i 's;setxkbmap $KEY;;' /root/.oh-my-zsh/load/etc.sh
 
 # set the default keymap to us (get overridden by .profile)
-printf 'KEYMAP=us' >/etc/vconsole.conf 
+printf 'KEYMAP=us' >/etc/vconsole.conf
 
 curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos >/root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
@@ -83,11 +83,11 @@ HOME_URL="https://tos.pbfp.xyz/"
 LOGO=toslinux' >/etc/os-release
 
 if [[ -f "/root/tos" ]]; then
-	rm /root/tos
+  rm /root/tos
 fi
 
 # get the keymapping from /proc/cmdline
-cat <<EOF >> /root/.profile
+cat <<EOF >>/root/.profile
 KEY=\$(grep -o "tos.key=[a-zA-Z0-9\-]*" /proc/cmdline | cut -d "=" -f2)
 LOADKEY=\$(grep -o "tos.loadkeys=[a-zA-Z0-9\-]*" /proc/cmdline | cut -d "=" -f2)
 # these two env variables hold keyboard information
@@ -101,7 +101,7 @@ EOF
 
 # enable sysrq triggers
 mkdir -p /etc/sysctl.d/
-echo "kernel.sysrq = 511" >> /etc/sysctl.d/99-sysctl.conf
+echo "kernel.sysrq = 511" >>/etc/sysctl.d/99-sysctl.conf
 pacman-key --init
 pacman-key --populate archlinux
 pacman-key --populate tos

@@ -22,7 +22,6 @@ sed -i 's/#\(HandleSuspendKey=\)suspend/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleHibernateKey=\)hibernate/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleLidSwitch=\)suspend/\1ignore/' /etc/systemd/logind.conf
 
-
 systemctl enable pacman-init.service choose-mirror.service
 systemctl set-default multi-user.target
 systemctl enable NetworkManager
@@ -54,9 +53,8 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
 curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos >/root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
-
 # get the keymapping from /proc/cmdline
-cat <<EOF >> /root/.profile
+cat <<EOF >>/root/.profile
 KEY=\$(grep -o "tos.key=[a-zA-Z0-9\-]*" /proc/cmdline | cut -d "=" -f2)
 LOADKEY=\$(grep -o "tos.loadkeys=[a-zA-Z0-9\-]*" /proc/cmdline | cut -d "=" -f2)
 # these two env variables hold keyboard information
@@ -74,7 +72,7 @@ git clone https://github.com/denysdovhan/spaceship-prompt.git "/root/.oh-my-zsh/
 ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
 # update zshrc file to the official tos version
-cp /root/.config/.zshrc /root/.zshrc 
+cp /root/.config/.zshrc /root/.zshrc
 
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.zshrc
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.bashrc
@@ -90,10 +88,10 @@ sed -i 's/"glx";/"xrender";/g' /etc/xdg/awesome/configuration/picom.conf
 sed -i 's/"glx";/"xrender";/g' /root/.config/picom.conf
 # enable sysrq triggers
 mkdir -p /etc/sysctl.d/
-echo "kernel.sysrq = 511" >> /etc/sysctl.d/99-sysctl.conf
+echo "kernel.sysrq = 511" >>/etc/sysctl.d/99-sysctl.conf
 
 if [[ -f "/etc/mkinitcpio.d/linux.preset" ]]; then
-        rm /etc/mkinitcpio.d/linux.preset
+  rm /etc/mkinitcpio.d/linux.preset
 fi
 pacman-key --init
 pacman-key --populate archlinux
@@ -101,4 +99,4 @@ pacman-key --populate tos
 
 # custom version of theme file
 mkdir -p /root/.config/tos
-printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.png\n" > /root/.config/tos/theme
+printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.png\n" >/root/.config/tos/theme
