@@ -14,7 +14,7 @@ void setBuildStatus(String message, String state) {
 
 node('archlinux') {
   try {
-     stage('pull') { 
+     stage('pull') {
           git "https://github.com/ODEX-TOS/tos-live.git"
           sh "cd toslive && ./version_builder.sh"
       }
@@ -55,7 +55,7 @@ node('archlinux') {
       }
       // Upload iso's to remote repository
       stage('upload') {
-          sh "cd repo && sh upload.sh -y" 
+          sh "cd repo && sh upload.sh -y"
       }
       stage("set success"){
          setBuildStatus("Build succeeded", "SUCCESS");
