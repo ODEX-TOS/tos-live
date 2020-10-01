@@ -2,7 +2,6 @@
 
 set -e -u
 
-azerty="0"
 version="v0.0.0"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
@@ -22,9 +21,6 @@ sed -i 's/#\(Storage=\)auto/\1volatile/' /etc/systemd/journald.conf
 sed -i 's/#\(HandleSuspendKey=\)suspend/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleHibernateKey=\)hibernate/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleLidSwitch=\)suspend/\1ignore/' /etc/systemd/logind.conf
-if [[ "$azerty" == "1" ]]; then
-	loadkeys be-latin1
-fi
 
 systemctl enable pacman-init.service choose-mirror.service
 systemctl set-default multi-user.target
@@ -54,12 +50,11 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-
 git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/custom/plugins/zsh-completions
 
 git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
-if [[ "$azerty" == "0" ]]; then
-	sed -i 's;setxkbmap $KEY;;' /root/.oh-my-zsh/load/etc.sh
-    printf 'KEYMAP=us' > /etc/vconsole.conf
-else
-    printf 'KEYMAP=be-latin1' > /etc/vconsole.conf
-fi
+sed -i 's;setxkbmap $KEY;;' /root/.oh-my-zsh/load/etc.sh
+
+# set the default keymap to us (get overridden by .profile)
+printf 'KEYMAP=us' >/etc/vconsole.conf 
+
 curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos >/root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
 curl https://raw.githubusercontent.com/ODEX-TOS/dotfiles/master/.zshrc >/root/.zshrc
@@ -91,10 +86,18 @@ if [[ -f "/root/tos" ]]; then
 	rm /root/tos
 fi
 
-if [[ "$azerty" == "1" ]]; then
-	echo "loadkeys be-latin1" >>/root/.profile
-	echo "export KEY='be'" >>/root/.profile
-fi
+# get the keymapping from /proc/cmdline
+cat <<EOF >> /root/.profile
+KEY=\$(grep -o "tos.key=[a-zA-Z0-9\-]*" /proc/cmdline | cut -d "=" -f2)
+LOADKEY=\$(grep -o "tos.loadkeys=[a-zA-Z0-9\-]*" /proc/cmdline | cut -d "=" -f2)
+# these two env variables hold keyboard information
+export KEY=\${KEY:-us}
+export LOADKEY=\${LOADKEY:-us}
+
+# set the console filedescripor key layout
+loadkeys "\$LOADKEY"
+echo "KEYMAP=\$LOADKEY" >/etc/vconsole.conf
+EOF
 
 # enable sysrq triggers
 mkdir -p /etc/sysctl.d/

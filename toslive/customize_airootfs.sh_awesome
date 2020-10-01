@@ -2,7 +2,6 @@
 
 set -e -u
 
-azerty="0"
 version="v0.0.0"
 
 sed -i 's/#\(en_US\.UTF-8\)/\1/' /etc/locale.gen
@@ -22,9 +21,7 @@ sed -i 's/#\(Storage=\)auto/\1volatile/' /etc/systemd/journald.conf
 sed -i 's/#\(HandleSuspendKey=\)suspend/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleHibernateKey=\)hibernate/\1ignore/' /etc/systemd/logind.conf
 sed -i 's/#\(HandleLidSwitch=\)suspend/\1ignore/' /etc/systemd/logind.conf
-if [[ "$azerty" == "1" ]]; then
-  loadkeys be-latin1
-fi
+
 
 systemctl enable pacman-init.service choose-mirror.service
 systemctl set-default multi-user.target
@@ -39,13 +36,9 @@ curl https://raw.githubusercontent.com/ODEX-TOS/tools/master/tosinstall -o /root
 chmod +x /root/tosinstall
 
 rm -rf .oh-my-zsh
-if [[ "$azerty" == "0" ]]; then
-  sed -i 's;set $KEY be;set $KEY us;' /root/.config/i3/config
-  sed -i 's;set $KEY be;set $KEY us;' /root/.config/sway/config
-  printf 'KEYMAP=us' >/etc/vconsole.conf
-else
-  printf 'KEYMAP=be-latin1' >/etc/vconsole.conf
-fi
+
+# set the default keymap to us (get overridden by .profile)
+printf 'KEYMAP=us' >/etc/vconsole.conf
 
 curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install.sh
 export RUNZSH=no
@@ -61,12 +54,19 @@ git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/cust
 git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
 curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos >/root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
 
-if [[ "$azerty" == "1" ]]; then
-  echo "loadkeys be-latin1" >>/root/.profile
-  echo "export KEY='be'" >>/root/.profile
-else
-  echo "export KEY='us'" >>/root/.profile
-fi
+
+# get the keymapping from /proc/cmdline
+cat <<EOF >> /root/.profile
+KEY=\$(grep -o "tos.key=[a-zA-Z0-9\-]*" /proc/cmdline | cut -d "=" -f2)
+LOADKEY=\$(grep -o "tos.loadkeys=[a-zA-Z0-9\-]*" /proc/cmdline | cut -d "=" -f2)
+# these two env variables hold keyboard information
+export KEY=\${KEY:-us}
+export LOADKEY=\${LOADKEY:-us}
+
+# set the console filedescripor key layout
+loadkeys "\$LOADKEY"
+echo "KEYMAP=\$LOADKEY" >/etc/vconsole.conf
+EOF
 
 echo "$version" >/etc/version
 
