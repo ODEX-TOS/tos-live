@@ -27,7 +27,7 @@ optdepends=('rlwrap: readline support for awesome-client'
 provides=('notification-daemon')
 conflicts=('awesome' 'awesome-git')
 backup=('etc/xdg/awesome/rc.lua')
-source=("$_name::git+https://github.com/awesomeWM/awesome.git" git://github.com/ODEX-TOS/dotfiles.git main_loop.patch menubar.patch config.ld ldoc.css logo.png)
+source=("$_name::git+https://github.com/awesomeWM/awesome.git" git://github.com/ODEX-TOS/tos-desktop-environment.git main_loop.patch menubar.patch config.ld ldoc.css logo.png)
 sha512sums=('SKIP'
             'SKIP'
             'SKIP'
@@ -58,8 +58,8 @@ prepare() {
   sed -i '1s|/usr/bin/env lua$|/usr/bin/env lua5.3|' build-utils/check_for_invalid_requires.lua
   sed -i 's/"lua"/"lua5.3"/' tests/test-spawn.lua
   sed -E -i 's/io.stderr:write.*message.*/awesome.emit_signal("debug::error_msg", message)/g' lib/gears/debug.lua
-  cd "$srcdir/dotfiles"
-  echo "return '$(git rev-parse HEAD)'" > "$srcdir/dotfiles/"release.lua
+  cd "$srcdir/tos-desktop-environment"
+  echo "return '$(git rev-parse HEAD)'" > "$srcdir/tos-desktop-environment/"release.lua
 
 }
 
@@ -87,7 +87,7 @@ package() {
   mv "$file" "$file2"
   install -Dm 644 "$file2" -t "${pkgdir}/usr/share/xsessions/"
   
-  cp -r "$srcdir"/dotfiles/awesome "${pkgdir}/etc/xdg/"
+  cp -r "$srcdir"/tos-desktop-environment/tde/* "${pkgdir}/etc/xdg/awesome"
   chmod 666 "${pkgdir}/etc/xdg/awesome/configuration/compton.conf"
   mkdir -p "$pkgdir"/usr/share/backgrounds/
   git clone https://github.com/ODEX-TOS/Pictures "$pkgdir"/usr/share/backgrounds/tos
