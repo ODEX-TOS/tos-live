@@ -34,7 +34,7 @@ sha512sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
-            'SKIP') 
+            'SKIP')
 validpgpkeys=('SKIP')
 
 pkgver() {
@@ -86,7 +86,7 @@ package() {
   sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
   mv "$file" "$file2"
   install -Dm 644 "$file2" -t "${pkgdir}/usr/share/xsessions/"
-  
+
   cp -r "$srcdir"/tos-desktop-environment/tde/* "${pkgdir}/etc/xdg/awesome"
   chmod 666 "${pkgdir}/etc/xdg/awesome/configuration/compton.conf"
   mkdir -p "$pkgdir"/usr/share/backgrounds/

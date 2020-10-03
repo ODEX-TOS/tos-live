@@ -36,11 +36,11 @@ build() {
 package() {
         mkdir -p "$pkgdir"/etc/skel/.config
         cp -r "$srcdir/$_reponame"/* "$pkgdir"/etc/skel/.config
-        
+
         # copy over used dotfiles
         cp -r "$srcdir/$_reponame"/.{zshrc,profile,xprofile,Xresources} "$pkgdir"/etc/skel/.config
 
-        wget "https://raw.githubusercontent.com/ODEX-TOS/tos-desktop-environment/master/tde/configuration/picom.conf" -O "$pkgdir"/etc/skel/.config/picom.conf 
+        wget "https://raw.githubusercontent.com/ODEX-TOS/tos-desktop-environment/master/tde/configuration/picom.conf" -O "$pkgdir"/etc/skel/.config/picom.conf
         chmod 666 "$pkgdir"/etc/skel/.config/picom.conf
 
         rm -rf "$pkgdir"/etc/skel/.config/libinput-gestures.conf # this config is already provided in the tos version of libinput-gestures
