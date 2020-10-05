@@ -22,65 +22,41 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# $@ should be a list of items. We will delete all of them except for the last entry
-# in other words grep '.zst$' | sort the files you wish to delete 
-function clean {
-        for i in ${@} ; do
-                if [[ ! "${@: -1}" == "$i" ]]; then
-                        echo "$i"
-                        rm "$i"
-			# also remove package signatures
-			if [[ -f "$i".sig ]]; then
-				rm "$i".sig
-			fi
-                fi
+DB="tos.db.tar.gz"
+
+
+# Populate the variable DB_LIST with all files that are present in the database
+function getDBList() {
+        loc=$(mktemp -d)
+        cp arch/"$DB" "$loc"
+        tar -xzf "$loc/$DB" -C "$loc"
+        for file in $(find "$loc" -iname "desc"); do
+                DB_LIST="$DB_LIST $(grep -A1 "%FILENAME%" "$file" | tail -n1)"
+        done
+
+        rm -rf "$loc"
+}
+
+# Populate the variable ARCH_LIST with all packages found in the arch directory
+function getArchList(){
+        for location in $(find arch -iname "*.tar.zst"); do
+                 file="$(basename $location)"
+                 ARCH_LIST="$ARCH_LIST $file"
         done
 }
 
-# all files to grep '.zst$' | sort and only keep the last one
+getDBList
+getArchList
 
-clean $(ls arch/i3-gaps-tos* | grep '.zst$' | sort)
+# loop over the database list and remove every entry found out of the arch list
+for db_entry in $DB_LIST; do
+        ARCH_LIST=$(echo $ARCH_LIST | sed "s/$db_entry//g")
+done
 
-clean $(ls arch/installer-backend* | grep '.zst$' | sort)
 
-clean $(ls arch/installer-gui* | grep '.zst$' | sort)
-clean $(ls arch/installer-cli* | grep '.zst$' | sort)
-clean $(ls arch/installer-3* | grep '.zst$' | sort)
+# the arch list now only contains packages that are not used by the repository
+for file in $ARCH_LIST; do
+        echo "Removing: $file"
+        rm "arch/$file"
+done
 
-clean $(ls arch/linux-tos-5* | grep '.zst$' | sort)
-clean $(ls arch/linux-tos-docs* | grep '.zst$' | sort)
-clean $(ls arch/linux-tos-headers* | grep '.zst$' | sort)
-
-clean $(ls arch/readme-generator-git* | grep '.zst$' | sort)
-clean $(ls arch/shunit-git* | grep '.zst$' | sort)
-
-clean $(ls arch/st-tos* | grep '.zst$' | sort)
-clean $(ls arch/visual-studio-code-insiders* | grep '.zst$' | sort)
-
-clean $(ls arch/tos-tools* | grep '.zst$' | sort)
-
-clean $(ls arch/polybar-git-3.4.0.* | grep '.zst$' | sort)
-clean $(ls arch/mcmojave-circle-icon-theme-git-* | grep '.zst$' | sort)
-
-clean $(ls arch/tos-grub-theme-r* | grep '.zst$' | sort)
-
-clean $(ls arch/skel-* | grep '.zst$' | sort)
-
-clean $(ls arch/awesome-tos-* | grep '.zst$' | sort)
-
-clean $(ls arch/picom-tryone-tos-* | grep '.zst$' | sort)
-
-clean $(ls arch/tos-base-2-* | grep '.zst$' | sort)
-clean $(ls arch/tos-base-desktop-* | grep '.zst$' | sort)
-clean $(ls arch/tos-build-system-* | grep '.zst$' | sort)
-
-clean $(ls arch/rofi-tos-* | grep '.zst$' | sort)
-clean $(ls arch/pkgstats-* | grep '.zst$' | sort)
-clean $(ls arch/psi-notify-* | grep '.zst$' | sort)
-clean $(ls arch/otf-san-francisco-* | grep '.zst$' | sort)
-clean $(ls arch/nerd-fonts-complete-* | grep '.zst$' | sort)
-clean $(ls arch/libinput-gestures-tos-* | grep '.zst$' | sort)
-
-clean $(ls arch/kernel-modules-hook-* | grep '.zst$' | sort)
-clean $(ls arch/filesystem-* | grep '.zst$' | sort)
-clean $(ls arch/ckbcomp-tos-* | grep '.zst$' | sort)
