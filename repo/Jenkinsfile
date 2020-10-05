@@ -13,7 +13,7 @@ void setBuildStatus(String message, String state) {
 // You should provide a slave that is running arch
 node('archlinux') {
   try{
-   stage('pull') { 
+   stage('pull') {
         git "https://github.com/ODEX-TOS/tos-live.git"
     }
     stage('pending') {
@@ -31,11 +31,11 @@ node('archlinux') {
           )
     }
     // only upload repository if everything exists
-    stage('upload repository') { 
+    stage('upload repository') {
         sh "cd repo && bash check-missing-packages.sh"
     }
     // Push local repo to the server
-    stage('upload repository') { 
+    stage('upload repository') {
         sh "cd repo && sh upload.sh -y"
     }
     // Generate package list based on the repo
@@ -45,10 +45,10 @@ node('archlinux') {
         sh "cd repo && yay -Syu --noconfirm && sh genpackagelist.sh"
     }
     // Upload package list to remote repo
-    stage('upload html') { 
-        sh "cd repo && sh upload.sh -y" 
+    stage('upload html') {
+        sh "cd repo && sh upload.sh -y"
     }
-    stage('Set build success') { 
+    stage('Set build success') {
          setBuildStatus("Build succeeded", "SUCCESS");
     }
    } catch(error) {
