@@ -30,11 +30,10 @@ node('archlinux') {
           }
           )
     }
-    // Build the latest tos kernel and add it to the repo
-    // Build takes to long and jenkins slave time out during connection with master
-    //stage('build kernel') { 
-      //  sh "cd repo && sh build.sh -k 2"
-    //}
+    // only upload repository if everything exists
+    stage('upload repository') { 
+        sh "cd repo && bash check-missing-packages.sh"
+    }
     // Push local repo to the server
     stage('upload repository') { 
         sh "cd repo && sh upload.sh -y"
