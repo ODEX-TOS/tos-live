@@ -52,8 +52,20 @@ for db_entry in $DB_LIST; do
   ARCH_LIST=$(echo "$ARCH_LIST" | sed "s/$db_entry//g")
 done
 
+SIZE="0"
 # the arch list now only contains packages that are not used by the repository
 for file in $ARCH_LIST; do
   echo "Removing: $file"
+  if [[ -f "arch/$file.sig" ]]; then
+        echo "Removing: $file.sig"
+        # calculate how much data we are removing
+        SIZE=$(( "$SIZE" + $(du "arch/$file.sig" | awk '{print $1}') ))
+        rm "arch/$file.sig"
+  fi
+  # calculate how much data we are removing
+  SIZE=$(( "$SIZE" + $(du "arch/$file" | awk '{print $1}') ))
   rm "arch/$file"
 done
+
+echo "Cleaned up $(($SIZE / 1000)) MB"
+
