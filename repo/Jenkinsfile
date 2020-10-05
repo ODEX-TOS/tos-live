@@ -31,7 +31,7 @@ node('archlinux') {
           )
     }
     // only upload repository if everything exists
-    stage('upload repository') {
+    stage('check for missing packages') {
         sh "cd repo && bash check-missing-packages.sh"
     }
     // Push local repo to the server
