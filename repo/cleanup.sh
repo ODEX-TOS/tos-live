@@ -29,7 +29,7 @@ function getDBList() {
   loc=$(mktemp -d)
   cp arch/"$DB" "$loc"
   tar -xzf "$loc/$DB" -C "$loc"
-  for file in "$(find "$loc" -iname "desc")"; do
+  for file in $(find "$loc" -iname "desc"); do
     DB_LIST="$DB_LIST $(grep -A1 "%FILENAME%" "$file" | tail -n1)"
   done
 
@@ -38,7 +38,7 @@ function getDBList() {
 
 # Populate the variable ARCH_LIST with all packages found in the arch directory
 function getArchList() {
-  for location in "$(find arch -iname "*.tar.zst")"; do
+  for location in $(find arch -iname "*.tar.zst"); do
     file="$(basename "$location")"
     ARCH_LIST="$ARCH_LIST $file"
   done
@@ -48,12 +48,12 @@ getDBList
 getArchList
 
 # loop over the database list and remove every entry found out of the arch list
-for db_entry in "$DB_LIST"; do
+for db_entry in $DB_LIST; do
   ARCH_LIST=$(echo "$ARCH_LIST" | sed "s/$db_entry//g")
 done
 
 # the arch list now only contains packages that are not used by the repository
-for file in "$ARCH_LIST"; do
+for file in $ARCH_LIST; do
   echo "Removing: $file"
   rm "arch/$file"
 done
