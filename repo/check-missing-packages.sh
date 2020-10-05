@@ -29,7 +29,7 @@ function getDBList() {
         loc=$(mktemp -d)
         cp arch/"$DB" "$loc"
         tar -xzf "$loc/$DB" -C "$loc"
-        for file in $(find "$loc" -iname "desc"); do
+        for file in "$(find "$loc" -iname "desc")"; do
                 DB_LIST="$DB_LIST $(grep -A1 "%FILENAME%" "$file" | tail -n1)"
         done
 
@@ -38,8 +38,8 @@ function getDBList() {
 
 # Populate the variable ARCH_LIST with all packages found in the arch directory
 function getArchList(){
-        for location in $(find arch -iname "*.tar.zst"); do
-                 file="$(basename $location)"
+        for location in "$(find arch -iname "*.tar.zst")"; do
+                 file="$(basename "$location")"
                  ARCH_LIST="$ARCH_LIST $file"
         done
 }
@@ -49,13 +49,13 @@ getArchList
 
 # loop over the database list check if it exists in the ARCH_LIST
 # if it doesn't exists that means we will be uploading something broken
-for db_entry in $DB_LIST; do
+for db_entry in "$DB_LIST"; do
     if ! echo "$ARCH_LIST" | grep -q "$db_entry"; then
         echo "$db_entry not found"
         EXITCODE="1"
     fi      
 done
 
-exit $EXITCODE
+exit "$EXITCODE"
 
 
