@@ -138,6 +138,10 @@ function changePKGBUILD() {
     echo "CONFIG_LOGO_LINUX_MONO=y" >> config
     echo "CONFIG_FB_VGA16=y" >> config
     echo "CONFIG_VGASTATE=y" >> config
+    
+    # setup apparmor as default security model
+    echo "CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1" >> config
+    echo "CONFIG_DEFAULT_SECURITY_APPARMOR=y" >> config
 
 	sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = '$extraversion':EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
 	sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
