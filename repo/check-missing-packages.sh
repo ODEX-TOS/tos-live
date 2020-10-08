@@ -47,25 +47,13 @@ function getArchList() {
 getDBList
 getArchList
 
-# loop over the database list and remove every entry found out of the arch list
+# loop over the database list check if it exists in the ARCH_LIST
+# if it doesn't exists that means we will be uploading something broken
 for db_entry in $DB_LIST; do
-  ARCH_LIST=$(echo "$ARCH_LIST" | sed "s/$db_entry//g")
-done
-
-SIZE="0"
-# the arch list now only contains packages that are not used by the repository
-for file in $ARCH_LIST; do
-  echo "Removing: $file"
-  if [[ -f "arch/$file.sig" ]]; then
-        echo "Removing: $file.sig"
-        # calculate how much data we are removing
-        SIZE=$(( "$SIZE" + $(du "arch/$file.sig" | awk '{print $1}') ))
-        rm "arch/$file.sig"
+  if ! echo "$ARCH_LIST" | grep -q "$db_entry"; then
+    echo "$db_entry not found"
+    EXITCODE="1"
   fi
-  # calculate how much data we are removing
-  SIZE=$(( "$SIZE" + $(du "arch/$file" | awk '{print $1}') ))
-  rm "arch/$file"
 done
 
-echo "Cleaned up $(($SIZE / 1000)) MB"
-
+exit $EXITCODE
