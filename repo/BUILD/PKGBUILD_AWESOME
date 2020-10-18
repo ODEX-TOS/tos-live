@@ -10,8 +10,8 @@
 pkgname=awesome-tos
 _name=awesome-git
 _TVER=10
-pkgver=4.3.856.ge7113d719
-pkgrel=20
+pkgver=4.3.10231.10
+pkgrel=1
 pkgdesc='TDE (TOS Desktop Environment)'
 url='https://tos.odex.be/'
 arch=('x86_64')
@@ -60,6 +60,7 @@ prepare() {
   sed -E -i 's/io.stderr:write.*message.*/awesome.emit_signal("debug::error_msg", message)/g' lib/gears/debug.lua
   cd "$srcdir/tos-desktop-environment"
   echo "return '$(git rev-parse HEAD)'" > "$srcdir/tos-desktop-environment/"release.lua
+  cp -r "$srcdir/tos-desktop-environment/tde" "$srcdir/$_name/build/"
 
 }
 
