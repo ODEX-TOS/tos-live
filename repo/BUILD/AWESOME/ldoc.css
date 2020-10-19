@@ -6,10 +6,10 @@ body {
   background: #eff4ff;
 }
 
-ul {
+#content ul {
   list-style: none;
 }
-li::before {
+#content li::before {
   content: "•";
   color: #7036ff;
 }
