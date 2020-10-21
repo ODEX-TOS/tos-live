@@ -250,6 +250,16 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
     installbuilds
     populatedb
 fi
+if [[ "$default" == "y" || "$1" == "-P" ]]; then
+
+    buildpackages "packages.conf"
+    populatedb
+fi
+if [[ "$default" == "y" || "$1" == "-B" ]]; then
+
+    installbuilds
+    populatedb
+fi
 if [[ "$1" == "" ]]; then
 	read -p "Do you want to install fonts? (y/N)" fonts
 fi

@@ -23,7 +23,10 @@ node('archlinux') {
     stage('building tarballs'){
         parallel(
           apps: {
-            sh "cd repo && sh build.sh -a"
+            sh "cd repo && sh build.sh -P"
+          },
+          PKGBUILDS: {
+            sh "cd repo && sh build.sh -B"
           },
           fonts: {
             sh "cd repo && sh build.sh -f"
