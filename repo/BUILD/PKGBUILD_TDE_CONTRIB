@@ -1,0 +1,15 @@
+# Maintainer: Tom Meyers
+
+pkgname=tde-contrib
+pkgver=1
+pkgrel=1
+pkgdesc='Contribution package that contains extra functionality for TDE'
+url='https://tos.odex.be'
+arch=('any')
+license=('MIT')
+depends=(
+  'playerctl' 'psi-notify' 'maim' 'pkgstats' 'gvfs' 'arch-audit' 'greenclip'
+)
+
+# vim: ts=2 sw=2 et:
+
