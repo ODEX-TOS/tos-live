@@ -9,7 +9,7 @@
 
 pkgname=awesome-tos
 _name=awesome-git
-_TVER=11
+_TVER=12
 pkgver=4.3.10231.10
 pkgrel=1
 pkgdesc='TDE (TOS Desktop Environment)'
@@ -87,6 +87,7 @@ package() {
   sed -i 's/^Exec=.*/Exec=env XDG_CURRENT_DESKTOP=TDE awesome/g' "$file"
   mv "$file" "$file2"
   install -Dm 644 "$file2" -t "${pkgdir}/usr/share/xsessions/"
+  install -Dm 644 "$srcdir/tos-desktop-environment/tde-settings.desktop" -t "${pkgdir}/usr/share/applications/"
   
   cp -r "$srcdir"/tos-desktop-environment/tde/* "${pkgdir}/etc/xdg/awesome"
   chmod 666 "${pkgdir}/etc/xdg/awesome/configuration/compton.conf"
