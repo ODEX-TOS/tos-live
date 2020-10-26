@@ -9,7 +9,7 @@
 
 pkgname=awesome-tos
 _name=awesome-git
-_TVER=12
+_TVER=13
 pkgver=4.3.10231.10
 pkgrel=1
 pkgdesc='TDE (TOS Desktop Environment)'
