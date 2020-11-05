@@ -44,7 +44,7 @@ node('archlinux') {
     // Generate package list based on the repo
     stage('generate html') {
         sh "sleep 5"
-        sh "yay -Syu --noconfirm || sh upload.sh -y"
+        sh "cd repo; yay -Syu --noconfirm || sh upload.sh -y"
         sh "cd repo && yay -Syu --noconfirm && sh genpackagelist.sh"
     }
     // Upload package list to remote repo
