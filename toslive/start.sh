@@ -23,10 +23,8 @@
 # SOFTWARE.
 
 # This is a simple script to build an iso image. It prepares the build directory and then starts the build
-if [[ ! -f version.txt ]]; then
-  ./version_builder.sh
-fi
-version=$(cat version.txt)
+./version_builder.sh
+version=$(cat airootfs/etc/version.txt)
 iso_version=$(date +%Y.%m.%d)
 iso_azerty=$(echo toslinux-"$iso_version"-x86_64_azerty | tr '.' '-')
 iso_normal=$(echo toslinux-"$iso_version"-x86_64 | tr '.' '-')
@@ -44,7 +42,7 @@ function build() {
   # do a complete remove of the working directory since we are building multiple different version using it
   rm -rf work
 
-  ./build.sh -v || exit 1
+  mkarchiso -v .
 
   if [[ ! -d "images/server" ]]; then
     mkdir -p images/server

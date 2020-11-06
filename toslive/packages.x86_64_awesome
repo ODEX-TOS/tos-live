@@ -1,7 +1,9 @@
 linux-tos
+linux-tos-headers
 tos/filesystem
 systemd
 tos-base-desktop
+base
 arch-install-scripts
 b43-fwcutter
 broadcom-wl
@@ -77,7 +79,6 @@ ttf-fira-mono
 ttf-linux-libertine
 noto-fonts
 make
-base-devel
 firefox-developer-edition
 jsoncpp
 pavucontrol
@@ -97,8 +98,6 @@ redshift
 maim
 python-yaml
 installer-backend
-installer-cli
-installer-gui
 os-prober
 installer
 xf86-input-synaptics
@@ -122,3 +121,9 @@ thunar
 gnome-system-monitor
 mesa
 openssh
+syslinux
+memtest86+
+mkinitcpio
+mkinitcpio-archiso
+amd-ucode
+intel-ucode

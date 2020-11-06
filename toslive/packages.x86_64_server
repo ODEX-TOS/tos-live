@@ -1,4 +1,5 @@
 linux-tos
+linux-tos-headers
 tos/filesystem
 tos-base
 tos-keyring
@@ -83,13 +84,11 @@ font-bh-ttf
 bdf-unifont
 ttf-dejavu
 make
-base-devel
 r8152-dkms
 python-dbus
 pamixer
 python-yaml
 installer-backend
-installer-cli
 os-prober
 tos-grub-theme
 diffutils
@@ -107,3 +106,10 @@ mdadm
 reiserfsprogs
 libarchive
 openssh
+syslinux
+memtest86+
+mkinitcpio
+mkinitcpio-archiso
+mkinitcpio-nfs-utils
+amd-ucode
+intel-ucode
