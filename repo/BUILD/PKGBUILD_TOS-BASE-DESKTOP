@@ -11,7 +11,7 @@ depends=(
     # base
     'tos-base'
     # WM/DE stuff
-    'awesome-tos' 'st-tos' 'libinput-gestures-tos' 'arandr' 'nm-connection-editor' 'materia-gtk-theme' 'papirus-icon-theme' 'xcursor-human' 'xdotool'
+    'tde' 'st-tos' 'libinput-gestures-tos' 'arandr' 'nm-connection-editor' 'materia-gtk-theme' 'papirus-icon-theme' 'xcursor-human' 'xdotool'
     # DM
     'tde-greeter'
     'feh'

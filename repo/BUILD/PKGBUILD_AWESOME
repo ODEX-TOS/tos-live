@@ -7,7 +7,7 @@
 # Contributor: Vesa Kaihlavirta
 # Contributor: Tom Meyers <tom@odex.be>
 
-pkgname=awesome-tos
+pkgname=tde
 _name=awesome-git
 _TVER=18
 pkgver=4.3.10231.10
