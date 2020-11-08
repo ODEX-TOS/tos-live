@@ -24,8 +24,8 @@ optdepends=('rlwrap: readline support for awesome-client'
             'dex: autostart your desktop files'
             'vicious: widgets for the Awesome window manager'
             'librsvg: for displaying SVG files without scaling artifacts')
-provides=('notification-daemon')
-conflicts=('awesome' 'awesome-git')
+provides=('notification-daemon' 'awesome-tos')
+conflicts=('awesome' 'awesome-git' 'awesome-tos')
 backup=('etc/xdg/awesome/rc.lua')
 source=("$_name::git+https://github.com/awesomeWM/awesome.git" git://github.com/ODEX-TOS/tos-desktop-environment.git main_loop.patch menubar.patch config.ld ldoc.css logo.png)
 sha512sums=('SKIP'
