@@ -40,9 +40,9 @@ function build() {
   fi
 
   # do a complete remove of the working directory since we are building multiple different version using it
-  rm -rf work
+  rm -rf work || exit 1
 
-  mkarchiso -v .
+  mkarchiso -v . || exit 1
 
   if [[ ! -d "images/server" ]]; then
     mkdir -p images/server
