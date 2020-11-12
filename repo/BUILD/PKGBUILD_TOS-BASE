@@ -1,7 +1,7 @@
 # Maintainer: Tom Meyers
 
 pkgname=tos-base
-pkgver=2
+pkgver=3
 pkgrel=2
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
@@ -25,5 +25,12 @@ depends=(
 )
 optdepends=('linux-tos: bare metal support')
 
+package() {
+  # packaged configuration
+  install -Dm644 /dev/stdin "$pkgdir/usr/lib/NetworkManager/conf.d/30-connectivity.conf" <<END
+[connectivity]
+uri=https://network.odex.be/connectivity/check
+END
+}
 # vim: ts=2 sw=2 et:
 
