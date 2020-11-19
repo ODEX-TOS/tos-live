@@ -8,9 +8,9 @@ pkgname=picom-tryone-tos
 _gitname=picom
 pkgver=1417_Next.136.g7a3137b_2020.04.11
 pkgrel=1
-pkgdesc="tryone144's picom fork with dual_kawase blur, an X compositor (fork of compton)"
+pkgdesc="Picom the X Compositor"
 arch=(i686 x86_64)
-url="https://github.com/tryone144/${_gitname}/tree/feature/dual_kawase"
+url="https://github.com/yshui/${_gitname}/tree/next"
 license=('MIT' 'MPL2')
 depends=('libgl' 'libev' 'pcre' 'libx11' 'xcb-util-renderutil' 'libxcb' 'xcb-util-image' 'libxext'
          'pixman' 'libconfig' 'libdbus' 'hicolor-icon-theme' 'libxdg-basedir')
@@ -22,7 +22,7 @@ optdepends=('dbus:          To control picom via D-Bus'
 provides=('compton' 'compton-git' 'picom' 'picom-git' 'compton-tryone-tos')
 conflicts=('compton' 'compton-git' 'picom' 'picom-git' 'compton-tryone-tos')
 options=('!strip')
-source=(git+"https://github.com/tryone144/${_gitname}.git#branch=feature/dual_kawase")
+source=(git+"https://github.com/yshui/${_gitname}.git#branch=next")
 md5sums=("SKIP")
 
 pkgver() {
@@ -31,21 +31,6 @@ pkgver() {
     _commits=$(git rev-list --count HEAD) # total commits is the most sane way of getting incremental pkgver
     _date=$(git log -1 --date=short --pretty=format:%cd)
     printf "%s_%s_%s\n" "${_commits}" "${_tag}" "${_date}" | sed 's/-/./g'
-}
-
-prepare() {
-  cd "${srcdir}/${_gitname}"
-  export GIT_CONFIG_NOGLOBAL=1
-  export GIT_CONFIG_NOSYSTEM=1
-  git config --local user.name makepkg
-  git config --local user.email picom@makepkg.aur
-  git rebase --abort 2>&1 >/dev/null || :
-  git fetch https://github.com/yshui/picom.git next
-  git -c commit.gpgsign=false rebase \
-    --fork-point \
-    --rerere-autoupdate \
-    --strategy-option=ours \
-    FETCH_HEAD
 }
 
 build() {
