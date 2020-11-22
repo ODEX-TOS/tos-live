@@ -1,7 +1,7 @@
 # Maintainer: Tom Meyers
 
 pkgname=tos-base-desktop
-pkgver=4
+pkgver=5
 pkgrel=1
 pkgdesc='Package set for the tos desktop'
 url='https://tos.odex.be'
@@ -18,6 +18,21 @@ depends=(
     # xorg
     'xorg-server' 'xorg-xbacklight' 'xorg-xclipboard' 'xorg-xinit' 'xorg-xprop' 'xorg-xinput' 'xorg-xrandr' 'xclip'
 )
+
+
+package() {
+  # enable touch tapping for touchpads by default
+    install -Dm644 /dev/stdin "$pkgdir/etc/X11/xorg.conf.d/10-touchpad.conf" <<EOF
+Section "InputClass"
+Identifier "touchpad"
+Driver "libinput"
+  MatchIsTouchpad "on"
+  Option "Tapping" "on"
+  Option "NaturalScrolling" "on"
+  Option "ClickMethod" "clickfinger"
+EndSection
+EOF
+}
 
 # vim: ts=2 sw=2 et:
 
