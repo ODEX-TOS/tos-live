@@ -128,7 +128,10 @@ function updateKernelConf() {
        	while IFS="" read -r p || [ -n "$p" ]
 		do
   			printf '%s\n' "$p" >> config
+            printf 'Setting kernel param: %s\n' "$p"
 		done < "$DEFAULT_PWD/"kernel.conf 
+    else
+        echo "$DEFAULT_PWD/kernel.conf not found, skipping kernel modification"
     fi
 }
 
