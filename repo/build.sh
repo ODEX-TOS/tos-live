@@ -124,11 +124,11 @@ function installpackage() {
 }
 
 function updateKernelConf() {
-    if [[ -f "kernel.conf" ]]; then
+    if [[ -f "$DEFAULT_PWD/kernel.conf" ]]; then
        	while IFS="" read -r p || [ -n "$p" ]
 		do
   			printf '%s\n' "$p" >> config
-		done < kernel.conf 
+		done < "$DEFAULT_PWD/"kernel.conf 
     fi
 }
 
