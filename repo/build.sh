@@ -123,6 +123,15 @@ function installpackage() {
 	cd "$loc"
 }
 
+function updateKernelConf() {
+    if [[ -f "kernel.conf" ]]; then
+       	while IFS="" read -r p || [ -n "$p" ]
+		do
+  			printf '%s\n' "$p" >> config
+		done < kernel.conf 
+    fi
+}
+
 function changePKGBUILD() {
 	# Set the package version
 	pkgver=$(curl -sf https://raw.githubusercontent.com/ODEX-TOS/linux/tos-latest/.PKGVER)
@@ -130,18 +139,8 @@ function changePKGBUILD() {
 	# uncomment the next line if you don't want this build to be the default
 	sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
 	sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
-	sed -i 's;# CONFIG_THINKPAD_ACPI_UNSAFE_LEDS is not set;CONFIG_THINKPAD_ACPI_UNSAFE_LEDS=y;g' config
-
-    echo "CONFIG_LOGO=y" >> config
-    echo "CONFIG_LOGO_LINUX_CLUT224=y" >> config
-    echo "CONFIG_LOGO_LINUX_VGA16=y" >> config
-    echo "CONFIG_LOGO_LINUX_MONO=y" >> config
-    echo "CONFIG_FB_VGA16=y" >> config
-    echo "CONFIG_VGASTATE=y" >> config
     
-    # setup apparmor as default security model
-    echo "CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1" >> config
-    echo "CONFIG_DEFAULT_SECURITY_APPARMOR=y" >> config
+    updateKernelConf
 
 	sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = '$extraversion':EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
 	sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
