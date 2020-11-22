@@ -1,5 +1,5 @@
 # Maintainer: 3ED <krzysztof1987 at gmail>
-# Maintainer: Tom Meyers <krzysztof1987 at gmail>
+# Maintainer: Tom Meyers < tom [at] odex [dot] be>
 
 pkgbase=perl-checkupdates-aur
 pkgname=(perl-checkupdates-aur checkupdates-aur-tos)

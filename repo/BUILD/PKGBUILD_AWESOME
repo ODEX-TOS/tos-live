@@ -1,11 +1,10 @@
-# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Maintainer: Tom Meyers < tom [at] odex [dot] be>
 # Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 # Contributor: Sébastien Luttringer
 # Contributor: xduugu
 # Contributor: Ronald van Haren <ronald.archlinux.org>
 # Contributor: Vesa Kaihlavirta
-# Contributor: Tom Meyers <tom@odex.be>
 
 pkgname=tde
 _name=awesome-git
