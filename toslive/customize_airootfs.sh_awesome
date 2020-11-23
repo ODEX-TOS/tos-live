@@ -74,8 +74,8 @@ ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/ro
 # update zshrc file to the official tos version
 cp /root/.config/.zshrc /root/.zshrc
 
-printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.zshrc
-printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n startx\n fi" >>/root/.bashrc
+printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n while true; do; startx; done\n fi" >>/root/.zshrc
+printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n while true; do; startx; done\n fi" >>/root/.bashrc
 
 printf "xrdb ~/.Xresources\nexec env XDG_CURRENT_DESKTOP=TDE awesome" >/root/.xinitrc
 
