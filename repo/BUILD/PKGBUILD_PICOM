@@ -6,11 +6,11 @@
 
 pkgname=picom-tryone-tos
 _gitname=picom
-pkgver=1417_Next.136.g7a3137b_2020.04.11
+pkgver=1522_8.rc2.113.g0aa2916_2020.11.24
 pkgrel=1
 pkgdesc="Picom the X Compositor"
 arch=(i686 x86_64)
-url="https://github.com/yshui/${_gitname}/tree/next"
+url="https://github.com/ODEX-TOS/${_gitname}/tree/next"
 license=('MIT' 'MPL2')
 depends=('libgl' 'libev' 'pcre' 'libx11' 'xcb-util-renderutil' 'libxcb' 'xcb-util-image' 'libxext'
          'pixman' 'libconfig' 'libdbus' 'hicolor-icon-theme' 'libxdg-basedir')
@@ -22,7 +22,7 @@ optdepends=('dbus:          To control picom via D-Bus'
 provides=('compton' 'compton-git' 'picom' 'picom-git' 'compton-tryone-tos')
 conflicts=('compton' 'compton-git' 'picom' 'picom-git' 'compton-tryone-tos')
 options=('!strip')
-source=(git+"https://github.com/yshui/${_gitname}.git#branch=next")
+source=(git+"https://github.com/ODEX-TOS/${_gitname}.git#branch=next")
 md5sums=("SKIP")
 
 pkgver() {
