@@ -77,14 +77,14 @@ cp /root/.config/.zshrc /root/.zshrc
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n while true; do; startx; done\n fi" >>/root/.zshrc
 printf "\nif [[ \$(tty) == '/dev/tty1' ]]; then\n while true; do; startx; done\n fi" >>/root/.bashrc
 
-printf "xrdb ~/.Xresources\nexec env XDG_CURRENT_DESKTOP=TDE awesome" >/root/.xinitrc
+printf "xrdb ~/.Xresources\nexec env XDG_CURRENT_DESKTOP=TDE tde" >/root/.xinitrc
 
 if [[ -f "/root/tos" ]]; then
   rm /root/tos
 fi
 
 # prepend backend="xrender" to compton.conf
-sed -i 's/"glx";/"xrender";/g' /etc/xdg/awesome/configuration/picom.conf
+sed -i 's/"glx";/"xrender";/g' /etc/xdg/tde/configuration/picom.conf
 sed -i 's/"glx";/"xrender";/g' /root/.config/picom.conf
 # enable sysrq triggers
 mkdir -p /etc/sysctl.d/

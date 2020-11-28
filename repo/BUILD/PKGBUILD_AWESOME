@@ -9,7 +9,7 @@
 pkgname=tde
 _name=awesome-git
 _TVER=22
-pkgver=4.3.10242.22
+pkgver=4.3.10243.22
 pkgrel=1
 _LUA_VER="5.3"
 
@@ -71,6 +71,7 @@ package() {
   install -Dm 644 "$srcdir/tos-desktop-environment/tde-settings.desktop" -t "${pkgdir}/usr/share/applications/"
   
   cp -r "$srcdir"/tos-desktop-environment/tde/* "${pkgdir}/etc/xdg/tde"
+  cp -r "${pkgdir}/etc/xdg/tde/theme" "${pkgdir}/etc/xdg/awesome"
 
   # setup images
   mkdir -p "$pkgdir"/usr/share/backgrounds/
