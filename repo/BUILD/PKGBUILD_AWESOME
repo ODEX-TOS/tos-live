@@ -72,7 +72,7 @@ package() {
   
   cp -r "$srcdir"/tos-desktop-environment/tde/* "${pkgdir}/etc/xdg/tde"
   mkdir -p "${pkgdir}/etc/xdg/awesome/theme"
-  cp -r "${pkgdir}/etc/xdg/tde/theme" "${pkgdir}/etc/xdg/awesome/theme"
+  cp -r "${pkgdir}/etc/xdg/tde/theme" "${pkgdir}/etc/xdg/awesome/"
 
   # setup images
   mkdir -p "$pkgdir"/usr/share/backgrounds/
