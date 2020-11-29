@@ -1,17 +1,19 @@
 # Maintainer: Tom Meyers tom@odex.be
 # SILENT: on
 pkgname=skel
-pkgver=r621.0f58336
-pkgrel=2
+pkgver=r786.57748a6
+pkgrel=1
 pkgdesc="Default user settings for when you need to create a new user"
 arch=(any)
 url="https://github.com/ODEX-TOS/dotfiles"
 _reponame="dotfiles"
+_tdename="tos-desktop-environment"
 license=('MIT')
 
 source=(
-"git+https://github.com/ODEX-TOS/dotfiles.git")
-md5sums=('SKIP')
+"git+https://github.com/ODEX-TOS/dotfiles.git"
+"git+https://github.com/ODEX-TOS/tos-desktop-environment")
+md5sums=('SKIP' 'SKIP')
 makedepends=('git')
 pkgver() {
   cd "$srcdir/$_reponame"
@@ -66,6 +68,6 @@ package() {
         mkdir -p "$pkgdir"/etc/skel/.vim/colors
         curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > "$pkgdir"/etc/skel/.vim/colors/badwolf.vim
 
-        mkdir -p "$pkgdir"/etc/skel/.config/tos
+        cp -r "$srcdir/$_tdename/tos" "$pkgdir/etc/skel/.config/"
         printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.jpg\n" >> "$pkgdir"/etc/skel/.config/tos/theme
 }
