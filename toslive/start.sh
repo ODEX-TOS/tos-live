@@ -35,6 +35,7 @@ function build() {
   if [[ "$(which mkarchiso)" != "/usr/bin/mkarchiso" ]]; then
     yay -Syu archiso || exit 1
   fi
+  
   if ! yay -Q | grep -q mkinitcpio-archiso; then
     yay -Syu mkinitcpio-archiso || exit 1
   fi
@@ -46,14 +47,6 @@ function build() {
 
   if [[ ! -d "images/server" ]]; then
     mkdir -p images/server
-  fi
-
-  if [[ ! -d "images/client" ]]; then
-    mkdir -p images/client
-  fi
-
-  if [[ ! -d "images/kde" ]]; then
-    mkdir -p images/kde
   fi
 
   if [[ ! -d "images/awesome" ]]; then
