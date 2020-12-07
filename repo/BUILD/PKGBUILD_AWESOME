@@ -8,7 +8,7 @@
 
 pkgname=tde
 _name=awesome-git
-_TVER=28
+_TVER=29
 pkgver=4.3.10243.22
 pkgrel=1
 _LUA_VER="5.3"
