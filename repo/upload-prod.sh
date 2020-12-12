@@ -26,5 +26,6 @@
 if [[ "$1" != "-y" ]]; then
   read -r -p "Only upload if this is a full repo otherwise the repo database is wrong"
 fi
-rsync -rl --progress arch root@testing.odex.be:/root/testing_repo/
+rsync -rl --progress root@testing.odex.be:/root/testing_repo/arch . 
+rsync -rl --progress arch root@repo.odex.be:/root/repo/
 
