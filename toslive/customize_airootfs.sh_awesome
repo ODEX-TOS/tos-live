@@ -31,8 +31,6 @@ if [[ $(ping -c1 1.1.1.1 | grep "0% packet loss") == "" ]]; then
 fi
 
 cd
-curl https://raw.githubusercontent.com/ODEX-TOS/tools/master/tosinstall -o /root/tosinstall
-chmod +x /root/tosinstall
 
 rm -rf .oh-my-zsh
 
