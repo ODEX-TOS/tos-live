@@ -1,9 +1,8 @@
-#!/bin/bash
-# shellcheck disable=SC2086,SC1090
+#!/usr/bin/env bash
 
 # MIT License
 # 
-# Copyright (c) 2019 Meyers Tom
+# Copyright (c) 2020 Tom Meyers
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +21,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
+# shellcheck disable=SC2086,SC1090
+
 
 # This file will prepare and install all software needed for the custom tos repo.
 # You have to ability to install custom software, fonts and even the latest kernel version

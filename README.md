@@ -269,6 +269,7 @@ Setup git hooks to validate the local behaviour
 Setting the commit hooks is as easy as executing the following commands from the project root:
 
 ```bash
+ln -s "$PWD"/hooks/pre-commit .git/hooks/pre-commit
 ln -s "$PWD"/hooks/commit-msg .git/hooks/commit-msg
 ln -s "$PWD"/hooks/pre-push .git/hooks/pre-push
 ```

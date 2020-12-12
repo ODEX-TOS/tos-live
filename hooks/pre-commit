@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+
+# MIT License
+# 
+# Copyright (c) 2019 manilarome
+# Copyright (c) 2020 Tom Meyers
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+WARNING="-1000"
+
+# $1 is the exit code
+# $2 is the message
+function log {
+    len="$(( ${#2} - 1 ))"
+    echo -en "$2 "
+    printf '.%.0s' $(seq $(( 70 - $len )))
+
+    if [[ "$1" == "$WARNING" ]]; then
+        _warning="${3:-WARNING}"
+        echo -e " \e[30m\e[43m $_warning \e[49m\e[39m"
+    elif [[ ! "$1" -eq "0" ]]; then
+        _failed="${3:-FAILED }"
+        echo -e " \e[30m\e[41m $_failed \e[49m\e[39m"
+    else
+        _success="${3:-SUCCESS}"
+        echo -e " \e[30m\e[42m $_success \e[49m\e[39m"
+    fi
+}
+
+function run_linter {
+    if [[ ! $(command -v "shellcheck") ]]; then
+        log "1" "shellcheck linter is not installed"
+        exit 1
+    fi
+
+    LINTING_OUT=""
+    LINTING_EXIT_CODE=""
+    for file in $(find . -maxdepth 2 -type f -name "*.sh"); do
+        out="$(shellcheck "$file")"
+        code="$?"
+        if [[ ! code == "0" ]]; then
+            LINTING_EXIT_CODE="$code"
+        fi
+        LINTING_OUT="$LINTING_OUT\n$out"
+    done
+    # only show the output if an error occured
+    [[ ! "$LINTING_EXIT_CODE" -eq "0" ]] && echo -e "$LINTING_OUT"
+    log "$LINTING_EXIT_CODE" "Linting source code"
+}
+
+# check for license comments in the beginning of each *.sh file
+function run_license_linter_bash {
+    _LICENSE="#!/usr/bin/env bash
+
+# MIT License
+# 
+# Copyright (c) 2020 Tom Meyers
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the \"Software\"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE."
+    _LICENSE_BASH_OUT=""
+    for file in $(find . -maxdepth 2 -type f -name "*.sh"); do
+        out="$(head -n23 $file)"
+        if [[ ! "$out" == "$_LICENSE" ]]; then
+            _LICENSE_BASH_OUT="$_LICENSE_BASH_OUT\nMissing license header: $file"
+        fi
+    done
+    if [[ "$_LICENSE_BASH_OUT" != "" ]]; then
+        echo -e "$_LICENSE_BASH_OUT"
+        LICENSE_BASH_EXIT_CODE="1"
+    else
+        LICENSE_BASH_EXIT_CODE="0"
+    fi
+    log "$LICENSE_BASH_EXIT_CODE" "Linting License on .bash files"
+}
+
+function run_correct_branch {
+    _branch=$(git branch --show-current)
+    if [[ "$_branch" == "master" ]]; then
+        echo
+        log "$WARNING" "Consider using a feature branch"
+    fi
+}
+
+function print_errors {
+    # check for errors during linting
+    [[ ! "$LINTING_EXIT_CODE" -eq "0" ]] && { log "1" "Status" ; exit 1; }
+
+    [[ ! "$LICENSE_BASH_EXIT_CODE" -eq "0" ]] && { log "1" "Status" ; exit 1; }
+
+
+    echo -e "\n"
+    log "0" "Status"
+}
+
+
+run_linter
+
+run_license_linter_bash
+
+run_correct_branch
+
+print_errors
