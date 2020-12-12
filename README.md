@@ -39,6 +39,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
+- [Git Hooks](#git-hooks)
 - [Repo](#repo)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
@@ -202,13 +203,14 @@ This generates a html file that shows all data about tos packages.
 
 Run this command to get a list of `PKGBUILDS` that need manual intervention to be updated.
 
-#### repo/BUILD/*
+#### repo/BUILD/\*
 
 Add custom pkgbuild files that will be build and added to the repository
 
 #### repo/build.sh
 
 Build certain parts of the repository
+
 ```bash
 ./build.sh -a # build all common packages
 ./build.sh -f # build all fonts
@@ -259,6 +261,17 @@ The flag is the following comment `# NO_ABORT`
 An example of this flag is in the `repo/BUILD/PKGBUILD_NVIDIA` file.
 
 You can also add additional files required by a PKGBUILD inside the BUILD directory. They will automatically be copied into your working directory.
+
+## Git Hooks
+
+Setup git hooks to validate the local behaviour
+
+Setting the commit hooks is as easy as executing the following commands from the project root:
+
+```bash
+ln -s "$PWD"/hooks/commit-msg .git/hooks/commit-msg
+
+```
 
 <!-- ROADMAP -->
 

@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+# MIT License
+# 
+# Copyright (c) 2019 manilarome
+# Copyright (c) 2020 Tom Meyers
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+MSG="$1"
+
+VALID_START_REGEX=("MISC" "BUG" "REFACTOR" "REPO" "ISO")
+
+WARNING="-1000"
+
+# $1 is the exit code
+# $2 is the message
+function log {
+    len="$(( ${#2} - 1 ))"
+    echo -en "$2 "
+    printf '.%.0s' $(seq $(( 70 - $len )))
+
+    if [[ "$1" == "$WARNING" ]]; then
+        echo -e " \e[30m\e[43m WARNING \e[49m\e[39m"
+    elif [[ ! "$1" -eq "0" ]]; then
+        echo -e " \e[30m\e[41m FAILED  \e[49m\e[39m"
+    else
+        echo -e " \e[30m\e[42m SUCCESS \e[49m\e[39m"
+    fi
+}
+
+function run_prepend_commit_msg {
+    GREP_REGEX=""
+    for t in ${VALID_START_REGEX[@]}; do
+        GREP_REGEX="$GREP_REGEX|^$t: "
+    done 
+
+    GREP_REGEX="${GREP_REGEX:1}"
+
+    if echo "$1" | grep -Eqi "$GREP_REGEX"; then
+        COMMIT_MSG_EXIT_CODE="0"
+        log "$COMMIT_MSG_EXIT_CODE" "Commit message prepended"
+    else
+        COMMIT_MSG_EXIT_CODE="1"
+        for t in ${VALID_START_REGEX[@]}; do
+            echo -e "\e[32m$t:\e[39m \e[33m$1\e[39m"
+        done  
+        log "$COMMIT_MSG_EXIT_CODE" "Use the valid commit message format (one of the above)"
+    fi
+}
+
+# check if the first line in the commit is small enough
+function run_commit_msg_first_line_small {
+    first_line="$(echo "$1" | head -n1 )"
+    len="$(( ${#first_line} ))"
+    [[ "$len" -lt "70" ]]
+    EXIT_CODE_FIRST_LINE="$?"
+    log "$EXIT_CODE_FIRST_LINE" "Head of commit message length is shorter than 70"
+
+}
+
+function run_commit_msg_has_description {
+    [[ "$(echo "$1" | wc -l)" -gt 2 ]]
+    EXIT_CODE_DESC="$?"
+    log "$EXIT_CODE_DESC" "Commit with description"
+}
+
+function print_errors {
+    echo
+
+    [[ ! "$COMMIT_MSG_EXIT_CODE" -eq "0" ]] && { log "1" "Status" ; exit 1 ; }
+
+    [[ ! "$EXIT_CODE_FIRST_LINE" -eq "0" ]] && { log "1" "Status" ; exit 1 ; }
+
+    [[ ! "$EXIT_CODE_DESC" -eq "0" ]] && { log "1" "Status" ; exit 1 ; }
+}
+
+data="$(sed '/^ *#/d' $1)"
+
+run_prepend_commit_msg "$data"
+run_commit_msg_has_description "$data"
+run_commit_msg_first_line_small "$data"
+
+print_errors
+
+echo
+log "0" "Status" 
+
+exit 0
