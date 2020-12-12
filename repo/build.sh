@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2086,SC1090
 
 # MIT License
 # 
@@ -67,13 +68,13 @@ function addToRepo() {
 		sleep 1
 	done
 	loc=$(pwd)
-	cd "$2"
+	cd "$2" || exit 1
 	if [[ "$3" == "" ]]; then
-		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" *.pkg.tar.???
+		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" ./*.pkg.tar.???
 	else
-		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" "$3"*.pkg.tar.???
+		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" "./$3"*.pkg.tar.???
 	fi
-	cd "$loc"
+	cd "$loc" || exit 1
 
 }
 
@@ -96,10 +97,10 @@ function installbuilds() {
 			else
 				makepkg --sign --key "$GPG_REPO_KEY" -s --noconfirm || exit 1
 			fi
-		    cp *.pkg.tar.* ../arch
+		    cp -- *.pkg.tar.* ../arch
 		    cd ../ || exit 1
 	done
-    cd "$DEFAULT_PWD"
+    cd "$DEFAULT_PWD" || exit 1
 	addToRepo tos.db.tar.gz arch/
 }
 
@@ -108,9 +109,9 @@ function installpackage() {
 	if [[ -d "$2" ]]; then
 		rm -rf "$2"
 	fi
-	git clone $1 $2
+	git clone "$1" "$2"
     loc=$(pwd)
-	cd $2
+	cd "$2" || exit 1 
 	if [[ "$4" == "no-exit" ]]; then
 		makepkg -s --sign --key "$GPG_REPO_KEY" --noconfirm
 	else
@@ -120,7 +121,7 @@ function installpackage() {
     ls $3*.pkg.tar.*
     sleep 1
 	cp $3*.pkg.tar.* "$loc"/arch
-	cd "$loc"
+	cd "$loc" || exit 1
 }
 
 function updateKernelConf() {
@@ -147,11 +148,12 @@ function changePKGBUILD() {
 
 	sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = '$extraversion':EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
 	sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
+	# shellcheck disable=SC2016
     sed -i 's;$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
 
 	sed -i 's;pkgver=.*;pkgver='$pkgver';' PKGBUILD
 	if [[ "$1" == "" ]]; then
-		read -p "how many cores do you wish to use for compilation?" cores
+		read -r -p "how many cores do you wish to use for compilation?" cores
 	else
 		cores="$1"
 	fi
@@ -165,10 +167,10 @@ function installlinux() {
 		rm -rf kernel
 	fi
 	mkdir kernel
-	cd kernel
+	cd kernel || exit 1
 	asp update linux
 	asp checkout linux
-	cd linux/repos/core-x86_64
+	cd linux/repos/core-x86_64 || exit 1
 
 	changePKGBUILD "$1"
 
@@ -178,7 +180,7 @@ function installlinux() {
 	rm -rf "$DEFAULT_PWD"/arch/linux-tos*.pkg.tar.*
 	cp linux-tos*.pkg.tar.* "$DEFAULT_PWD"/arch
 	addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch/ linux-tos
-	cd "$DEFAULT_PWD"
+	cd "$DEFAULT_PWD" || exit 1
 
 }
 
@@ -199,17 +201,17 @@ function buildpackages {
         exit 1
     fi
     if [[ ! -f "$1" ]]; then
-        printf "$1 is a non existing file. Cannot decode packages to build\n"
+        printf "%s is a non existing file. Cannot decode packages to build\n" "$1"
         exit 1
     fi
     # file exists at this point
     OLD="$IFS"
     IFS=$'\n'
     for line in $(sed -e 's:#.*::g' -e '/^\s*$/d' "$1" | tr -s ' ' ); do # sanitize the file
-        url="$( printf $line | cut -d ' ' -f1)" 
-        dir="$( printf $line | cut -d ' ' -f2)" 
-        glob="$( printf $line | cut -d ' ' -f3)" 
-        abortcode="$( printf $line | cut -d ' ' -f4)" 
+        url="$( printf "%s" $line | cut -d ' ' -f1)" 
+        dir="$( printf "%s" $line | cut -d ' ' -f2)" 
+        glob="$( printf "%s" $line | cut -d ' ' -f3)" 
+        abortcode="$( printf "%s" $line | cut -d ' ' -f4)" 
         installpackage "$url" "$dir" "$glob" "$abortcode"
     done
     IFS="$OLD"
@@ -236,15 +238,15 @@ if [[ "$1" == "-p" ]]; then
         cd "$2" || exit 1
         # remove all subdirectories
         # these will conflict with rebuilds
-        find -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R
+        find . -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R
 		makepkg -s -f --sign --key "$GPG_REPO_KEY" || exit 1
-        cp *.pkg.tar.* $DEFAULT_PWD"/arch" || exit 1
+        cp ./*.pkg.tar.* $DEFAULT_PWD"/arch" || exit 1
         addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch || exit 1
         exit 0
 fi
 
 if [[ "$1" == "" ]]; then
-    read -p "Do you want to install default packages? (y/N)" default
+    read -r -p "Do you want to install default packages? (y/N)" default
 fi
 if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
@@ -263,14 +265,14 @@ if [[ "$default" == "y" || "$1" == "-B" ]]; then
     populatedb
 fi
 if [[ "$1" == "" ]]; then
-	read -p "Do you want to install fonts? (y/N)" fonts
+	read -r -p "Do you want to install fonts? (y/N)" fonts
 fi
 if [[ "$fonts" == "y" || "$1" == "-f" ]]; then
     buildpackages "fonts.conf"
     populatedb
 fi
 if [[ "$1" == "" ]]; then
-    read -p "Do you want to install the latest kernel? (y/N)" kernel
+    read -r -p "Do you want to install the latest kernel? (y/N)" kernel
 fi
 if [[ "$kernel" == "y" || "$1" == "-k" ]]; then
     installlinux "$2"
@@ -280,7 +282,7 @@ fi
 # Only ask to update toslive if an image has been build
 if [[ -f "../toslive/out/toslive.iso" ]]; then
 	if [[ "$1" == "" ]]; then
-		read -p "Do you want to include toslive? (y/N)" toslive
+		read -r -p "Do you want to include toslive? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/toslive.iso arch/toslive.iso
@@ -290,7 +292,7 @@ fi
 
 if [[ -f "../toslive/out/tosserver.iso" ]]; then
 	if [[ "$1" == "" ]]; then
-		read -p "Do you want to include tosserver? (y/N)" toslive
+		read -r -p "Do you want to include tosserver? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/tosserver.iso arch/tosserver.iso
@@ -300,7 +302,7 @@ fi
 
 if [[ -f "../toslive/out/toslive-azerty.iso" ]]; then
 	if [[ "$1" == "" ]]; then
-		read -p "Do you want to include toslive azerty edition? (y/N)" toslive
+		read -r -p "Do you want to include toslive azerty edition? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/toslive-azerty.iso arch/toslive-azerty.iso
@@ -310,7 +312,7 @@ fi
 
 if [[ -f "../toslive/out/tosserver-azerty.iso" ]]; then
 	if [[ "$1" == "" ]]; then
-		read -p "Do you want to include tosserver azerty edition? (y/N)" toslive
+		read -r -p "Do you want to include tosserver azerty edition? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/tosserver-azerty.iso arch/tosserver-azerty.iso
@@ -319,7 +321,7 @@ if [[ -f "../toslive/out/tosserver-azerty.iso" ]]; then
 fi
 if [[ -f "../toslive/out/toslive-awesome-azerty.iso" ]]; then
 	if [[ "$1" == "" ]]; then
-		read -p "Do you want to include toslive awesome azerty edition? (y/N)" toslive
+		read -r -p "Do you want to include toslive awesome azerty edition? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/toslive-awesome-azerty.iso arch/toslive-awesome-azerty.iso
@@ -328,7 +330,7 @@ if [[ -f "../toslive/out/toslive-awesome-azerty.iso" ]]; then
 fi
 if [[ -f "../toslive/out/toslive-awesome.iso" ]]; then
 	if [[ "$1" == "" ]]; then
-		read -p "Do you want to include toslive awesome edition? (y/N)" toslive
+		read -r -p "Do you want to include toslive awesome edition? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
 		cp ../toslive/out/toslive-awesome.iso arch/toslive-awesome.iso

@@ -40,14 +40,15 @@ function log {
 
 # functions to handle a specific package based on its url
 function get {
-    html=$(curl -s $1)
+    html=$(curl -s "$1")
     # retreive variables in a safe manner
-    eval $(source "$item";
+    # shellcheck disable=SC2154,SC1090
+    eval "$(source "$item";
             echo version="$pkgver";
-            echo release="$pkgrel")
+            echo release="$pkgrel")"
     version=$(printf "%s" "$html" | grep "pkgver=") # grep the current version in tos repo
     release=$(printf "%s" "$html" | grep "pkgrel=") # grep the current release in the tos repo
-    if ! cat "$4" | grep -q "# SILENT: on"; then
+    if ! grep -q "# SILENT: on" "$4"; then
         if [[ "$version" != "$2" && "$release" != "$3" ]]; then
             log "$LOG_INFO" "$4: should be updated - $1"
         fi
@@ -60,24 +61,25 @@ function get {
 
 for item in BUILD/PKGBUILD*; do
         # retreive variables in a safe manner
-        eval $(source "$item";
+        # shellcheck disable=SC2154,SC1090
+        eval "$(source "$item";
                 echo version="$pkgver";
                 echo release="$pkgrel";
-                echo pkgname="$pkgname")
-        name=$(printf "$pkgname" | cut -d= -f2 | sed 's:-tos::g' | sed "s:'::g") # Get the package name
+                echo pkgname="$pkgname")"
+        name=$(printf "%s" "$pkgname" | cut -d= -f2 | sed 's:-tos::g' | sed "s:'::g") # Get the package name
         # check if the first name is 
         # Get the PKGBUILD from the arch repo, try each repo type until a succesfull match is found
-        if curl -s "$core_url"$name | grep -E -q "^pkgname="; then
-                get "$core_url"$name "$version" "$release" "$item"
-        elif curl -s "$community_url"$name | grep -E -q "^pkgname="; then
-                get "$community_url"$name "$version" "$release" "$item"
-        elif curl -s "$extra_url"$name | grep -E -q "^pkgname="; then
-                get "$extra_url"$name "$version" "$release" "$item"
-        elif curl -s "$aur_url"$name | grep -E -q "^pkgname="; then
-                get "$aur_url"$name "$version" "$release" "$item"
+        if curl -s "${core_url}${name}" | grep -E -q "^pkgname="; then
+                get "${core_url}${name}" "$version" "$release" "$item"
+        elif curl -s "${community_url}${name}" | grep -E -q "^pkgname="; then
+                get "${community_url}${name}" "$version" "$release" "$item"
+        elif curl -s "${extra_url}${name}" | grep -E -q "^pkgname="; then
+                get "${extra_url}${name}" "$version" "$release" "$item"
+        elif curl -s "${aur_url}${name}" | grep -E -q "^pkgname="; then
+                get "${aur_url}${name}" "$version" "$release" "$item"
         else
                 if [[ "$1" != "-s" && "$1" != "--silent" ]]; then
-                    log "$LOG_ERROR" "Cannot find $name in any repo (detected in file $(basename $item))"
+                    log "$LOG_ERROR" "Cannot find $name in any repo (detected in file $(basename "$item"))"
                 fi
         fi
 done

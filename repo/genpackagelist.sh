@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2129
 
 # MIT License
 # 
@@ -28,7 +29,6 @@ infourl="https://tos.odex.be"
 workdir="arch"
 packages=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 2)
 EXT="zst"
-
 
 file="$workdir/list.html"
 
@@ -81,26 +81,26 @@ EOF
 
 
 for package in $packages; do
- echo "Scanning $package"
- info=$(pacman -Si $package)
- desc=$(echo "$info" | head -n4 | tail -n1 | cut -d: -f2)
- vers=$(echo "$info" | head -n3 | tail -n1 | cut -d: -f2 | sed -E 's/ +//g')
- download=$(echo "$info" | tail -n5 | head -n1 | cut -d: -f2 | sed -E 's/ +//g')
- arch=$(echo "$info" | head -n5 | tail -n1 | cut -d: -f2 | sed -E 's/ +//g')
- link="$package-$vers-$arch.pkg.tar.$EXT"
- printf "\t\t<tr>\n" >> $file
- printf "\t\t\t<td>$package</td>\n" >> $file
- printf "\t\t\t<td>$vers</td>\n" >> $file
- printf "\t\t\t<td>$desc</td>\n" >> $file
- printf "\t\t\t<td>$download</td>\n" >> $file
- printf "\t\t\t<td><a href='$link' >file</a></td>\n" >> $file
- printf "\t\t\t<td><a href='$link.sig' >signature</a></td>\n" >> $file
- printf "\t\t</tr>\n" >> $file
+    echo "Scanning $package"
+    info="$(pacman -Si "$package")"
+    desc="$(echo "$info" | head -n4 | tail -n1 | cut -d: -f2)"
+    vers="$(echo "$info" | head -n3 | tail -n1 | cut -d: -f2 | sed -E 's/ +//g')"
+    download="$(echo "$info" | tail -n5 | head -n1 | cut -d: -f2 | sed -E 's/ +//g')"
+    arch="$(echo "$info" | head -n5 | tail -n1 | cut -d: -f2 | sed -E 's/ +//g')"
+    link="$package-$vers-$arch.pkg.tar.$EXT"
+    printf "\t\t<tr>\n" >> $file
+    printf "\t\t\t<td>%s</td>\n" "$package" >> $file
+    printf "\t\t\t<td>%s</td>\n" "$vers" >> $file
+    printf "\t\t\t<td>%s</td>\n" "$desc" >> $file
+    printf "\t\t\t<td>%s</td>\n" "$download" >> $file
+    printf "\t\t\t<td><a href='%s' >file</a></td>\n" "$link" >> $file
+    printf "\t\t\t<td><a href='%s.sig' >signature</a></td>\n" "$link" >> $file
+    printf "\t\t</tr>\n" >> $file
 done
 
 printf "\t\t</table>\n" >> $file
 
-printf "\n\t<a href=\"$infourl\">More info</a>\n" >> $file
+printf "\n\t<a href=\"%s\">More info</a>\n" "$infourl" >> $file
 
 printf "\t</body>\n</html>" >> $file
 

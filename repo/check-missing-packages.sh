@@ -29,6 +29,7 @@ function getDBList() {
   loc=$(mktemp -d)
   cp arch/"$DB" "$loc"
   tar -xzf "$loc/$DB" -C "$loc"
+  # shellcheck disable=SC2044
   for file in $(find "$loc" -iname "desc"); do
     DB_LIST="$DB_LIST $(grep -A1 "%FILENAME%" "$file" | tail -n1)"
   done
@@ -38,6 +39,7 @@ function getDBList() {
 
 # Populate the variable ARCH_LIST with all packages found in the arch directory
 function getArchList() {
+  # shellcheck disable=SC2044
   for location in $(find arch -iname "*.tar.zst"); do
     file="$(basename "$location")"
     ARCH_LIST="$ARCH_LIST $file"

@@ -29,6 +29,7 @@ function getDBList() {
   loc=$(mktemp -d)
   cp arch/"$DB" "$loc"
   tar -xzf "$loc/$DB" -C "$loc"
+  # shellcheck disable=SC2044
   for file in $(find "$loc" -iname "desc"); do
     DB_LIST="$DB_LIST $(grep -A1 "%FILENAME%" "$file" | tail -n1)"
   done
@@ -38,6 +39,7 @@ function getDBList() {
 
 # Populate the variable ARCH_LIST with all packages found in the arch directory
 function getArchList() {
+  # shellcheck disable=SC2044
   for location in $(find arch -iname "*.tar.zst"); do
     file="$(basename "$location")"
     ARCH_LIST="$ARCH_LIST $file"
@@ -49,6 +51,7 @@ getArchList
 
 # loop over the database list and remove every entry found out of the arch list
 for db_entry in $DB_LIST; do
+  # shellcheck disable=SC2001
   ARCH_LIST=$(echo "$ARCH_LIST" | sed "s/$db_entry//g")
 done
 
@@ -67,5 +70,5 @@ for file in $ARCH_LIST; do
   rm "arch/$file"
 done
 
-echo "Cleaned up $(($SIZE / 1000)) MB"
+echo "Cleaned up $((SIZE / 1000)) MB"
 

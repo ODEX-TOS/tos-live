@@ -24,7 +24,7 @@
 
 # This script will take the content of arch/* and upload it to the TOS server.
 if [[ "$1" != "-y" ]]; then
-  read -p "Only upload if this is a full repo otherwise the repo database is wrong"
+  read -r -p "Only upload if this is a full repo otherwise the repo database is wrong"
 fi
 rsync -rl --progress arch root@repo.odex.be:/root/repo/
 rsync -rl --progress arch root@testing.odex.be:/root/testing_repo/
