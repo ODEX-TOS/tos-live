@@ -270,7 +270,7 @@ Setting the commit hooks is as easy as executing the following commands from the
 
 ```bash
 ln -s "$PWD"/hooks/commit-msg .git/hooks/commit-msg
-
+ln -s "$PWD"/hooks/pre-push .git/hooks/pre-push
 ```
 
 <!-- ROADMAP -->
