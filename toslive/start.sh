@@ -26,7 +26,6 @@
 ./version_builder.sh
 version=$(cat airootfs/etc/version.txt)
 iso_version=$(date +%Y.%m.%d)
-iso_azerty=$(echo toslinux-"$iso_version"-x86_64_azerty | tr '.' '-')
 iso_normal=$(echo toslinux-"$iso_version"-x86_64 | tr '.' '-')
 append=""
 

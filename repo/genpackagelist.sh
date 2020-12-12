@@ -24,19 +24,17 @@
 
 # This file generates the package list html file.
 
-repo="tos"
-url="https://repo.odex.be"
 infourl="https://tos.odex.be"
 workdir="arch"
 packages=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 2)
-packageversion=$(pacman -Sl tos | tr " " "|" | cut -d\| -f 3)
 EXT="zst"
 
 
 file="$workdir/list.html"
 
 cat <<-EOF > "$file"
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>TOS packages</title>
         <style>

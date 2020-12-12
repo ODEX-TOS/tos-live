@@ -32,9 +32,7 @@ extra_url="https://git.archlinux.org/svntogit/packages.git/plain/trunk/PKGBUILD?
 aur_url="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h="
 
 LOG_ERROR="\033[0;31m[ERROR]\033[0m "
-LOG_WARN="\033[0;33m[WARN]\033[0m "
 LOG_INFO="\033[0;33m[INFO]\033[0m "
-LOG_DEBUG="\033[0;35m[DEBUG]\033[0m "
 
 function log {
     echo -e "$@"
