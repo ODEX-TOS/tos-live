@@ -8,7 +8,7 @@
 
 pkgname=tde
 _name=awesome-git
-_TVER=33
+_TVER=34
 pkgver=4.3.10243.22
 pkgrel=1
 _LUA_VER="5.3"
@@ -19,12 +19,10 @@ arch=('x86_64')
 license=('GPL2')
 depends=('cairo' 'dbus' 'gdk-pixbuf2' 'imlib2' 'libxdg-basedir' 'lua53' 'lua53-lgi' 'pango'
          'startup-notification' 'xcb-util-cursor' 'xcb-util-keysyms' 'xcb-util-wm'
-         'xorg-xmessage' 'libxkbcommon-x11' 'libxkbcommon' 'xcb-util-xrm' 'tos-tools' 'pacman-contrib' 'xcb-util-errors' 'light-locker' 'awesome-freedesktop-git' 'lxsession-gtk3' 'rofi-tos' 'python-gobject' 'python-dbus' 'picom-tryone-tos' 'upower' 'rlwrap' 'imagemagick' 'libqalculate' 'autorandr' 'udiskie')
+         'xorg-xmessage' 'libxkbcommon-x11' 'libxkbcommon' 'xcb-util-xrm' 'tos-tools' 'pacman-contrib' 'xcb-util-errors' 'light-locker' 'awesome-freedesktop-git' 'lxsession-gtk3' 'rofi-tos' 'python-gobject' 'python-dbus' 'picom-tryone-tos' 'upower' 'rlwrap' 'imagemagick' 'libqalculate' 'autorandr' 'udiskie' 'librsvg')
 makedepends=('asciidoc' 'cmake' 'docbook-xsl' 'doxygen' 'imagemagick' 'ldoc' 'xmlto')
-optdepends=('rlwrap: readline support for awesome-client'
-            'dex: autostart your desktop files'
-            'vicious: widgets for the Awesome window manager'
-            'librsvg: for displaying SVG files without scaling artifacts')
+optdepends=('dex: autostart your desktop files'
+            'kdeconnect: Link your phone with TDE')
 provides=('notification-daemon' 'awesome-tos')
 conflicts=('awesome' 'awesome-git' 'awesome-tos')
 backup=('etc/xdg/tde/rc.lua')
