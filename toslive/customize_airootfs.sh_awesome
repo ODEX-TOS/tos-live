@@ -47,6 +47,7 @@ chsh -s /bin/zsh
 git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-completions.git /root/.oh-my-zsh/custom/plugins/zsh-completions
+git clone git@github.com:marlonrichert/zsh-autocomplete.git /root/.oh-my-zsh/custom/plugins/zsh-autocomplete
 
 git clone https://github.com/ODEX-TOS/zsh-load /root/.oh-my-zsh/load
 curl https://raw.githubusercontent.com/ODEX-TOS/tos-live/master/_tos >/root/.oh-my-zsh/custom/plugins/zsh-completions/src/_tos
