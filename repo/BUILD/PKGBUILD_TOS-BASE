@@ -2,7 +2,7 @@
 
 pkgname=tos-base
 pkgver=4
-pkgrel=3
+pkgrel=4
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
 arch=('any')
@@ -29,7 +29,7 @@ package() {
   # packaged configuration
   install -Dm644 /dev/stdin "$pkgdir/usr/lib/NetworkManager/conf.d/30-connectivity.conf" <<END
 [connectivity]
-uri=https://network.odex.be/connectivity/check
+uri=https://network.odex.be/check_network_status.txt
 END
 }
 # vim: ts=2 sw=2 et:
