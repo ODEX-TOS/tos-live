@@ -19,6 +19,11 @@ depends=(
     'xorg-server' 'xorg-xbacklight' 'xorg-xclipboard' 'xorg-xinit' 'xorg-xprop' 'xorg-xinput' 'xorg-xrandr' 'xclip'
 )
 
+optdepends=(
+  "tde-apps"
+  "tde-contrib"
+)
+
 
 package() {
   # enable touch tapping for touchpads by default
