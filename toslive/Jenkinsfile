@@ -57,6 +57,10 @@ node('archlinux') {
       stage('upload') {
           sh "cd repo && sh upload.sh -y"
       }
+      // The permissions on this directory are of root
+      stage('cleanup'){
+         sh 'sudo rm -rf toslive/out'
+      }
       stage("set success"){
          setBuildStatus("Build succeeded", "SUCCESS");
       }
