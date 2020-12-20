@@ -1,7 +1,7 @@
 # Maintainer: Tom Meyers
 
 pkgname=tos-base-desktop
-pkgver=5
+pkgver=6
 pkgrel=1
 pkgdesc='Package set for the tos desktop'
 url='https://tos.odex.be'
@@ -11,7 +11,7 @@ depends=(
     # base
     'tos-base'
     # WM/DE stuff
-    'tde' 'st-tos' 'libinput-gestures-tos' 'arandr' 'nm-connection-editor' 'materia-gtk-theme' 'papirus-icon-theme' 'xcursor-human' 'xdotool'
+    'tde' 'st-tos' 'libinput-gestures-tos' 'arandr' 'nm-connection-editor' 'materia-gtk-theme' 'papirus-icon-theme' 'xcursor-human' 'xdotool' 'ttf-ubuntu-font-family'
     # DM
     'tde-greeter'
     'feh'
