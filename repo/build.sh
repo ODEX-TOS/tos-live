@@ -154,6 +154,9 @@ function changePKGBUILD() {
     sed -i 's;$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
 
 	sed -i 's;pkgver=.*;pkgver='$pkgver';' PKGBUILD
+
+    sed -i 's;KBUILD_BUILD_HOST=archlinux;KBUILD_BUILD_HOST=toslinux;g' PKGBUILD
+
 	if [[ "$1" == "" ]]; then
 		read -r -p "how many cores do you wish to use for compilation?" cores
 	else
