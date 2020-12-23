@@ -55,7 +55,7 @@ node('archlinux') {
       }
       // Upload iso's to remote repository
       stage('upload') {
-          sh "cd repo && sh upload.sh -y"
+          sh "cd repo && sh upload-iso.sh -y"
       }
       // The permissions on this directory are of root
       stage('cleanup'){
