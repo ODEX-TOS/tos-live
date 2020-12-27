@@ -46,7 +46,7 @@ source ~/.profile
 DEFAULT_PWD="$(pwd)"
 
 
-if [[ "$GPG_PASS" == "" ]]; then
+if [[ "$GPG_PASS" == "" && "$1" != "-h" ]]; then
 	echo "NO GPG password set please resolve"
 	sleep 5
 fi
@@ -239,6 +239,36 @@ function secureISO {
 	# accept all user input for overriding files
 	gpg --yes --pinentry-mode loopback --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
 }
+
+function rebuildRepoDB {
+    cd "$DEFAULT_PWD" || exit 1
+	addToRepo tos.db.tar.gz arch/
+}
+
+function printHelp {
+    echo -e "$(basename $0) USAGE: -(aBfhkpPru)"
+    echo -e ""
+    echo -e "OPTIONS:"
+    echo -e "\t-a \t\t\t Combination of the -P and -B options"
+    echo -e "\t-B \t\t\t Build all custom packages in the repo/BUILD/ directory"
+    echo -e "\t-f \t\t\t Build all font packages in the fonts.conf file"
+    echo -e "\t-h \t\t\t Show this help page"
+    echo -e "\t-k <build cpu cores>\t Build the linux kernel"
+    echo -e "\t-p <dir>\t\t Build the package found in <dir>"
+    echo -e "\t-P \t\t\t Build all packages found in packages.conf"
+    echo -e "\t-u \t\t\t Upload all iso images found to the repo"
+    echo -e "\t-r \t\t\t Rebuild the repo database from all present packages"
+}
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+        printHelp
+        exit 0
+fi
+
+if [[ "$1" == "-r" ]]; then
+        rebuildRepoDB
+        exit 0
+fi
 
 if [[ "$1" == "-p" ]]; then
         cd "$2" || exit 1
