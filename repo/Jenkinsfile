@@ -18,7 +18,10 @@ node('archlinux') {
     }
     stage('pending') {
         setBuildStatus("Build started", "PENDING");
-   }
+    }
+    stage('sync testing') {
+        sh "cd repo && bash sync-local-with-testing.sh -y"
+    }
     // Build our applications and fonts and add them to the local repo
     stage('building tarballs'){
         parallel(
