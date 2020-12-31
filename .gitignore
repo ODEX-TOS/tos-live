@@ -10,41 +10,16 @@ toslive/version.txt
 
 toslive/airootfs/root/customize_airootfs.sh
 
+repo/*
+
+!repo/BUILD
 !repo/arch/public.gpg
+!repo/index.html
+!repo/*.sh
+!repo/*.conf
+!repo/Jenkinsfile
+!repo/docker-compose.yml
+!repo/Dockerfile
 
-repo/ccat/
 
-repo/i3lock/
-
-repo/lsd/
-
-repo/polybar/
-
-repo/r8/
-
-repo/vs/
-
-repo/color/
-
-repo/font/
-
-repo/font2/
-
-repo/font3/
-
-repo/arch/
-
-repo/kernel/
-
-repo/I3/
-
-repo/ST/
-
-repo/NVIDIA/
-
-repo/readme/
-
-repo/shunit/
-
-repo/installer-backend/
-
+repo/BUILD/test

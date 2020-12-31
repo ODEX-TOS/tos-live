@@ -90,8 +90,18 @@ function print_errors {
     [[ ! "$EXIT_CODE_DESC" -eq "0" ]] && { log "1" "Status" ; exit 1 ; }
 }
 
+function run_check_if_merge_commit {
+  # skip the entire check if it is a merge commit
+  if echo "$1" | grep -Eq "^Merge .* into .*"; then
+    log "0" "Merge commit"
+    log "0" "Status"
+    exit 0
+  fi
+}
+
 data="$(sed '/^ *#/d' $1)"
 
+run_check_if_merge_commit "$data"
 run_prepend_commit_msg "$data"
 run_commit_msg_has_description "$data"
 run_commit_msg_first_line_small "$data"
