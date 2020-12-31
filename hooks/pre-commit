@@ -54,7 +54,7 @@ function run_linter {
     for file in $(find . -maxdepth 2 -type f -name "*.sh"); do
         out="$(shellcheck "$file")"
         code="$?"
-        if [[ ! code == "0" ]]; then
+        if [[ ! "$code" == "0" ]]; then
             LINTING_EXIT_CODE="$code"
         fi
         LINTING_OUT="$LINTING_OUT\n$out"
