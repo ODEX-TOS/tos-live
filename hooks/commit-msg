@@ -92,7 +92,7 @@ function print_errors {
 
 function run_check_if_merge_commit {
   # skip the entire check if it is a merge commit
-  if echo "$1" | grep -Eq "^Merge .* into .*"; then
+  if echo "$1" | grep -Eq "^Merge .* (into|of) .*"; then
     log "0" "Merge commit"
     log "0" "Status"
     exit 0
