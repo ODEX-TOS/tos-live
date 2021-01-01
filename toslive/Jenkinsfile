@@ -60,6 +60,7 @@ node('archlinux') {
       // The permissions on this directory are of root
       stage('cleanup'){
          sh 'sudo rm -rf toslive/out'
+         sh 'sudo rm -rf toslive/images'
       }
       stage("set success"){
          setBuildStatus("Build succeeded", "SUCCESS");
@@ -67,6 +68,7 @@ node('archlinux') {
     }catch(error){
         setBuildStatus("Build failed", "FAILURE");
         sh 'sudo rm -rf toslive/work'
+        sh 'sudo rm -rf toslive/images'
     }
 
 }
