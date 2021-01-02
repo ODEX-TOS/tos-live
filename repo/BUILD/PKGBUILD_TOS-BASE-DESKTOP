@@ -2,7 +2,7 @@
 
 pkgname=tos-base-desktop
 pkgver=7
-pkgrel=1
+pkgrel=2
 pkgdesc='Package set for the tos desktop'
 url='https://tos.odex.be'
 arch=('any')
@@ -14,7 +14,6 @@ depends=(
     'tde' 'st-tos' 'arandr' 'nm-connection-editor' 'materia-gtk-theme' 'papirus-icon-theme' 'xcursor-human' 'xdotool' 'ttf-ubuntu-font-family'
     # DM
     'tde-greeter'
-    'feh'
     # xorg
     'xorg-server' 'xorg-xbacklight' 'xorg-xclipboard' 'xorg-xinit' 'xorg-xprop' 'xorg-xinput' 'xorg-xrandr' 'xclip'
 )
