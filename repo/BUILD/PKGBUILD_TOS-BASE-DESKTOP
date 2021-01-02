@@ -2,7 +2,7 @@
 
 pkgname=tos-base-desktop
 pkgver=7
-pkgrel=2
+pkgrel=3
 pkgdesc='Package set for the tos desktop'
 url='https://tos.odex.be'
 arch=('any')
@@ -16,12 +16,23 @@ depends=(
     'tde-greeter'
     # xorg
     'xorg-server' 'xorg-xbacklight' 'xorg-xclipboard' 'xorg-xinit' 'xorg-xprop' 'xorg-xinput' 'xorg-xrandr' 'xclip'
+    # qt5 based applications
+    'kvantum-qt5' 'qt5ct'
 )
 
 optdepends=(
   "tde-apps"
   "tde-contrib"
 )
+
+source=(
+  "Inverse-dark.kvconfig"
+  "Inverse-dark.svg"
+  "kvantum.kvconfig"
+  "qt5ct.conf"
+)
+
+sha512sums=('SKIP' 'SKIP' 'SKIP' 'SKIP') 
 
 
 package() {
@@ -34,6 +45,21 @@ Driver "libinput"
   Option "Tapping" "on"
 EndSection
 EOF
+
+# set the QT environment variables for the kvantum theme
+install -Dm644 /dev/stdin "$pkgdir/etc/profile.d/qt5-theme.sh" <<EOF
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export QT_STYLE_OVERRIDE="kvantum"
+EOF
+
+# qt5ct settings
+install -Dm644 "$srcdir/qt5ct.conf" "$pkgdir/etc/skel/.config/qt5ct/qt5ct.conf"
+
+# kvantum settings
+install -Dm644 "$srcdir/kvantum.kvconfig" "$pkgdir/etc/skel/.config/Kvantum/kvantum.kvconfig" 
+install -Dm644 "$srcdir/Inverse-dark.kvconfig" "$pkgdir/etc/skel/.config/Kvantum/Inverse-dark/Inverse-dark.kvconfig" 
+install -Dm644 "$srcdir/Inverse-dark.svg" "$pkgdir/etc/skel/.config/Kvantum/Inverse-dark/Inverse-dark.svg" 
+
 }
 
 # vim: ts=2 sw=2 et:
