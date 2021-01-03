@@ -2,14 +2,18 @@
 
 pkgname=tde-apps
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc='An extra set of applications of desktop environments'
 url='https://tos.odex.be'
 arch=('any')
 license=('MIT')
 depends=(
-  "gnome-maps" "gnome-calendar" "gnome-calculator" "gnome-clocks"  "gnome-disk-utility"
-  "gnome-firmware" "gnome-mines" "gnome-music" "gnome-nettool" "gnome-photos" "gnome-phone-manager" "gnome-system-monitor" "gnome-weather" "arandr" "evince" "lxqt-archiver" "lxqt-admin"
+  # gtk3
+  "gnome-maps" "gnome-calendar" "gnome-calculator" "gnome-clocks"
+  "gnome-firmware" "audacious" "gnome-nettool" "gnome-photos" "gnome-weather" "arandr" "evince"
+  # qt
+  "lxqt-archiver" "lxqt-admin" "vlc""audocious"
+  "knights" "kmines" "ksysguard" "kmag" "partitionmanager"
 )
 optdepends=(
   "gnome-nettool"
