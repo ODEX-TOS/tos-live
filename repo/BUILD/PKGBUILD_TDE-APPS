@@ -12,7 +12,7 @@ depends=(
   "gnome-maps" "gnome-calendar" "gnome-calculator" "gnome-clocks"
   "gnome-firmware" "gnome-nettool" "gnome-photos" "gnome-weather" "arandr" "evince"
   # qt
-  "lxqt-archiver" "lxqt-admin" "vlc""audocious"
+  "lxqt-archiver" "lxqt-admin" "vlc" "audacious"
   "knights" "kmines" "ksysguard" "kmag" "partitionmanager"
 )
 optdepends=(
