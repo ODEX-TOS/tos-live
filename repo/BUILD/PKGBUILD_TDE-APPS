@@ -2,7 +2,7 @@
 
 pkgname=tde-apps
 pkgver=1
-pkgrel=5
+pkgrel=6
 pkgdesc='An extra set of applications of desktop environments'
 url='https://tos.odex.be'
 arch=('any')
@@ -12,7 +12,7 @@ depends=(
   "gnome-maps" "gnome-calendar" "gnome-calculator" "gnome-clocks"
   "gnome-firmware" "gnome-nettool" "gnome-photos" "gnome-weather" "arandr" "evince"
   # qt
-  "lxqt-archiver" "lxqt-admin" "vlc" "audacious"
+  "lxqt-archiver" "lxqt-admin" "vlc" "audacious" "pcmanfm-qt"
   "knights" "kmines" "ksysguard" "kmag" "partitionmanager"
 )
 optdepends=(
