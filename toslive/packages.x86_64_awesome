@@ -88,8 +88,8 @@ dhcpcd
 mdadm
 reiserfsprogs
 libarchive
-thunar
-gnome-system-monitor
+pcmanfm-qt
+ksysguard
 mesa
 openssh
 syslinux
