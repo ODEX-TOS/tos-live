@@ -70,6 +70,8 @@ echo "$version" >/etc/version
 git clone https://github.com/denysdovhan/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt"
 ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
+cp -r /etc/skel/.config /root
+
 # update zshrc file to the official tos version
 cp /root/.config/.zshrc /root/.zshrc
 
