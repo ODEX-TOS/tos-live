@@ -101,3 +101,6 @@ pacman-key --populate tos
 # custom version of theme file
 mkdir -p /root/.config/tos
 printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.jpg\n" >/root/.config/tos/theme
+
+# disable vsync in the config file
+sed -i 's/vsync = true/vsync = false/g' /root/.config/picom.conf
