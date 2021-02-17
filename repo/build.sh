@@ -103,7 +103,6 @@ function installbuilds() {
 		    cd ../ || exit 1
 	done
     cd "$DEFAULT_PWD" || exit 1
-	addToRepo tos.db.tar.gz arch/
 }
 
 # $1 is the url $2 is the installdir $3 is the package name
@@ -221,7 +220,6 @@ function buildpackages {
         installpackage "$url" "$dir" "$glob" "$abortcode"
     done
     IFS="$OLD"
-	addToRepo tos.db.tar.gz "$DEFAULT_PWD"/arch/ "$3"
 }
 
 # generate the ISO checksum and gpg sig
