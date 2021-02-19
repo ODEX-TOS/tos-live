@@ -24,6 +24,8 @@
 
 # shellcheck disable=SC2086,SC1090
 
+set -x
+
 
 # This file will prepare and install all software needed for the custom tos repo.
 # You have to ability to install custom software, fonts and even the latest kernel version
