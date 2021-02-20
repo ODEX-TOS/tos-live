@@ -66,6 +66,7 @@ node('archlinux') {
          setBuildStatus("Build succeeded", "SUCCESS");
       }
     }catch(error){
+        telegramSend("Failed to build iso images")
         setBuildStatus("Build failed", "FAILURE");
         sh 'sudo rm -rf toslive/work'
         sh 'sudo rm -rf toslive/images'
