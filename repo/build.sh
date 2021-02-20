@@ -68,7 +68,15 @@ fi
 # $1 is the repo name $2 is the directory location of the database
 function addToRepo() {
 	# wait for the lock file to dissapear
+    # sometimes we have a lingering lock, we should figure out why that is happening.
+    # for the mean time, remove the lock if no pacman process is found and the lock update is older that 10 seconds
 	while [[ -f "$1".lck ]]; do
+        time_since_epoch="$(date '+%s')"
+        time_last_modified="$(stat -c '%Y' "$1.lck")"
+        if ! pgrep pacman &>/dev/null && [[ "$(( time_since_epoch - time_last_modified  ))" -gt 10 ]]; then
+            rm "$1".lck || true # in case the lock was removed in the last few milliseconds
+        fi
+
 		sleep 1
 	done
 	loc=$(pwd)
