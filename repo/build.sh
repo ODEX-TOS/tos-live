@@ -39,12 +39,15 @@ NO_ABORT_FLAG="^# NO_ABORT" # this flag must be present in order to not abort th
 # change this to the gpg key of your mail address
 GPG_EMAIL="tom@odex.be"
 
+# hide sensitive data from the logs
+set +x
 GPG_REPO_KEY="${GPG_REPO_KEY:-}"
 
 # WARN: Do not commit a password into version control!
 # GPG_PASS="" # set this in your env or directly here.
 # make sure to load the profile even if we are doing this in a custom environment
 source ~/.profile
+
 DEFAULT_PWD="$(pwd)"
 
 
@@ -56,6 +59,7 @@ fi
 if [[ "$GPG_REPO_KEY" == "" ]]; then
     echo "No repo key found! Please set the GPG_REPO_KEY env variable to the correct key"
 fi
+set -x
 
 if [[ ! -d arch ]]; then
 	mkdir arch
@@ -245,7 +249,9 @@ function secureISO {
 	sha256sum "$1" > "$1".sha256
 	sed -i 's/arch\///g' "$1".sha256
 	# accept all user input for overriding files
+    set +x
 	gpg --yes --pinentry-mode loopback --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
+    set -x
 }
 
 function rebuildRepoDB {
