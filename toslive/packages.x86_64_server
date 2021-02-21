@@ -49,7 +49,6 @@ parted
 partimage
 ppp
 pptpclient
-refind-efi
 rp-pppoe
 rsync
 sdparm

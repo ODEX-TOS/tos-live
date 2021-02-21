@@ -36,7 +36,6 @@ ntfs-3g
 ntp
 parted
 partimage
-refind-efi
 rsync
 sdparm
 sg3_utils
