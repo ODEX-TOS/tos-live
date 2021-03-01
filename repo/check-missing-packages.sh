@@ -55,7 +55,7 @@ function getArchList() {
 }
 
 function addToRepo() {
-    repo-add --verify --sign --key "$GPG_REPO_KEY" "arch/tos.db.tar.gz" "$1".pkg.tar.zst
+    repo-add --verify --sign --key "$GPG_REPO_KEY" "arch/tos.db.tar.gz" "$1"
 }
 
 # try to find $1 in the testing repo and add it here, if it is not found then find it in the production repo, if it is still not found then we should abort and manual intervention is required
@@ -63,6 +63,7 @@ function addToRepo() {
 function resolve() {
     resolved="0"
     curl "$TESTING_URL/$1" --output "arch/$1"
+    curl "$TESTING_URL/$1.sig" --output "arch/$1.sig"
     if [[ -f "arch/$1" ]]; then
         resolved="1"
         addToRepo "arch/$1"
@@ -70,6 +71,7 @@ function resolve() {
 
     # fallback to normal repo
     curl "$PROD_URL/$1" --output "arch/$1"
+    curl "$PROD_URL/$1.sig" --output "arch/$1.sig"
     if [[ -f "arch/$1" ]]; then
         resolved="1"
         addToRepo "arch/$1"
