@@ -61,20 +61,25 @@ function addToRepo() {
 # try to find $1 in the testing repo and add it here, if it is not found then find it in the production repo, if it is still not found then we should abort and manual intervention is required
 # set the resolved variable to "1" if found "0" otherwise
 function resolve() {
+    echo "$1 is missing trying to resolve it"
     resolved="0"
     curl "$TESTING_URL/$1" --output "arch/$1"
     curl "$TESTING_URL/$1.sig" --output "arch/$1.sig"
     if [[ -f "arch/$1" ]]; then
+        echo "$1 found in the testing repo"
         resolved="1"
         addToRepo "arch/$1"
+        return
     fi
 
     # fallback to normal repo
     curl "$PROD_URL/$1" --output "arch/$1"
     curl "$PROD_URL/$1.sig" --output "arch/$1.sig"
     if [[ -f "arch/$1" ]]; then
+        echo "$1 found in the prod repo"
         resolved="1"
         addToRepo "arch/$1"
+        return
     fi
 }
 
