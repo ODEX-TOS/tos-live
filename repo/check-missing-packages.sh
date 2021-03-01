@@ -23,6 +23,14 @@
 # SOFTWARE.
 
 DB="tos.db.tar.gz"
+TESTING_URL="https://testing.odex.be"
+PROD_URL="https://repo.odex.be"
+
+GPG_REPO_KEY="${GPG_REPO_KEY:-}"
+if [[ "$GPG_REPO_KEY" == "" ]]; then
+    echo "No repo key found! Please set the GPG_REPO_KEY env variable to the correct key"
+fi
+
 
 # Populate the variable DB_LIST with all files that are present in the database
 function getDBList() {
@@ -46,6 +54,28 @@ function getArchList() {
   done
 }
 
+function addToRepo() {
+    repo-add --verify --sign --key "$GPG_REPO_KEY" "arch/tos.db.tar.gz" "$1".pkg.tar.zst
+}
+
+# try to find $1 in the testing repo and add it here, if it is not found then find it in the production repo, if it is still not found then we should abort and manual intervention is required
+# set the resolved variable to "1" if found "0" otherwise
+function resolve() {
+    resolved="0"
+    curl "$TESTING_URL/$1" --output "arch/$1"
+    if [[ -f "arch/$1" ]]; then
+        resolved="1"
+        addToRepo "arch/$1"
+    fi
+
+    # fallback to normal repo
+    curl "$PROD_URL/$1" --output "arch/$1"
+    if [[ -f "arch/$1" ]]; then
+        resolved="1"
+        addToRepo "arch/$1"
+    fi
+}
+
 getDBList
 getArchList
 
@@ -53,8 +83,11 @@ getArchList
 # if it doesn't exists that means we will be uploading something broken
 for db_entry in $DB_LIST; do
   if ! echo "$ARCH_LIST" | grep -q "$db_entry"; then
-    echo "$db_entry not found"
-    EXITCODE="1"
+    resolve "$db_entry"
+    if [[ "$resolved" != "1" ]]; then
+        echo "$db_entry not found"
+        EXITCODE="1"
+    fi
   fi
 done
 
