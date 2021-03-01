@@ -86,9 +86,11 @@ function addToRepo() {
 	loc=$(pwd)
 	cd "$2" || exit 1
 	if [[ "$3" == "" ]]; then
-		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" ./*.pkg.tar.???
+        # it is possible that the signature is invalid, in that case abort
+		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" ./*.pkg.tar.??? || exit 1
 	else
-		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" "./$3"*.pkg.tar.???
+        # it is possible that the signature is invalid, in that case abort
+		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" "./$3"*.pkg.tar.??? || exit 1
 	fi
 	cd "$loc" || exit 1
 
@@ -314,6 +316,7 @@ if [[ "$default" == "y" || "$1" == "-B" ]]; then
     installbuilds
     populatedb
 fi
+
 if [[ "$1" == "" ]]; then
 	read -r -p "Do you want to install fonts? (y/N)" fonts
 fi
