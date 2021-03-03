@@ -259,7 +259,7 @@ function secureISO {
 function rebuildRepoDB {
     cd "$DEFAULT_PWD" || exit 1
     # fully cleanup the database
-    rm tos.db.tar.gz
+    rm arch/tos.db* arch/tos.files*
 	addToRepo tos.db.tar.gz arch/
 }
 
