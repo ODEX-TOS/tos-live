@@ -2,7 +2,7 @@
 # Maintainer: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
 
 pkgname=tos-keyring
-pkgver=20200422
+pkgver=20210303
 pkgrel=1
 pkgdesc='TOS Linux PGP keyring'
 arch=(any)
