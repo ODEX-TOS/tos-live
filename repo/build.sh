@@ -258,6 +258,8 @@ function secureISO {
 
 function rebuildRepoDB {
     cd "$DEFAULT_PWD" || exit 1
+    # fully cleanup the database
+    rm tos.db.tar.gz
 	addToRepo tos.db.tar.gz arch/
 }
 
@@ -304,17 +306,17 @@ if [[ "$default" == "y" || "$1" == "-a" ]]; then
 
     buildpackages "packages.conf"
     installbuilds
-    populatedb
+    rebuildRepoDB
 fi
 if [[ "$default" == "y" || "$1" == "-P" ]]; then
 
     buildpackages "packages.conf"
-    populatedb
+    echo "Don't forget to add the packages to the db '$0 -r'"
 fi
 if [[ "$default" == "y" || "$1" == "-B" ]]; then
 
     installbuilds
-    populatedb
+    echo "Don't forget to add the packages to the db '$0 -r'"
 fi
 
 if [[ "$1" == "" ]]; then
@@ -322,7 +324,7 @@ if [[ "$1" == "" ]]; then
 fi
 if [[ "$fonts" == "y" || "$1" == "-f" ]]; then
     buildpackages "fonts.conf"
-    populatedb
+    echo "Don't forget to add the packages to the db '$0 -r'"
 fi
 if [[ "$1" == "" ]]; then
     read -r -p "Do you want to install the latest kernel? (y/N)" kernel

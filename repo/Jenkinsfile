@@ -36,6 +36,10 @@ node('archlinux') {
           }
           )
     }
+    // build the repo database
+    stage('Populate repo database') {
+        sh "cd repo && sh build.sh -r"
+    }
     // only upload repository if everything exists
     stage('check for missing packages') {
         sh "cd repo && bash check-missing-packages.sh"
