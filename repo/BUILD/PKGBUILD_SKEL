@@ -2,7 +2,7 @@
 # SILENT: on
 pkgname=skel
 pkgver=r786.57748a6
-pkgrel=1
+pkgrel=2
 pkgdesc="Default user settings for when you need to create a new user"
 arch=(any)
 url="https://github.com/ODEX-TOS/dotfiles"
@@ -69,5 +69,6 @@ package() {
         curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > "$pkgdir"/etc/skel/.vim/colors/badwolf.vim
 
         cp -r "$srcdir/$_tdename/tos" "$pkgdir/etc/skel/.config/"
+        cp -r "$srcdir/$_tdename/plugins/" "$pkgdir/etc/skel/.config/tde"
         printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.jpg\n" >> "$pkgdir"/etc/skel/.config/tos/theme
 }
