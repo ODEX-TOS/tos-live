@@ -1,17 +1,23 @@
 # Maintainer: Tom Meyers
 
 pkgname=tos-base
-pkgver=4
-pkgrel=5
+pkgver=5
+pkgrel=1
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
 arch=('any')
 license=('MIT')
+provides=('sh')
+install="dash.install"
+source=("dash.hook")
+
+sha256sums=('ff09bd61cec1d4910685bd02a7bdb0beef9333ac07a272812ef9f85631a44bb8')
+
 depends=(
   # tos base packages
   'tos-keyring' 'tos-tools'
   # useful packages
-  'tlp' 'skel' 'system-updater' 'base'  'sudo'
+  'tlp' 'skel' 'system-updater' 'base'  'sudo' 'dash'
   # candy software
   'lsd' 'neofetch' 'chafa'
   # networking
@@ -31,6 +37,9 @@ package() {
 [connectivity]
 uri=https://network.odex.be/check_network_status.txt
 END
+
+  # post install hook to symlink dash to /bin/sh
+  install -Dm 644 "${srcdir}/dash.hook" "${pkgdir}/usr/share/libalpm/hooks/dash.hook"
 }
 # vim: ts=2 sw=2 et:
 
