@@ -51,11 +51,11 @@ node('archlinux') {
       }
       // Copy local tos builds to local repository
       stage('copy'){
-          sh "cd repo && sh build.sh -u"
+          sh "cd repo && ./build.sh -u"
       }
       // Upload iso's to remote repository
       stage('upload') {
-          sh "cd repo && sh upload-iso.sh -y"
+          sh "cd repo && ./upload-iso.sh -y"
       }
       // The permissions on this directory are of root
       stage('cleanup'){
