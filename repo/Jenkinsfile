@@ -26,19 +26,19 @@ node('archlinux') {
     stage('building tarballs'){
         parallel(
           apps: {
-            sh "cd repo && sh build.sh -P"
+            sh "cd repo && bash build.sh -P"
           },
           PKGBUILDS: {
-            sh "cd repo && sh build.sh -B"
+            sh "cd repo && bash build.sh -B"
           },
           fonts: {
-            sh "cd repo && sh build.sh -f"
+            sh "cd repo && bash build.sh -f"
           }
           )
     }
     // build the repo database
     stage('Populate repo database') {
-        sh "cd repo && sh build.sh -r"
+        sh "cd repo && bash build.sh -r"
     }
     // only upload repository if everything exists
     stage('check for missing packages') {
@@ -46,17 +46,17 @@ node('archlinux') {
     }
     // Push local repo to the server
     stage('upload repository') {
-        sh "cd repo && sh upload.sh -y"
+        sh "cd repo && bash upload.sh -y"
     }
     // Generate package list based on the repo
     stage('generate html') {
         sh "sleep 5"
-        sh "cd repo; yay -Syu --noconfirm || sh upload.sh -y"
-        sh "cd repo && yay -Syu --noconfirm && sh genpackagelist.sh"
+        sh "cd repo; yay -Syu --noconfirm || bash upload.sh -y"
+        sh "cd repo && yay -Syu --noconfirm && bash genpackagelist.sh"
     }
     // Upload package list to remote repo
     stage('upload html') {
-        sh "cd repo && sh upload.sh -y"
+        sh "cd repo && bash upload.sh -y"
     }
     stage('Set build success') {
          setBuildStatus("Build succeeded", "SUCCESS");
