@@ -2,7 +2,7 @@
 
 pkgname=tos-base
 pkgver=5
-pkgrel=1
+pkgrel=2
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
 arch=('any')
@@ -17,7 +17,7 @@ depends=(
   # tos base packages
   'tos-keyring' 'tos-tools'
   # useful packages
-  'tlp' 'skel' 'system-updater' 'base'  'sudo' 'dash'
+  'tlp' 'skel' 'system-updater' 'base'  'sudo' 'dash' 'reflector'
   # candy software
   'lsd' 'neofetch' 'chafa'
   # networking
