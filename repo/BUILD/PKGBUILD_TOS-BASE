@@ -2,7 +2,7 @@
 
 pkgname=tos-base
 pkgver=5
-pkgrel=2
+pkgrel=3
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
 arch=('any')
@@ -25,7 +25,7 @@ depends=(
   # audio
   'pulseaudio' 'alsa-utils' 'alsa-lib' 'alsa-plugins' 'pulseaudio-alsa' 'pulseaudio-bluetooth' 'bluez' 'bluez-utils' 'pulseaudio'
   # shell
-  'zsh' 'zsh-autosuggestions' 'zsh-syntax-highlighting'
+  'zsh' 'zsh-autosuggestions' 'zsh-syntax-highlighting' 'grc'
   # linux
   'linux-firmware' 'amd-ucode' 'intel-ucode' 'kernel-modules-hook'
 )
