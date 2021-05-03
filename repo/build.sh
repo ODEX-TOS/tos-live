@@ -165,6 +165,7 @@ function changePKGBUILD() {
 
 	sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = '$extraversion':EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
 	sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
+    sed -i 's:pkgdesc=.*:pkdesc="Linux TOS edition":' PKGBUILD
 	# shellcheck disable=SC2016
     sed -i 's;$_srcname::git+.*?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
 
