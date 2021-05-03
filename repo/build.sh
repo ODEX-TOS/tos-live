@@ -156,9 +156,9 @@ function updateKernelConf() {
 function changePKGBUILD() {
 	# Set the package version
 	pkgver=$(curl -sf https://raw.githubusercontent.com/ODEX-TOS/linux/tos-latest/.PKGVER)
-	extraversion="-"$(head -n7 PKGBUILD | tail -n1 | cut -d= -f2 | cut -d- -f2)
+	extraversion="-"$(grep "pkgver=" PKGBUILD | head -n1 | cut -d= -f2 | rev | cut -d. -f1 | rev)
 	# uncomment the next line if you don't want this build to be the default
-	sed -i 's;pkgbase=linux;pkgbase=linux-tos;' PKGBUILD
+	sed -i 's;pkgbase=linux.*;pkgbase=linux-tos;' PKGBUILD
 	sed -i 's;CONFIG_DEFAULT_HOSTNAME="archlinux";CONFIG_DEFAULT_HOSTNAME="toslinux";' config
     
     updateKernelConf
@@ -166,7 +166,7 @@ function changePKGBUILD() {
 	sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = '$extraversion':EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
 	sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
 	# shellcheck disable=SC2016
-    sed -i 's;$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
+    sed -i 's;$_srcname::git+.*?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
 
 	sed -i 's;pkgver=.*;pkgver='$pkgver';' PKGBUILD
 
@@ -178,7 +178,7 @@ function changePKGBUILD() {
 	else
 		cores="$1"
 	fi
-	sed -i 's:make bzImage modules htmldocs:make -j'$cores' bzImage modules htmldocs:' PKGBUILD
+	sed -i 's:make all:make -j'$cores' all:' PKGBUILD
 	sed -i 's;archlinux;toslinux;' PKGBUILD
 
 }
@@ -189,9 +189,9 @@ function installlinux() {
 	fi
 	mkdir kernel
 	cd kernel || exit 1
-	asp update linux
-	asp checkout linux
-	cd linux/repos/core-x86_64 || exit 1
+	asp update linux-zen
+	asp checkout linux-zen
+	cd linux-zen/repos/extra-x86_64 || exit 1
 
 	changePKGBUILD "$1"
 
