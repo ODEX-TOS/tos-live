@@ -2,7 +2,7 @@
 # SILENT: on
 pkgname=skel
 pkgver=r786.57748a6
-pkgrel=2
+pkgrel=3
 pkgdesc="Default user settings for when you need to create a new user"
 arch=(any)
 url="https://github.com/ODEX-TOS/dotfiles"
@@ -22,8 +22,6 @@ pkgver() {
 
 prepare() {
         cd "$srcdir/$_reponame"
-        curl -fLo plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        git clone https://github.com/VundleVim/Vundle.vim.git Vundle.vim
         sed -i '/^PATH/d' .profile
         sed -i '/^export PATH=\/home\/zeus/d' .profile
         sed -i '/export PATH=$HOME/d' .profile
@@ -48,11 +46,6 @@ package() {
         rm -rf "$pkgdir"/etc/skel/.config/libinput-gestures.conf # this config is already provided in the tos version of libinput-gestures
         cd "$srcdir/$_reponame"
 
-        # install vim packages
-        install -Dm755 .vimrc "$pkgdir"/etc/skel/.vimrc
-        install -Dm755 plug.vim "$pkgdir"/etc/skel/.vim/autoload/plug.vim
-        cp -r Vundle.vim "$pkgdir"/etc/skel/.vim/bundle/
-
         # install default packages
         install -Dm755 .Xresources "$pkgdir"/etc/skel/.Xresources
 
@@ -65,8 +58,6 @@ package() {
         mv .zshrc "$pkgdir"/etc/skel/
 
         mv .profile "$pkgdir"/etc/skel/.profile
-        mkdir -p "$pkgdir"/etc/skel/.vim/colors
-        curl https://bitbucket.org/sjl/badwolf/raw/tip/colors/badwolf.vim > "$pkgdir"/etc/skel/.vim/colors/badwolf.vim
 
         cp -r "$srcdir/$_tdename/tos" "$pkgdir/etc/skel/.config/"
         cp -r "$srcdir/$_tdename/plugins/" "$pkgdir/etc/skel/.config/tde"
