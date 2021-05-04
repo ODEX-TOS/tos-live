@@ -2,7 +2,7 @@
 
 pkgname=tos-base-desktop
 pkgver=7
-pkgrel=5
+pkgrel=6
 pkgdesc='Package set for the tos desktop'
 url='https://tos.odex.be'
 arch=('any')
@@ -45,6 +45,7 @@ Identifier "touchpad"
 Driver "libinput"
   MatchIsTouchpad "on"
   Option "Tapping" "on"
+  Option "ScrollMethod" "twofinger"
 EndSection
 EOF
 
