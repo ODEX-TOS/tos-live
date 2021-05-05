@@ -1,8 +1,8 @@
 # Maintainer: Tom Meyers
 
 pkgname=tos-base
-pkgver=5
-pkgrel=3
+pkgver=6
+pkgrel=1
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
 arch=('any')
@@ -23,7 +23,7 @@ depends=(
   # networking
   'networkmanager' 'openssh' 'wget'
   # audio
-  'pulseaudio' 'alsa-utils' 'alsa-lib' 'alsa-plugins' 'pulseaudio-alsa' 'pulseaudio-bluetooth' 'bluez' 'bluez-utils' 'pulseaudio'
+  'alsa-utils' 'alsa-lib' 'alsa-plugins' 'bluez' 'bluez-utils' 'pipewire' 'pipewire-alsa' 'pipewire-pulse'
   # shell
   'zsh' 'zsh-autosuggestions' 'zsh-syntax-highlighting' 'grc'
   # linux
