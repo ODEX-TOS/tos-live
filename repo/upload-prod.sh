@@ -32,5 +32,5 @@ bash sync-local-with-testing.sh -y
 bash cleanup.sh 
 
 # sync to prod
-rsync -rl --progress arch root@repo.odex.be:/root/repo/
+rsync -al --progress arch root@repo.odex.be:/root/repo/
 
