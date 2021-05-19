@@ -28,3 +28,8 @@ if [[ "$1" != "-y" ]]; then
 fi
 # sync testing with local build
 rsync -al --progress root@testing.odex.be:/root/testing_repo/arch . 
+
+# Rebuild the repository database
+bash ./build.sh -r 
+
+bash cleanup.sh -y
