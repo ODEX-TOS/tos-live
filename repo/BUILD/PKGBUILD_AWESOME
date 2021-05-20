@@ -25,7 +25,7 @@ license=('GPL2')
 depends=('cairo' 'dbus' 'gdk-pixbuf2' 'imlib2' 'libxdg-basedir' 'lua53' 'lua53-lgi' 'pango'
          'startup-notification' 'xcb-util-cursor' 'xcb-util-keysyms' 'xcb-util-wm'
          'xorg-xmessage' 'libxkbcommon-x11' 'libxkbcommon' 'xcb-util-xrm' 'tos-tools' 'pacman-contrib' 'xcb-util-errors' 'light-locker' 'awesome-freedesktop-git' 'lxsession-gtk3' 'rofi-tos' 'python-gobject' 'python-dbus' 'picom-tryone-tos' 'upower' 'rlwrap' 'imagemagick' 'libqalculate' 'autorandr' 'udiskie' 'librsvg' 'tde-touchegg' 'qrencode')
-makedepends=('asciidoc' 'cmake' 'docbook-xsl' 'doxygen' 'imagemagick' 'ldoc' 'xmlto')
+makedepends=('asciidoc' 'pkgconf' 'cmake' 'docbook-xsl' 'doxygen' 'imagemagick' 'ldoc' 'xmlto')
 optdepends=('dex: autostart your desktop files'
             'kdeconnect: Link your phone with TDE')
 provides=('notification-daemon' 'awesome-tos' 'tde')
@@ -52,6 +52,9 @@ prepare() {
   cd "$srcdir/tos-desktop-environment"
   echo "return '$(git rev-parse HEAD)'" > "$srcdir/tos-desktop-environment/"release.lua
 
+  cp -r "$srcdir/tos-desktop-environment/tde/" "$srcdir/$_name/build/tde-src"
+  mkdir -p "$srcdir/$_name/build/"
+  [[ -d "$srcdir/$_name/build/tde-src/" ]] && rm -rf "$srcdir/$_name/build/tde-src"
   cp -r "$srcdir/tos-desktop-environment/tde/" "$srcdir/$_name/build/tde-src"
 }
 
