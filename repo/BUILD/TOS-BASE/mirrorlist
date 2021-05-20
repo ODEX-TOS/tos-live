@@ -1,0 +1,4 @@
+################# TOS Linux mirrorlist
+
+# Put a list of all repositories that sync from repo.odex.be
+Server = https://repo.odex.be

@@ -2,16 +2,24 @@
 
 pkgname=tos-base
 pkgver=6
-pkgrel=1
+pkgrel=2
 pkgdesc='Minimal package set to contain tos without a GUI'
 url='https://tos.odex.be'
 arch=('any')
 license=('MIT')
 provides=('sh')
 install="dash.install"
-source=("dash.hook")
+source=(
+  "mirrorlist"
+  "dash.hook"
+  "zsh-rehash.hook"
+)
 
-sha256sums=('ff09bd61cec1d4910685bd02a7bdb0beef9333ac07a272812ef9f85631a44bb8')
+sha256sums=(
+  '0c32e5c2b8492d60e5297e067f5c3bf0faf522ae7e466eb2540c0cbce6138d03'
+  'ff09bd61cec1d4910685bd02a7bdb0beef9333ac07a272812ef9f85631a44bb8'
+  'f9059e3deca24f947be2adc32d386b75e283a5790f04f8e1c2eb2e2d365ee4e0'
+)
 
 depends=(
   # tos base packages
@@ -38,8 +46,14 @@ package() {
 uri=https://network.odex.be/check_network_status.txt
 END
 
+  # Update the mirrorlist of the tos repo
+  install -Dm 644 "${srcdir}/mirrorlist" "${pkgdir}/etc/pacman.d/tos-mirrorlist"
+
   # post install hook to symlink dash to /bin/sh
   install -Dm 644 "${srcdir}/dash.hook" "${pkgdir}/usr/share/libalpm/hooks/dash.hook"
+
+  # post install hook to notify zsh of new packages
+  install -Dm 644 "${srcdir}/zsh-rehash.hook" "${pkgdir}/usr/share/libalpm/hooks/zsh-rehash.hook"
 }
 # vim: ts=2 sw=2 et:
 
