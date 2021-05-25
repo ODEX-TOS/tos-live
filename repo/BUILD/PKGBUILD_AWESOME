@@ -48,7 +48,7 @@ pkgver() {
 prepare() {
   mkdir -p "$srcdir/$_name/"build
 
-  curl "https://raw.githubusercontent.com/ODEX-TOS/tos-desktop-environment/released/NEWS.md" > "$srcdir/$_name/docs/89_NEWS.md"
+  curl "https://raw.githubusercontent.com/ODEX-TOS/tos-desktop-environment/release/NEWS.md" > "$srcdir/$_name/docs/89-NEWS.md"
 
   # TDE Lua settings
   cd "$srcdir/tos-desktop-environment"
