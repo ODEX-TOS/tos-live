@@ -48,6 +48,8 @@ pkgver() {
 prepare() {
   mkdir -p "$srcdir/$_name/"build
 
+  curl "https://raw.githubusercontent.com/ODEX-TOS/tos-desktop-environment/released/NEWS.md" > "$srcdir/$_name/docs/89_NEWS.md"
+
   # TDE Lua settings
   cd "$srcdir/tos-desktop-environment"
   echo "return '$(git rev-parse HEAD)'" > "$srcdir/tos-desktop-environment/"release.lua
