@@ -59,6 +59,22 @@ fi
 if [[ "$GPG_REPO_KEY" == "" ]]; then
     echo "No repo key found! Please set the GPG_REPO_KEY env variable to the correct key"
 fi
+
+if [[ "$(pgrep gpg-agent | wc -l)" -lt 1 ]]; then
+	gpg-agent &
+
+fi
+
+if [[ "$GPG_PASS" != "" && "GPG_EMAIL" != "" ]]; then
+	# Cache our gpg password so that makepkg and repo-key don't make use of pinmode
+    	set +x
+	touch fake_signing
+	gpg --yes --pinentry-mode loopback --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "fake_signing.gpg" "fake_signing"
+	rm "fake_signing.gpg" "fake_signing"
+    	set -x
+
+fi
+
 set -x
 
 if [[ ! -d arch ]]; then
@@ -251,10 +267,11 @@ function secureISO {
 	fi
 	sha256sum "$1" > "$1".sha256
 	sed -i 's/arch\///g' "$1".sha256
+	
 	# accept all user input for overriding files
-    set +x
+    	set +x
 	gpg --yes --pinentry-mode loopback --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "$1".gpg "$1"
-    set -x
+    	set -x
 }
 
 function rebuildRepoDB {
