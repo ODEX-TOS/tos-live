@@ -46,24 +46,25 @@
     <a href="https://repo.odex.be/list.html">Packages in this repo</a>
     <div>
       <h3>GPG Public key</h3>
-      <h6 id="gpg_date"><h6>
+      <h4 id="date"></h4>
       <pre id="gpg"></pre>
     </div>
     <!-- This script is present to gather the public gpg key and display it to the users-->
     <script>
       var xmlHttp = new XMLHttpRequest();
-      function get(uri, func) {
-        xmlHttp.onreadystatechange = func
-        xmlHttp.open("GET", uri, true);
-        xmlHttp.send();
+      var xmlHttp2 = new XMLHttpRequest();
+      function get(xml, uri, func) {
+        xml.onreadystatechange = func
+        xml.open("GET", uri, true);
+        xml.send();
       }
       let gpg = document.querySelector("#gpg");
-      let gpg_date = document.querySelector("#gpg-date");
-      get("/public.gpg", () => {
+      let gpg_date = document.querySelector('#date');
+      get(xmlHttp, "/public.gpg", () => {
         gpg.innerHTML = xmlHttp.responseText
       });
-      get("/gpg-date.txt", () => {
-        gpg_date.innerText = "GPG Expiry date: " + xmlHttp.responseText
+      get(xmlHttp2, "/gpg-date.txt", () => {
+        gpg_date.innerHTML = xmlHttp2.responseText
       });
     </script>
   </body>
