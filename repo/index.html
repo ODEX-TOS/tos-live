@@ -46,6 +46,7 @@
     <a href="https://repo.odex.be/list.html">Packages in this repo</a>
     <div>
       <h3>GPG Public key</h3>
+      <h6 id="gpg_date"><h6>
       <pre id="gpg"></pre>
     </div>
     <!-- This script is present to gather the public gpg key and display it to the users-->
@@ -57,8 +58,12 @@
         xmlHttp.send();
       }
       let gpg = document.querySelector("#gpg");
+      let gpg_date = document.querySelector("#gpg-date");
       get("/public.gpg", () => {
         gpg.innerHTML = xmlHttp.responseText
+      });
+      get("/gpg-date.txt", () => {
+        gpg_date.innerText = "GPG Expiry date: " + xmlHttp.responseText
       });
     </script>
   </body>

@@ -53,6 +53,7 @@ node('archlinux') {
         sh "sleep 5"
         sh "cd repo; yay -Syu --noconfirm || bash upload.sh -y"
         sh "cd repo && yay -Syu --noconfirm && bash genpackagelist.sh"
+        sh "cd repo && bash gpg_expiry.sh"
     }
     // Upload package list to remote repo
     stage('upload html') {
