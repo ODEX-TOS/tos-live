@@ -152,7 +152,7 @@ function installpackage() {
 
 	# In case the PKGBUILD is not in the root
 	if [[ ! -f "PKGBUILD" ]]; then
-		find . -type f -name 'PKGBUILD' -exec cp {} . /;
+		find . -type f -name 'PKGBUILD' -exec cp {} . \;
 	fi
 	
 	if [[ "$4" == "no-exit" ]]; then
