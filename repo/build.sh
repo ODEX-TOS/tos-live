@@ -67,6 +67,7 @@ fi
 
 if [[ "$GPG_PASS" != "" && "GPG_EMAIL" != "" ]]; then
 	# Cache our gpg password so that makepkg and repo-key don't make use of pinmode
+#topbar-right="icon_button"
     	set +x
 	touch fake_signing
 	gpg --yes --pinentry-mode loopback --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "fake_signing.gpg" "fake_signing"
@@ -142,17 +143,27 @@ function installpackage() {
 	if [[ -d "$2" ]]; then
 		rm -rf "$2"
 	fi
+	
 	git clone "$1" "$2"
-    loc=$(pwd)
+    	
+	loc=$(pwd)
+	
 	cd "$2" || exit 1 
+
+	# In case the PKGBUILD is not in the root
+	if [[ ! -f "PKGBUILD" ]]; then
+		find . -type f -name 'PKGBUILD' -exec cp {} . /;
+	fi
+	
 	if [[ "$4" == "no-exit" ]]; then
 		makepkg -s --sign --key "$GPG_REPO_KEY" --noconfirm
 	else
 		makepkg -s --sign -f --key "$GPG_REPO_KEY" --noconfirm || exit 1
 	fi
+	
 	rm "$loc"/arch/$3*.pkg.tar.*
-    ls $3*.pkg.tar.*
-    sleep 1
+    	ls $3*.pkg.tar.*
+    	sleep 1
 	cp $3*.pkg.tar.* "$loc"/arch
 	cd "$loc" || exit 1
 }
