@@ -2,14 +2,14 @@
 
 pkgname=tos-base-desktop
 pkgver=7
-pkgrel=6
+pkgrel=7
 pkgdesc='Package set for the tos desktop'
 url='https://tos.odex.be'
 arch=('any')
 license=('MIT')
 depends=(
     # base
-    'tos-base'
+    'tos-base' 'pinentry'
     # WM/DE stuff
     'tde' 'st-tos' 'arandr' 'nm-connection-editor' 'arc-gtk-theme' 'papirus-icon-theme' 'xcursor-human' 'xdotool' 'ttf-ubuntu-font-family'
     # DM
@@ -53,6 +53,11 @@ EOF
 install -Dm644 /dev/stdin "$pkgdir/etc/profile.d/qt5-theme.sh" <<EOF
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export QT_STYLE_OVERRIDE="kvantum"
+EOF
+
+# setup pinentry
+install -Dm644 /dev/stdin "$pkgdir/etc/skel/.gnupg/gpg-agent.conf" <<EOF
+pinentry-program /usr/bin/pinentry-qt
 EOF
 
 # qt5ct settings
