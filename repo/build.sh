@@ -161,9 +161,8 @@ function installpackage() {
 		makepkg -s --sign -f --key "$GPG_REPO_KEY" --noconfirm || exit 1
 	fi
 	
-	rm "$loc"/arch/$3*.pkg.tar.*
-    	ls $3*.pkg.tar.*
-    	sleep 1
+	find "$loc"/arch/ -type f -iname "$3"'*.pkg.tar.*' -exec rm {} \;
+    ls $3*.pkg.tar.*
 	cp $3*.pkg.tar.* "$loc"/arch
 	cd "$loc" || exit 1
 }
