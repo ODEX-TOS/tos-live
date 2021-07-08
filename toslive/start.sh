@@ -71,31 +71,12 @@ if [[ "$1" == "-h" ]]; then
   exit 0
 fi
 
-if [[ "$1" == "-s" ]]; then
-  cp customize_airootfs.sh_server airootfs/root/customize_airootfs.sh || exit 1
-elif [[ "$1" == "-awesome" ]]; then
-  cp customize_airootfs.sh_awesome airootfs/root/customize_airootfs.sh || exit 1
-fi
-
-if [[ "$2" == "-a" ]]; then
-  sed -i 's;azerty="0";azerty="1";' airootfs/root/customize_airootfs.sh || exit 1
-else
-  append="$2"
-fi
-
-if [[ "$3" != "" ]]; then
-  append="$3"
-fi
-echo "$append"
-
 if [[ "$1" == "-awesome" ]]; then
-  sed -i -r 's;version=".*";version="'"$version"'";' airootfs/root/customize_airootfs.sh
   cp packages.x86_64_awesome packages.x86_64
   build "$1" "$2"
 fi
 
 if [[ "$1" == "-s" ]]; then
-  sed -i -r 's;version=".*";version="'"$version"'";' airootfs/root/customize_airootfs.sh
   cp packages.x86_64_server packages.x86_64
   build "$1" "$2"
 fi
