@@ -28,6 +28,11 @@
     <a href="https://github.com/ODEX-TOS/tos-live/issues">Request Feature</a>
   </p>
 </p>
+<p align="center">
+   <a href="https://www.paypal.com/donate?hosted_button_id=X892LWMTDU6D6">
+     <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" alt="Donate with PayPal" width="300" height="100"/>
+   </a>
+</p>
 
 <!-- TABLE OF CONTENTS -->
 
