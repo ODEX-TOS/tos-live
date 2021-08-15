@@ -23,8 +23,8 @@ node('archlinux') {
       }
       // Make sure the gpg keys are correct
       stage('gpg'){
-       sh "pacman-key --init"
-       sh "pacman-key --populate"
+       sh "sudo pacman-key --init"
+       sh "sudo pacman-key --populate"
       }
       // Build tos server edition
       stage('server'){
