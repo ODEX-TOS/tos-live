@@ -1,0 +1,11 @@
+The preload directory is a directory where you put your scripts that need to be loaded before the oh my zsh framework
+Usually used for oh my zsh settings (these settings need to be set before oh my zsh loads) for instance a oh my zsh plugin / theme
+
+All the scripts directly in this directory are loaded after the oh my zsh framework.
+If it doesn't configure oh my zsh then put your files here
+
+NOTE:
+You can create files in either directory and those filles will be autoloaded you don't need to change the ~/.zshrc file manually to include new scripts
+note that these scripts must end with .sh otherwise the file won't be loaded in the ~/.zshrc
+this is done to prevent unwanted files to be included (for instance this file)
+If you wise to include other files change the load function located in the ~/.zshrc file to include that file type

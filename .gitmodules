@@ -1,0 +1,3 @@
+[submodule "toslive/toslive/airootfs/root/.oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+	path = toslive/toslive/airootfs/root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
