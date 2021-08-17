@@ -26,6 +26,10 @@ node('archlinux') {
        sh "sudo pacman-key --init"
        sh "sudo pacman-key --populate"
       }
+      // Make sure the gpg keys are correct
+      stage('cleanup cache'){
+       sh "sudo pacman -Sc --noconfirm"
+      }
       // Build tos server edition
       stage('server'){
           try {
