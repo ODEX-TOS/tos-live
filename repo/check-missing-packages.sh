@@ -55,7 +55,7 @@ function getArchList() {
 }
 
 function addToRepo() {
-    repo-add --verify --sign --key "$GPG_REPO_KEY" "arch/tos.db.tar.gz" "$1"
+    repo-add -p --verify --sign --key "$GPG_REPO_KEY" "arch/tos.db.tar.gz" "$1"
 }
 
 # try to find $1 in the testing repo and add it here, if it is not found then find it in the production repo, if it is still not found then we should abort and manual intervention is required
