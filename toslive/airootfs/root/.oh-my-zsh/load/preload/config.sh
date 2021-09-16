@@ -10,5 +10,6 @@ COMPLETION_WAITING_DOTS="true"
 
 #color of the command autocompletion
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
+ZSH_AUTOSUGGEST_USE_ASYNC="true"
 
 zstyle ':autocomplete:tab:*' widget-style menu-complete
