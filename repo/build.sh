@@ -104,10 +104,10 @@ function addToRepo() {
 	cd "$2" || exit 1
 	if [[ "$3" == "" ]]; then
         # it is possible that the signature is invalid, in that case abort
-		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" ./*.pkg.tar.??? || exit 1
+		repo-add -p --verify --sign --key "$GPG_REPO_KEY" "$1" ./*.pkg.tar.??? || exit 1
 	else
         # it is possible that the signature is invalid, in that case abort
-		repo-add --verify --sign --key "$GPG_REPO_KEY" "$1" "./$3"*.pkg.tar.??? || exit 1
+		repo-add -p --verify --sign --key "$GPG_REPO_KEY" "$1" "./$3"*.pkg.tar.??? || exit 1
 	fi
 	cd "$loc" || exit 1
 
