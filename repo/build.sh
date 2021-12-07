@@ -218,7 +218,7 @@ function installlinux() {
 	cd kernel || exit 1
 	asp update linux
 	asp checkout linux
-	cd linux/repos/extra-x86_64 || exit 1
+	cd linux/repos/core-x86_64 || exit 1
 
 	changePKGBUILD "$1"
 
