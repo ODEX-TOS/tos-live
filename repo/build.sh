@@ -216,9 +216,9 @@ function installlinux() {
 	fi
 	mkdir kernel
 	cd kernel || exit 1
-	asp update linux-zen
-	asp checkout linux-zen
-	cd linux-zen/repos/extra-x86_64 || exit 1
+	asp update linux
+	asp checkout linux
+	cd linux/repos/extra-x86_64 || exit 1
 
 	changePKGBUILD "$1"
 
