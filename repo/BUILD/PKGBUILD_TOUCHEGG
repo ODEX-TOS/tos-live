@@ -5,7 +5,7 @@
 
 _pkgname=touchegg
 pkgname=tde-touchegg
-pkgver=r323.c1773dc
+pkgver=r630.1f47274
 pkgrel=1
 pkgdesc='Linux multi-touch gesture recognizer'
 arch=('x86_64')
@@ -24,15 +24,17 @@ pkgver() {
 }
 
 build() {
-    cmake -B build -S "${_pkgname}" -DCMAKE_BUILD_TYPE=Release ..
+    cmake -B build -S "${_pkgname}" \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-Wno-dev
     make -C build -j$(nproc)
 }
 
 package() {
-    DESTDIR="$pkgdir" make -C build install
+    make -C build DESTDIR="$pkgdir" install
 
     # /lib is a symlink to /usr/lib on most Arch systems, this
     # workaround is needed to prevent alpm from failing with
     # a conflict
-    [ -d "$pkgdir/lib" ] && mv "$pkgdir/lib" "$pkgdir/usr/lib"
+    [ -d "$pkgdir/lib" ] && mv "$pkgdir/lib" "$pkgdir/usr/lib" || true
 }
