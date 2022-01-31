@@ -363,13 +363,14 @@ if [[ "$kernel" == "y" || "$1" == "-k" ]]; then
 fi
 
 # Only ask to update toslive if an image has been build
-if [[ -f "../toslive/out/toslive.iso" ]]; then
+tos_linux_path=$(find ../toslive/out/ -iname 'toslinux*.iso')
+if [[ -f "$tos_linux_path" ]]; then
 	if [[ "$1" == "" ]]; then
 		read -r -p "Do you want to include toslive? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
-		cp ../toslive/out/toslive.iso arch/toslive.iso
-		secureISO arch/toslive.iso
+		cp tos_linux_path arch/toslive-awesome.iso
+		secureISO arch/toslive-awesome.iso
 	fi
 fi
 
@@ -383,43 +384,6 @@ if [[ -f "../toslive/out/tosserver.iso" ]]; then
 	fi
 fi
 
-if [[ -f "../toslive/out/toslive-azerty.iso" ]]; then
-	if [[ "$1" == "" ]]; then
-		read -r -p "Do you want to include toslive azerty edition? (y/N)" toslive
-	fi
-	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
-		cp ../toslive/out/toslive-azerty.iso arch/toslive-azerty.iso
-		secureISO arch/toslive-azerty.iso
-	fi
-fi
-
-if [[ -f "../toslive/out/tosserver-azerty.iso" ]]; then
-	if [[ "$1" == "" ]]; then
-		read -r -p "Do you want to include tosserver azerty edition? (y/N)" toslive
-	fi
-	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
-		cp ../toslive/out/tosserver-azerty.iso arch/tosserver-azerty.iso
-		secureISO arch/tosserver-azerty.iso
-	fi
-fi
-if [[ -f "../toslive/out/toslive-awesome-azerty.iso" ]]; then
-	if [[ "$1" == "" ]]; then
-		read -r -p "Do you want to include toslive awesome azerty edition? (y/N)" toslive
-	fi
-	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
-		cp ../toslive/out/toslive-awesome-azerty.iso arch/toslive-awesome-azerty.iso
-		secureISO arch/toslive-awesome-azerty.iso
-	fi
-fi
-if [[ -f "../toslive/out/toslive-awesome.iso" ]]; then
-	if [[ "$1" == "" ]]; then
-		read -r -p "Do you want to include toslive awesome edition? (y/N)" toslive
-	fi
-	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
-		cp ../toslive/out/toslive-awesome.iso arch/toslive-awesome.iso
-		secureISO arch/toslive-awesome.iso
-	fi
-fi
 cp index.html arch/
 
 ./genpackagelist.sh
