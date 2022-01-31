@@ -1,4 +1,4 @@
-printf "\nif [[ \$(tty) == '/dev/tty1' && \"\$(command -v startx)\" != '' ]]; then\n while true; do; startx; done\n fi" >>/root/.bashrc
+printf "\nif [[ \$(tty) == '/dev/tty1' && \"\$(command -v startx)\" != '' ]]; then\n for i in seq 1 10; do startx; done\n fi" >>/root/.bashrc
 
 printf "xrdb ~/.Xresources\nexec env XDG_CURRENT_DESKTOP=TDE tde" >/root/.xinitrc
 
@@ -16,10 +16,6 @@ if [[ -f "/etc/mkinitcpio.d/linux.preset" ]]; then
   rm /etc/mkinitcpio.d/linux.preset
 fi
 
-pacman-key --init
-pacman-key --populate archlinux
-pacman-key --populate tos
-
 # custom version of theme file
 mkdir -p /root/.config/tos
 printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.jpg\n" > /root/.config/tos/theme
@@ -27,7 +23,11 @@ printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.jpg\n" > /
 ~/.automated_script.sh
 
 if [[ "$(tty)" == '/dev/tty1' && "$(command -v startx)" != "" ]]; then
-  while true; do
+  for i in seq 1 10; do
+   echo "Starting X server attempt: $i"
    startx
   done
+
+  echo "Tried to start X server 10 times. Dropping to TTY."
+  echo "Create a bug ticket here: https://github.com/ODEX-TOS/tos-live/issues"
 fi

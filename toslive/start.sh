@@ -24,7 +24,7 @@
 
 # This is a simple script to build an iso image. It prepares the build directory and then starts the build
 ./version_builder.sh
-version=$(cat airootfs/etc/version.txt)
+version=$(cat airootfs/etc/version)
 iso_version=$(date +%Y.%m.%d)
 iso_normal=$(echo toslinux-"$iso_version"-x86_64 | tr '.' '-')
 append=""
@@ -71,7 +71,7 @@ if [[ "$1" == "-h" ]]; then
   exit 0
 fi
 
-if [[ "$1" == "-awesome" ]]; then
+if [[ "$1" == "-awesome" || "$1" == "-a"  ]]; then
   cp packages.x86_64_awesome packages.x86_64
   build "$1" "$2"
 fi

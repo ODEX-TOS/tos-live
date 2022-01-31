@@ -97,3 +97,4 @@ mkinitcpio
 mkinitcpio-archiso
 amd-ucode
 intel-ucode
+edk2-shell

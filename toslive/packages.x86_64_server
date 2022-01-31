@@ -99,3 +99,4 @@ mkinitcpio-archiso
 mkinitcpio-nfs-utils
 amd-ucode
 intel-ucode
+edk2-shell
