@@ -374,7 +374,7 @@ if [[ -f "$tos_linux_path" ]]; then
 		read -r -p "Do you want to include toslive? (y/N)" toslive
 	fi
 	if [[ "$toslive" == "y" || "$1" == "-u" ]]; then
-		cp tos_linux_path arch/toslive-awesome.iso
+		cp "$tos_linux_path" arch/toslive-awesome.iso
 		secureISO arch/toslive-awesome.iso
 	fi
 fi
