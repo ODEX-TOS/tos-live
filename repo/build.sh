@@ -364,6 +364,11 @@ fi
 
 # Only ask to update toslive if an image has been build
 tos_linux_path=$(find ../toslive/out/ -iname 'toslinux*.iso')
+
+if [[ -f '../toslive/out/toslive-awesome.iso' ]]; then
+	tos_linux_path='../toslive/out/toslive-awesome.iso'
+fi
+
 if [[ -f "$tos_linux_path" ]]; then
 	if [[ "$1" == "" ]]; then
 		read -r -p "Do you want to include toslive? (y/N)" toslive
