@@ -1,9 +1,0 @@
-#!/bin/zsh
-zmodload -Fa zsh/parameter p:functions
-
-.autocomplete.patch() {
-  builtin autoload +X -Uz $1
-  functions[.autocomplete.$1]=$functions[$1]
-}
-
-.autocomplete.patch "$@"
