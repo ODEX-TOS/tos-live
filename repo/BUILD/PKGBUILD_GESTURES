@@ -19,5 +19,5 @@ package() {
   cd "$_pkgname-$pkgver"
   make DESTDIR="$pkgdir/" install
   rm -rf "$pkgdir"/etc/libinput-gestures.conf # remove the default configuration file
-  cp "$srcdir"/dotfiles/libinput-gestures.conf "$pkgdir"/etc/libinput-gestures.conf
+  cp "$srcdir"/dotfiles.git/libinput-gestures.conf "$pkgdir"/etc/libinput-gestures.conf
 }
