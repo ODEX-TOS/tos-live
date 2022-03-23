@@ -17,7 +17,7 @@ makedepends=('gobject-introspection' 'meson' 'gettext' 'dbus-glib')
 backup=("etc/lightdm/$pkgname.conf")
 source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
         'tos-logo.svg::https://raw.githubusercontent.com/ODEX-TOS/Pictures/master/tos/TOS_logo.svg'
-'git://github.com/ODEX-TOS/Pictures.git'
+	'https://github.com/ODEX-TOS/Pictures.git'
 )
 sha512sums=("SKIP" "SKIP" "SKIP")
 prepare() {

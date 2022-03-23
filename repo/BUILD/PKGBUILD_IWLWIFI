@@ -6,7 +6,7 @@ pkgdesc="Intel® Dual Band Wireless-AC 3165, Intel® Dual Band Wireless-AC 7265,
 arch=('any')
 url='https://wireless.wiki.kernel.org'
 license=('custom')
-source=("git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git/")
+source=("https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git/")
 sha256sums=('SKIP')
 
 package() {

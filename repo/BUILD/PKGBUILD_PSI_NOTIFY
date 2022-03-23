@@ -13,7 +13,7 @@ depends=(libnotify)
 provides=(psi-notify)
 conflicts=(psi-notify)
 makedepends=(git)
-source=(git://github.com/ODEX-TOS/psi-notify.git)
+source=(https://github.com/ODEX-TOS/psi-notify.git)
 md5sums=('SKIP')
 
 pkgver() {
