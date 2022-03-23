@@ -2,7 +2,7 @@
 # Maintainer: Tom Meyers tom [at] odex [dot] be
 
 pkgname=psi-notify
-_gitname=psi-notify
+_gitname=psi-notify.git
 pkgver=1.0.1.r17.gbac3905
 pkgrel=1
 pkgdesc='Minimalistic PSI notifier using libnotify'
