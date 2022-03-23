@@ -17,7 +17,7 @@ makedepends=('gobject-introspection' 'meson' 'gettext' 'dbus-glib')
 backup=("etc/lightdm/$pkgname.conf")
 source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
         'tos-logo.svg::https://raw.githubusercontent.com/ODEX-TOS/Pictures/master/tos/TOS_logo.svg'
-	'https://github.com/ODEX-TOS/Pictures.git'
+	'git+https://github.com/ODEX-TOS/Pictures.git'
 )
 sha512sums=("SKIP" "SKIP" "SKIP")
 prepare() {
@@ -46,7 +46,7 @@ package() {
 
   install -Dm 644 "$srcdir"/tos-logo.svg "$pkgdir"/usr/share/pixmaps/tos-logo.svg
   mkdir -p "$pkgdir"/usr/share/backgrounds/tos
-  install -Dm 644 "$srcdir"/Pictures.git/*{png,jpg} "$pkgdir"/usr/share/backgrounds/tos/
+  install -Dm 644 "$srcdir"/Pictures/*{png,jpg} "$pkgdir"/usr/share/backgrounds/tos/
   sed -i 's:session=cinnamon:session=awesome:' "$pkgdir"/usr/share/lightdm-webkit/themes/antergos/index.theme
   # Update the install below to contain the user specific logo
   # install -Dm 644 "$srcdir"/archlinux-user.svg "$pkgdir"/usr/share/pixmaps/archlinux-user.svg
