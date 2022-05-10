@@ -65,16 +65,20 @@ if [[ "$(pgrep gpg-agent | wc -l)" -lt 1 ]]; then
 
 fi
 
-if [[ "$GPG_PASS" != "" && "GPG_EMAIL" != "" ]]; then
-	# Cache our gpg password so that makepkg and repo-key don't make use of pinmode
-#topbar-right="icon_button"
-    	set +x
-	touch fake_signing
-	gpg --yes --pinentry-mode loopback --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "fake_signing.gpg" "fake_signing"
-	rm "fake_signing.gpg" "fake_signing"
-    	set -x
+function cache_gpg_key_pwd(){
+	if [[ "$GPG_PASS" != "" && "GPG_EMAIL" != "" ]]; then
+		# Cache our gpg password so that makepkg and repo-key don't make use of pinmode
+		echo "Caching GPG key"
+		set +x
+		touch fake_signing
+		gpg --yes --pinentry-mode loopback --detach-sign --passphrase "$GPG_PASS" --default-key "$GPG_EMAIL" -o "fake_signing.gpg" "fake_signing"
+		rm "fake_signing.gpg" "fake_signing"
+    		set -x
 
-fi
+	fi	
+}
+
+cache_gpg_key_pwd
 
 set -x
 
@@ -191,14 +195,14 @@ function changePKGBUILD() {
 
 	sed -i 's;msg2 "Setting config...";sed -i "s:EXTRAVERSION = '$extraversion':EXTRAVERSION = -TOS:" Makefile\n msg2 "Setting config...";' PKGBUILD
 	sed -i 's;: ${_kernelname:=-ARCH};: ${_kernelname:=-TOS};' PKGBUILD
-    sed -i 's:pkgdesc=.*:pkdesc="Linux TOS edition":' PKGBUILD
+    	sed -i 's:pkgdesc=.*:pkdesc="Linux TOS edition":' PKGBUILD
 	# shellcheck disable=SC2016
-    sed -i 's;$_srcname::git+.*?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
+    	sed -i 's;$_srcname::git+.*?signed#tag=$_srctag;$_srcname::git+https://github.com/ODEX-TOS/linux.git#branch=tos-latest;g' PKGBUILD
 
 	sed -i 's;pkgver=.*;pkgver='$pkgver';' PKGBUILD
 
-    sed -i 's;KBUILD_BUILD_HOST=archlinux;KBUILD_BUILD_HOST=toslinux;g' PKGBUILD
-    sed -i 's;sphinx-workaround.patch;;g' PKGBUILD
+    	sed -i 's;KBUILD_BUILD_HOST=archlinux;KBUILD_BUILD_HOST=toslinux;g' PKGBUILD
+    	sed -i 's;sphinx-workaround.patch;;g' PKGBUILD
 
 	if [[ "$1" == "" ]]; then
 		read -r -p "how many cores do you wish to use for compilation?" cores
@@ -224,6 +228,7 @@ function installlinux() {
 
 	updpkgsums
 	gpg --recv-keys A5E9288C4FA415FA # in order to verify the package
+	cache_gpg_key_pwd
 	makepkg -s --sign --key "$GPG_REPO_KEY" --noconfirm || exit 1
 	rm -rf "$DEFAULT_PWD"/arch/linux-tos*.pkg.tar.*
 	cp linux-tos*.pkg.tar.* "$DEFAULT_PWD"/arch
