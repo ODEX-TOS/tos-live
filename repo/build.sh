@@ -61,7 +61,8 @@ if [[ "$GPG_REPO_KEY" == "" ]]; then
 fi
 
 if [[ "$(pgrep gpg-agent | wc -l)" -lt 1 ]]; then
-	gpg-agent &
+	# Keep the gpg passwords for 12 hours in the cache (12 * 3600 = 43200)
+	gpg-agent --default-cache-ttl 43200 --max-cache-ttl 43200 &
 
 fi
 
