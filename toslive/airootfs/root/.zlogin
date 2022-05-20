@@ -1,5 +1,6 @@
 printf "\nif [[ \$(tty) == '/dev/tty1' && \"\$(command -v startx)\" != '' ]]; then\n for i in seq 1 10; do startx; done\n fi" >>/root/.bashrc
 
+# In case people want to use the deprecated tde desktop
 printf "xrdb ~/.Xresources\nexec env XDG_CURRENT_DESKTOP=TDE tde" >/root/.xinitrc
 
 if [[ -f "/root/tos" ]]; then
@@ -22,12 +23,12 @@ printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.jpg\n" > /
 
 ~/.automated_script.sh
 
-if [[ "$(tty)" == '/dev/tty1' && "$(command -v startx)" != "" ]]; then
+if [[ "$(tty)" == '/dev/tty1' && "$(command -v gnome-shell)" != "" ]]; then
   for i in seq 1 10; do
-   echo "Starting X server attempt: $i"
-   startx
+   echo "Starting wayland server attempt: $i"
+   dbus-run-session -- gnome-shell --display-server --wayland
   done
 
-  echo "Tried to start X server 10 times. Dropping to TTY."
+  echo "Tried to start wayland server 10 times. Dropping to TTY."
   echo "Create a bug ticket here: https://github.com/ODEX-TOS/tos-live/issues"
 fi

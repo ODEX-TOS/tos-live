@@ -2,7 +2,6 @@ linux-tos
 linux-tos-headers
 tos/filesystem
 systemd
-tos-base-desktop
 base
 arch-install-scripts
 b43-fwcutter
@@ -100,3 +99,14 @@ intel-ucode
 edk2-shell
 fish
 fisher
+
+gnome
+gnome-extra
+extension-manager
+gdm
+haveged
+cups
+gnome-shell-extension-blur-my-shell
+gnome-shell-extension-clipboard-indicator
+gnome-shell-extension-dash-to-dock
+gnome-shell-extension-pop-shell-git 
