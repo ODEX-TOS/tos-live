@@ -9,14 +9,14 @@ function finish
     _tide_menu
     switch $_tide_selected_option
         case y
-            set -e _tide_selected_option # Skip through all the _next_choices
             _tide_finish
-            set $_tide_prompt_var
-            clear
+            command -q clear && clear
     end
 end
 
 function _tide_finish
+    set -e _tide_selected_option # Skip through all the _next_choices
+
     # Deal with prompt char/vi mode
     if contains character $fake_tide_left_prompt_items
         _tide_find_and_remove vi_mode fake_tide_right_prompt_items
@@ -30,10 +30,14 @@ function _tide_finish
         end
     end
 
-    # Finally, set the real variables
-    for fakeVar in (set --names | string match --regex "^fake_tide.*")
+    # Set the real variables
+    for fakeVar in (set --names | string match -r "^fake_tide.*")
         set -U (string replace 'fake_' '' $fakeVar) $$fakeVar
     end
 
-    _tide_remove_unusable_items
+    # Make sure old prompt won't display
+    set -e $_tide_prompt_var 2>/dev/null
+
+    # Re-initialize the prompt
+    source (functions --details fish_prompt)
 end

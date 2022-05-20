@@ -1,4 +1,3 @@
-tide_character_bg_color normal
 tide_character_color brgreen
 tide_character_color_failure brred
 tide_chruby_bg_color red
@@ -9,6 +8,8 @@ tide_context_bg_color brblack
 tide_context_color_default yellow
 tide_context_color_root yellow
 tide_context_color_ssh yellow
+tide_docker_bg_color blue
+tide_docker_color black
 tide_git_bg_color green
 tide_git_bg_color_unstable yellow
 tide_git_bg_color_urgent red
@@ -22,6 +23,8 @@ tide_git_color_untracked black
 tide_git_color_upstream black
 tide_go_bg_color brcyan
 tide_go_color black
+tide_java_bg_color yellow
+tide_java_color black
 tide_jobs_bg_color brblack
 tide_jobs_color green
 tide_kubectl_bg_color blue
@@ -32,6 +35,8 @@ tide_os_bg_color white
 tide_os_color black
 tide_php_bg_color blue
 tide_php_color black
+tide_private_mode_bg_color brwhite
+tide_private_mode_color black
 tide_prompt_color_frame_and_connection brblack
 tide_prompt_color_separator_same_color brblack
 tide_pwd_bg_color blue
@@ -46,8 +51,12 @@ tide_status_bg_color black
 tide_status_bg_color_failure red
 tide_status_color green
 tide_status_color_failure bryellow
+tide_terraform_bg_color magenta
+tide_terraform_color black
 tide_time_bg_color white
 tide_time_color black
+tide_toolbox_bg_color magenta
+tide_toolbox_color black
 tide_vi_mode_bg_color_default green
 tide_vi_mode_bg_color_replace yellow
 tide_vi_mode_bg_color_visual blue

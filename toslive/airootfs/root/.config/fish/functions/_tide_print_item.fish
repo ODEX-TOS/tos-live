@@ -1,38 +1,22 @@
 function _tide_print_item -a item
-    item_bg_color_name=tide_"$item"_bg_color set item_bg_color $$item_bg_color_name
+    var=tide_"$item"_bg_color set -f item_bg_color $$var
 
-    if test "$_tide_which_side_working_on" = left
-        if test "$_tide_last_item" = newline
-            if test "$item" != character
-                set_color $item_bg_color -b normal
-                printf '%s' $tide_left_prompt_prefix
-            end
-        else if test "$item_bg_color" = "$_tide_previous_bg_color"
-            set_color $tide_prompt_color_separator_same_color
-            printf '%s' $tide_left_prompt_separator_same_color
-        else
-            set_color $_tide_previous_bg_color -b $item_bg_color
-            printf '%s' $tide_left_prompt_separator_diff_color
-        end
-    else if test "$_tide_last_item" = newline
+    if set -e add_prefix
         set_color $item_bg_color -b normal
-        printf '%s' $tide_right_prompt_prefix
-    else if test "$item_bg_color" = "$_tide_previous_bg_color"
-        set_color $tide_prompt_color_separator_same_color
-        printf '%s' $tide_right_prompt_separator_same_color
+        var=tide_"$_tide_side"_prompt_prefix echo -ns $$var
+    else if test "$item_bg_color" = "$prev_bg_color"
+        var=tide_"$_tide_side"_prompt_separator_same_color echo -ns $_tide_color_separator_same_color$$var
+    else if test $_tide_side = left
+        set_color $prev_bg_color -b $item_bg_color
+        echo -ns $tide_left_prompt_separator_diff_color
     else
-        set_color $item_bg_color -b $_tide_previous_bg_color
-        printf '%s' $tide_right_prompt_separator_diff_color
+        set_color $item_bg_color -b $prev_bg_color
+        echo -ns $tide_right_prompt_separator_diff_color
     end
 
-    item_color_name=tide_"$item"_color set_color $$item_color_name -b $item_bg_color
+    var=tide_"$item"_color set_color $$var -b $item_bg_color
 
-    if test "$tide_prompt_pad_items" = true -a "$item" != character
-        printf '%s' ' ' $argv[2..] ' '
-    else
-        printf '%s' $argv[2..]
-    end
+    echo -ns $_tide_pad $argv[2..] $_tide_pad
 
-    set -g _tide_previous_bg_color $item_bg_color
-    set -g _tide_last_item $item
+    set -g prev_bg_color $item_bg_color
 end

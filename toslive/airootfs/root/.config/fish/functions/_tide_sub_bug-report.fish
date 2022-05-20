@@ -6,18 +6,18 @@ function _tide_sub_bug-report
         https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish |
         source && fisher install ilancosman/tide@v5"
     else if set -q _flag_verbose
-        set --long | string match --regex "^_?tide.*" | # Get only tide variables
-            string match --regex --invert "^_tide_prompt_var.*" | # Remove _tide_prompt_var
-            string match --regex --invert "^_tide_prompt_data.*" | # Remove _tide_prompt_data
-            string match --regex --invert "^_tide_var_list.*" # Remove _tide_var_list
+        set --long | string match -r "^_?tide.*" | # Get only tide variables
+            string match -r --invert "^_tide_prompt_var.*" # Remove _tide_prompt_var
     else
-        set -l fish_version (fish --version | string match --regex "fish, version (\d\.\d\.\d)")[2]
+        set -l fish_path (status fish-path)
+
+        set -l fish_version ($fish_path --version | string match -r "fish, version (\d\.\d\.\d)")[2]
         _tide_check_version Fish fish-shell/fish-shell "(\d\.\d\.\d)" $fish_version || return
 
-        set -l tide_version (tide --version | string match --regex "tide, version (\d\.\d\.\d)")[2]
+        set -l tide_version (tide --version | string match -r "tide, version (\d\.\d\.\d)")[2]
         _tide_check_version Tide IlanCosman/tide "v(\d\.\d\.\d)" $tide_version || return
 
-        test (git --version | string match --regex "git version ([\d\.]*)" | string replace --all '.' '')[2] -gt 2220
+        test (git --version | string match -r "git version ([\d\.]*)" | string replace --all . '')[2] -gt 2220
         _tide_check_condition \
             "Your git version is too old." \
             "Tide requires at least version 2.22." \
@@ -29,6 +29,9 @@ function _tide_sub_bug-report
             "Tide does not work with oh-my-fish installed." \
             "Please uninstall it before submitting a bug report." || return
 
+        set -l fish_startup_time (fish -ic "time fish -c exit" 2>&1 |
+            string match -r "Executed in(.*)fish" | string trim)[2]
+
         read --local --prompt-str "What operating system are you using? (e.g Ubuntu 20.04): " os
         read --local --prompt-str "What terminal emulator are you using? (e.g Kitty): " terminal_emulator
 
@@ -37,16 +40,18 @@ function _tide_sub_bug-report
             "tide version: $tide_version" \
             "term: $TERM" \
             "os: $os" \
-            "terminal emulator: $terminal_emulator"
+            "terminal emulator: $terminal_emulator" \
+            "fish startup: $fish_startup_time" \
+            "fisher plugins: $_fisher_plugins"
     end
 end
 
 function _tide_check_version -a program_name repo_name regex_to_get_version current_version
     curl --silent https://github.com/$repo_name/releases/latest |
-        string match --regex ".*$repo_name/releases/tag/$regex_to_get_version.*" |
+        string match -r ".*$repo_name/releases/tag/$regex_to_get_version.*" |
         read --local --line __ latestVersion
 
-    string match --quiet --regex "^$latestVersion" "$current_version"
+    string match --quiet -r "^$latestVersion" "$current_version"
     _tide_check_condition \
         "Your $program_name version is out of date." \
         "The latest is $latestVersion. You have $current_version." \
