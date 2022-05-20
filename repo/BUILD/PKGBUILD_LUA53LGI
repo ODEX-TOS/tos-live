@@ -22,7 +22,7 @@ _archive="$pkgbase"
 source=("git+$url"
         "$pkgbase-lua54.patch::$_fork_url/pull/249.patch")
 sha256sums=('SKIP'
-            '44d472e96f3645dba786dc62f4a40fb352c6b6fe86d2be888ad181e887d98b31')
+            'eaa5a39883bc76c77bea3fbf4ec0a8d60444bf78c6ff8e2096a550d30b986f29')
 
 prepare() {
 	cd "$_archive"
