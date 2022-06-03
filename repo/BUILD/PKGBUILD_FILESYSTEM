@@ -3,7 +3,7 @@
 # Contributor: Tom Gundersen <teg@jklm.no>
 
 pkgname=filesystem
-pkgver=2020.05.24
+pkgver=2022.06.03
 pkgrel=1
 pkgdesc='Base TOS Linux files'
 arch=('x86_64')
@@ -31,7 +31,7 @@ md5sums=('5fa6674df7645d7f5895f2d12b4ef4e9'
          '580cf8b59eebfaac4fad373ffadc9912'
          '206beca5f4b088347a4a371e04a76359'
          '981ee4d7e506a9d6d9ed2d872e16004b'
-         'dbe1e22ba546428c702f7e496e906dc5'
+         '83233e7507ede205e26f790a49576257'
          '5182ac38a0de85da8ade93ef71975ca4'
          '7b208a630a548740e0f4cd368badae23'
          '0ee015fad07732676d9488ae498eed41'
