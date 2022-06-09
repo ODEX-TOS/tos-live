@@ -1,5 +1,6 @@
 linux-tos
 linux-tos-headers
+tos-base
 tos/filesystem
 systemd
 base
