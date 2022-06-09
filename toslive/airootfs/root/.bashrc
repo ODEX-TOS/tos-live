@@ -1,5 +1,9 @@
+#!/bin/bash
+
+source ~/.profile
+
 # In case people want to use the deprecated tde desktop
-printf "xrdb ~/.Xresources\nexec env XDG_CURRENT_DESKTOP=TDE tde" >/root/.xinitrc
+printf "xrdb ~/.Xresources\nexec env XDG_CURRENT_DESKTOP=TDE tde" > /root/.xinitrc
 
 if [[ -f "/root/tos" ]]; then
   rm /root/tos
@@ -21,6 +25,9 @@ printf "on\ntime=1800\nfull=false\n/usr/share/backgrounds/tos/default.jpg\n" > /
 
 ~/.automated_script.sh
 
+# Ensure the gdm settings are applied in /etc/dconf/db/gdm.d
+dconf update 
+
 if [[ "$(tty)" == '/dev/tty1' && "$(command -v gnome-shell)" != "" ]]; then
   for i in seq 1 10; do
    echo "Starting wayland server attempt: $i"
@@ -29,4 +36,8 @@ if [[ "$(tty)" == '/dev/tty1' && "$(command -v gnome-shell)" != "" ]]; then
 
   echo "Tried to start wayland server 10 times. Dropping to TTY."
   echo "Create a bug ticket here: https://github.com/ODEX-TOS/tos-live/issues"
+elif [[ $(tty) == '/dev/tty1' && "$(command -v startx)" != '' ]]; then
+    for i in seq 1 10; do
+        startx
+    done
 fi
