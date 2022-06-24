@@ -1,8 +1,8 @@
 # Maintainer: Tom Meyers
 
 pkgname=tos-base-desktop
-pkgver=7
-pkgrel=7
+pkgver=8
+pkgrel=1
 pkgdesc='Package set for the tos desktop'
 url='https://tos.odex.be'
 arch=('any')
@@ -20,6 +20,8 @@ depends=(
     'kvantum-qt5' 'qt5ct'
     # gtk theme
     "arc-gtk-theme"
+    # Sound firmware (This is on the desktop level and not base, because servers generally don't need sound)
+    "alsa-firmware" "sof-firmware"
 )
 
 optdepends=(
