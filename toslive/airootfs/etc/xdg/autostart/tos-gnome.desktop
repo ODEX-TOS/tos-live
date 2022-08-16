@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=GnomeConfig
+GenericName=Configure gnome with TOS settings
+Exec=/etc/tos/gnome-setup.sh
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true

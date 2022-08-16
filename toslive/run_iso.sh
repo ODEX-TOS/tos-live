@@ -45,10 +45,10 @@ done
 
 if [[ "$TDE" == "1" ]]; then
     ISO="out/toslive-awesome.iso"
-    [[ "$CREATE" == "1" ]] && sudo ./start.sh -awesome || exit 1
+    [[ "$CREATE" == "1" ]] && ( sudo ./start.sh -awesome || exit 1 )
 elif [[ "$SERVER" == "1" ]]; then
     ISO="out/tosserver.iso"
-    [[ "$CREATE" == "1" ]] && sudo ./start.sh -s || exit 1
+    [[ "$CREATE" == "1" ]] && ( sudo ./start.sh -s || exit 1 )
 fi
 
 run_archiso $OPTS -i "$ISO"

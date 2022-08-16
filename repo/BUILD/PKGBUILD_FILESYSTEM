@@ -3,7 +3,7 @@
 # Contributor: Tom Gundersen <teg@jklm.no>
 
 pkgname=filesystem
-pkgver=2022.06.03
+pkgver=2022.08.16
 pkgrel=1
 pkgdesc='Base TOS Linux files'
 arch=('x86_64')
