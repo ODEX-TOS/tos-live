@@ -3,7 +3,7 @@
 # Contributor: Tom Gundersen <teg@jklm.no>
 
 pkgname=filesystem
-pkgver=2022.08.16
+pkgver=2022.08.27
 pkgrel=1
 pkgdesc='Base TOS Linux files'
 arch=('x86_64')
@@ -126,7 +126,7 @@ package() {
   install -D -m755 "$srcdir"/env-generator usr/lib/systemd/system-environment-generators/10-arch
 
   # add logo
-  install -D -m644 "$srcdir"/TOS.{svg,png} usr/share/pixmaps
+  install -D -m644 "$srcdir"/tos.{svg,png} usr/share/pixmaps
 }
 
 # vim:set ts=2 sw=2 et:
