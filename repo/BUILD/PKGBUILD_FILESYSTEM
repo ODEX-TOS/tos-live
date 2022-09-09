@@ -3,7 +3,7 @@
 # Contributor: Tom Gundersen <teg@jklm.no>
 
 pkgname=filesystem
-pkgver=2022.08.27
+pkgver=2022.09.09
 pkgrel=1
 pkgdesc='Base TOS Linux files'
 arch=('x86_64')
@@ -19,30 +19,30 @@ source=('crypttab' 'env-generator' 'fstab' 'group' 'gshadow' 'host.conf' 'hosts'
         'issue' 'ld.so.conf' 'locale.sh' 'motd' 'nsswitch.conf' 'os-release'
         'passwd' 'profile' 'resolv.conf' 'securetty' 'shadow' 'shells' 'sysctl'
         'sysusers' 'tmpfiles' 'tos.svg' 'tos.png')
-md5sums=('5fa6674df7645d7f5895f2d12b4ef4e9'
-         '2b0344e9639f35f3c0d5637a23556089'
-         'e33f6dfdd61978fcb3ddf1431286e05a'
-         '7fed1e1fb855e41a6d64d41f8521d69a'
-         '1c1e3b08acfa286f4b417c49de3e4366'
-         '7d119a9cce152aa182fb3392ddeecea7'
-         'a1315ea3e2b64d197b6efaf9c14ff778'
-         '7813c481156f6b280a3ba91fc6236368'
-         '5deb9f890a4d08a245e9752ede77271e'
-         '580cf8b59eebfaac4fad373ffadc9912'
-         '206beca5f4b088347a4a371e04a76359'
-         '981ee4d7e506a9d6d9ed2d872e16004b'
-         '83233e7507ede205e26f790a49576257'
-         '5182ac38a0de85da8ade93ef71975ca4'
-         '7b208a630a548740e0f4cd368badae23'
-         '0ee015fad07732676d9488ae498eed41'
-         'f04bcb2803afc4dcb95670fe87343b4d'
-         '815652599be54fd3607cf276e89a0a19'
-         '487ac898bd376eccb861f949001d16bb'
-         'a51847c012555c843dbdf8df0da171d3'
-         '4b3696903adc83b29cb0b6302d808d5e'
-         '0267a3a463f35eec8a31f40a720dfd86'
-         '0f05b6312dca4d735c0b899dd7eb33df'
-         'acbbfa659bbbc43f3db428062391cca0')
+md5sums=('5fa6674df7645d7f5895f2d12b4ef4e9' #crypttab
+         '2b0344e9639f35f3c0d5637a23556089' # env-generator
+         'e33f6dfdd61978fcb3ddf1431286e05a' # fstab
+         '7fed1e1fb855e41a6d64d41f8521d69a' # group
+         '1c1e3b08acfa286f4b417c49de3e4366' # gshadow
+         '7d119a9cce152aa182fb3392ddeecea7' # host.conf
+         'a1315ea3e2b64d197b6efaf9c14ff778' # hosts
+         '7813c481156f6b280a3ba91fc6236368' # issue
+         '5deb9f890a4d08a245e9752ede77271e' # ld.so.conf
+         '580cf8b59eebfaac4fad373ffadc9912' # locale.sh
+         '61c3d8c00be8aa479763da8e5479ec0a' # motd
+         '981ee4d7e506a9d6d9ed2d872e16004b' # nsswitch.conf
+         '83233e7507ede205e26f790a49576257' # os-release
+         '5182ac38a0de85da8ade93ef71975ca4' # passwd
+         '7b208a630a548740e0f4cd368badae23' # profile
+         '0ee015fad07732676d9488ae498eed41' # resolv.conf
+         'f04bcb2803afc4dcb95670fe87343b4d' # securetty
+         '815652599be54fd3607cf276e89a0a19' # shadow
+         '487ac898bd376eccb861f949001d16bb' # shells
+         'a51847c012555c843dbdf8df0da171d3' # sysctl
+         '4b3696903adc83b29cb0b6302d808d5e' # sysusers
+         '0267a3a463f35eec8a31f40a720dfd86' # tmpfiles
+         '0f05b6312dca4d735c0b899dd7eb33df' # tos.svg
+         'acbbfa659bbbc43f3db428062391cca0') # tos.png
 
 package() {
   cd "$pkgdir"
