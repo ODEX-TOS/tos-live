@@ -108,5 +108,6 @@ gdm
 haveged
 cups
 gnome-shell-extension-blur-my-shell
-gnome-shell-extension-clipboard-indicator
+gnome-shell-extension-pano
+tos-shell
 sof-firmware
