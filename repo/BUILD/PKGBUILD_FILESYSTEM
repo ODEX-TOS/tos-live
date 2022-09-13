@@ -4,7 +4,7 @@
 
 pkgname=filesystem
 pkgver=2022.09.09
-pkgrel=1
+pkgrel=2
 pkgdesc='Base TOS Linux files'
 arch=('x86_64')
 license=('GPL')
@@ -62,7 +62,7 @@ package() {
   # setup /etc and /usr/share/factory/etc
   install -d etc/{ld.so.conf.d,skel,profile.d} usr/share/factory/etc
   for f in fstab group host.conf hosts issue ld.so.conf motd nsswitch.conf \
-  passwd resolv.conf securetty shells profile; do
+  passwd resolv.conf securetty shells profile os-release; do
     install -m644 "$srcdir"/$f etc/
     install -m644 "$srcdir"/$f usr/share/factory/etc/
   done
