@@ -108,5 +108,6 @@ cups
 gnome-shell-extension-blur-my-shell
 gnome-shell-extension-pano-git
 tos-shell
+gnome-software-packagekit-plugin
 sof-firmware
 flatpak
