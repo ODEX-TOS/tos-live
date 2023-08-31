@@ -10,7 +10,7 @@ license=('MIT')
 depends=(
   # gtk3
   "gnome-maps" "gnome-calendar" "gnome-calculator" "gnome-clocks"
-  "gnome-firmware" "gnome-nettool" "gnome-photos" "gnome-weather" "arandr" "evince"
+  "gnome-firmware" "gnome-nettool" "loupe-git" "gnome-weather" "arandr" "evince"
   # qt
   "lxqt-archiver" "lxqt-admin" "vlc" "audacious" "pcmanfm-qt"
   "knights" "kmines" "ksysguard" "kmag" "partitionmanager"
